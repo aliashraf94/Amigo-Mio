@@ -304,6 +304,32 @@
   }
   
   
+  @media screen and (max-width: 1700px) {
+    .tree-img{
+      width: 27%;
+      padding: 0%;
+    }
+    
+    .art-person-img{
+      width: 34rem;
+      /* padding-top: 16rem; */
+      padding-top:20%;
+    }
+    
+    .amigomio-img{
+      width: 18rem;
+      padding-left: 10%;
+      padding-left: 0px;
+      padding-top: 30rem;
+    }
+  
+    @keyframes animationFrames3{
+      100% {
+        opacity:1;
+        transform: translate(-598px,-437px);
+      }
+   }
+  }
   
   
   @media screen and (max-width: 1333px) {
@@ -327,7 +353,7 @@
     @keyframes animationFrames3{
       100% {
         opacity:1;
-        transform: translate(-438px,-275px);
+        transform: translate(-598px,-445px);
       }
    }
   }
