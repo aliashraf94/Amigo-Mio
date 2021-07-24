@@ -1,4 +1,5 @@
 import React,{useState} from 'react';
+import { Link } from 'react-router-dom';
 
 const SignUp = ()=> {
     // state
@@ -38,7 +39,7 @@ const SignUp = ()=> {
             "email": email,
             "password": password
         };
-
+        // console.log(newUser)
         fetch(API, {
             method: 'POST', 
             headers: {
