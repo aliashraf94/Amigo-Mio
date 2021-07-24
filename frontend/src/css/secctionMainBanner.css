@@ -470,7 +470,12 @@
      }
 
      .art-person-img {
-      width: 13rem;
+      
+      height: max-content;
+     }
+
+     .tree-img{
+      width: 15rem;
      }
 
 
@@ -479,7 +484,7 @@
     @keyframes animationFrames3{
      
       100% {
-        transform: translate(-220px,-245px);
+        transform: translate(-440px,-455px);
       }
    
   }
@@ -487,8 +492,11 @@
   @keyframes animationFrames2{
      
     100% {
-      transform: translate(-29px,11px);
+      transform: translate(-210px,300px);
+    
+    
     }
+    
   
   }
   
