@@ -76,7 +76,7 @@ const SignIn = ()=> {
                         <button className="btn btn-primary form-control" type="submit">Submit</button>
                     </div>
                     <div className="mb-3">
-                        <center>Don't have an acount? <Link to="/register">Sign up</Link></center>
+                        <center>Don't have an acount? <Link to="/signup">Sign up</Link></center>
                     </div>
                 </form>
             </div>
