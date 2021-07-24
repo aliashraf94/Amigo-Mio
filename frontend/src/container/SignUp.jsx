@@ -86,7 +86,7 @@ const SignUp = ()=> {
                         <button className="btn btn-primary form-control" type="submit">Submit</button>
                     </div>
                     <div className="mb-3">
-                        <center>Already hace an count? <Link to="/signin">Login</Link></center>
+                        <center>Already hace an count? <Link to="/signin">Login</Link></center> 
                     </div>
                 </form>
             </div>

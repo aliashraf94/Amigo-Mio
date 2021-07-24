@@ -57,3 +57,43 @@
   box-shadow: 1px 1px 1px 1px gray, 0em 0 .9em
 }
 
+
+/* new */
+
+/* Footer */
+
+.sectionFooter{ 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  border-top: #d8d8d85c  0.1rem solid;
+  margin-top: 4rem
+}
+
+.h4-footer   {
+  color: black ;
+  font-size: 1.2rem;
+  margin-left: 4rem;
+  margin-right: 4rem;
+}
+
+.imgbordes{
+  border-radius: 50%;
+  padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+  border: #d8d8d8 0.1rem solid
+}
+
+.paragraph-footer {
+  color:darkgray;
+  font-size: 0.9em;
+  margin-left: 4rem;
+  margin-right: 4rem;
+}
+
+
+
+
+
+
