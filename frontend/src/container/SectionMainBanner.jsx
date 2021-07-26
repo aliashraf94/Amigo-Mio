@@ -1,7 +1,7 @@
 import React from "react";
-import tree from '../assets/tree.png';
-import art_person from '../assets/art_person.png';
-import amigo_mio from '../assets/amigo_mio.png';
+import tree from '../assets/images/tree.png';
+import art_person from '../assets/images/art_person.png';
+import amigo_mio from '../assets/images/amigo_mio.png';
 
 const SectionMainBanner = () => {
    

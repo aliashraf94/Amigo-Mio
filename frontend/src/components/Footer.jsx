@@ -1,7 +1,7 @@
 import React from "react";
-import twitterIcon from '../assets/twitter-icon.svg';
-import facebookIcon from '../assets/facebook-icon.svg';
-import instagramIcon from '../assets/instagram-icon.svg';
+import twitterIcon from '../assets/svg/twitter-icon.svg';
+import facebookIcon from '../assets/svg/facebook-icon.svg';
+import instagramIcon from '../assets/svg/instagram-icon.svg';
 
 
 
