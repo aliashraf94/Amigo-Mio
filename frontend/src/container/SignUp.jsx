@@ -9,7 +9,7 @@ const SignUp = ()=> {
     const setState = [setName, setEmail, setPassword];
 
     // api
-    const API = "";
+    const API = "http://localhost:4000/user/sign-up";
 
     // functions
     const handleOnChange = event => {
@@ -43,16 +43,18 @@ const SignUp = ()=> {
         fetch(API, {
             method: 'POST', 
             headers: {
-                'Content-Type': 'appliclation/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(newUser)
         })
         .then(res => res.json())
         .then(data => {
-            if(data.isAutheticated) {
+            console.log(data)
+            if(data.isAuthenticated) {
+                localStorage.setItem("jwt", data.jwtToken)
                 alert('User created successfully')
             }else {
-                alert(data.messageError)
+                alert(data.messageError + 'hola')
             }
         });
 

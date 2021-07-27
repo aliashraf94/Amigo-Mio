@@ -8,7 +8,7 @@ const SignIn = ()=> {
     const setState = [setEmail, setPassword];
 
     //Api
-    const API = '';
+    const API = "http://localhost:4000/user/sign-in";
 
     //funtions 
     const handleOnChange = event => {
@@ -46,6 +46,8 @@ const SignIn = ()=> {
         .then(res => res.json())
         .then(data => {
             if(data.isAuthenticated) {
+                localStorage.removeItem("jwt")
+                localStorage.setItem("jwt", data.jwtToken)
                 alert('Login successfully')
             }else {
                 alert(data.messageError)
