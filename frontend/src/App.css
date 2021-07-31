@@ -60,6 +60,50 @@
 
 /* new */
 
+/* navbar
+ */
+
+.bg-light {
+  background-color: #080808!important;
+}
+
+.bg-light a {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+.bg-light a:hover {
+  color: #5cabff;
+  text-decoration: underline;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+.navbar-light .navbar-brand {
+  color: white;
+  font-family: 'Gaegu', cursive;
+  font-size: 1.8rem;
+
+}
+;
+.navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
+  color: rgb(255 255 255 / 90%);
+}
+
+.navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
+  color: white;
+}
+
+.navbar-toggler{
+  
+  background-color: #59bbf3;
+  }
+
+/* new */
+
 /* Footer */
 
 .sectionFooter{ 
