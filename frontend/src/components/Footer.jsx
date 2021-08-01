@@ -14,14 +14,14 @@ const Footer = () => {
 
   return (
     <footer> 
-        <div class="sectionFooter">
-            <h4 class="h4-footer">Amigo Mio - Open Culture Center</h4>
+        <div className="sectionFooter">
+            <h4 className="h4-footer">Amigo Mio - Open Culture Center</h4>
               <div>
-                  <img class="imgbordes" src={twitterIcon} alt="logo_twitter" width="60rem" />
-                  <img class="imgbordes" src={facebookIcon} alt="facebook_logo" width="60rem"/>
-                  <img class="imgbordes" src={instagramIcon} alt="instagram_logo" width="60rem"/>
+                  <img className="imgbordes" src={twitterIcon} alt="logo_twitter" width="60rem" />
+                  <img className="imgbordes" src={facebookIcon} alt="facebook_logo" width="60rem"/>
+                  <img className="imgbordes" src={instagramIcon} alt="instagram_logo" width="60rem"/>
               </div>
-            <p class="paragraph-footer">©Copyright. 2021 Amigo mio Project. All rights reserved. Team 2 Project.</p>
+            <p className="paragraph-footer">©Copyright. 2021 Amigo mio Project. All rights reserved. Team 2 Project.</p>
         </div>
     </footer>
   );
