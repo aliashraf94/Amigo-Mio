@@ -2,7 +2,7 @@ import React from "react";
 import '../App.css';
 import '../css/secctionMainBanner.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import SectionMainBanner from '../container/SectionMainBanner';
+import Main from '../container/Main';
 import SignUp from '../container/SignUp';
 import SignIn from '../container/SignIn';
 import NotFound from '../container/NotFound';
@@ -14,7 +14,7 @@ function App() {
     <BrowserRouter>
         <NavBar /> 
         <Switch>
-            <Route exact path='/' component={SectionMainBanner}/>
+            <Route exact path='/' component={Main}/>
             <Route exact path='/signup' component={SignUp}/>
             <Route exact path='/signin' component={SignIn}/>
             <Route component={NotFound}/>

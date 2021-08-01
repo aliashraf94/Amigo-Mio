@@ -64,7 +64,8 @@
  */
 
 .bg-light {
-  background-color: #080808!important;
+  background: linear-gradient(to bottom, black, #212121);
+
 }
 
 .bg-light a {
@@ -72,7 +73,15 @@
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
+  text-align: left;
 }
+
+ .mr-auto, .mx-auto {
+  margin-right: unset !important;
+
+  margin-left: auto  !important;
+ 
+} 
 
 .bg-light a:hover {
   color: #5cabff;
@@ -101,6 +110,81 @@
   
   background-color: #59bbf3;
   }
+
+
+
+/*   now */
+
+/*   section */
+
+  .mainprincipal{
+        
+        
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    align-content: stretch;
+}
+
+.twocolumns{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: stretch;
+    align-content: stretch;
+    border-top: #d8d8d85c 0.1rem solid;
+    padding-top: 6rem;
+}
+
+.twocolumnsFirstColumn{
+    padding-right: 5rem;
+    padding-left: 8rem;
+}
+
+.paddingBottonImg{
+  padding-bottom: 2rem;
+
+}
+
+
+.twoColumn{
+    text-align: justify;
+    font-weight: 300;
+    padding-right: 5rem;
+    letter-spacing: 0.3px;
+    padding-top: 3rem;
+}
+
+.twoColumnFirst{
+  text-align: justify;
+  font-weight: 300;
+  padding-right: 5rem;
+  letter-spacing: 0.3px;
+  padding-top: 3rem;
+}
+
+
+.twoColumn{
+  text-align: justify;
+  font-weight: 300;
+  padding-right: 5rem;
+  letter-spacing: 0.3px;
+  padding-top: 0.1rem;
+}
+
+
+
+
+
+
+.hcolumn{
+    margin-top: 0px;
+    font-size: 2rem;
+    font-weight: 400;
+    
+}
 
 /* new */
 
@@ -135,6 +219,100 @@
   margin-left: 4rem;
   margin-right: 4rem;
 }
+
+
+
+@media screen and (max-width: 1299px) {
+  .sectioncontenido {
+      
+       padding: 0% ;
+       
+  }  
+}
+
+@media screen and (max-width: 1150px) {
+  .sectioncontenido {
+      
+      padding-top: 1rem;
+      padding-right: 2rem;
+       
+  }  
+
+  .twocolumnsFirstColumn {
+      padding-right: 2rem;
+      padding-left: 1rem;
+  }
+  
+  .twoColumn   {
+  
+      padding-right: 2rem;
+      padding-top: 2rem;
+  }
+
+  
+
+  
+}
+
+/* new */
+
+
+/* section @media screen  */
+
+@media screen and (max-width: 960px) {
+ 
+
+
+  .hcolumn{
+      text-align: center
+  }
+
+  .twoColumn{
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      font-size: 1rem;
+  }
+
+  .twoColumnFirst{
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    font-size: 1rem;
+}
+
+
+ 
+
+  .twocolumnsFirstColumn{
+      padding-right: 0.3rem;
+      padding-left: 0.3rem;
+  }
+
+  .sectioncontenido  {
+      display: flex;
+      flex-direction: column;
+       padding: 0% ;
+       align-content: center;
+       align-items: center;
+  }  
+
+  .row4 , .twocolumns{
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: space-around;
+      align-items: center;
+      align-content: center;
+  }
+
+  .onlyDesktop{
+    visibility: hidden;
+  }
+
+
+ 
+}
+
+
 
 
 
