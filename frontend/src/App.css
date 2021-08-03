@@ -215,6 +215,10 @@
   padding-top: 3rem;
 }
 
+.spaceTop{
+  padding-top: 3rem;
+}
+
 
 .twoColumn{
   text-align: justify;
@@ -393,7 +397,13 @@
 
 
 
-
+@media screen and (max-width: 500px) {
+  .gccv {
+      
+    width:310px;
+       
+  }  
+}
 
 
 
