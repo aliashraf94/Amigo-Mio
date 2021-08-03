@@ -1,27 +1,53 @@
-import React from "react";
-import twitterIcon from '../assets/svg/twitter-icon.svg';
-import facebookIcon from '../assets/svg/facebook-icon.svg';
-import instagramIcon from '../assets/svg/instagram-icon.svg';
-
-
-
+import React from "react"; 
+import twitter from '../assets/images/twitter.png';
+import facebook from '../assets/images/facebook.png';
+import instagram from '../assets/images/instagram.png';
+import youtube from '../assets/images/youtube.png';
+import linkedi from '../assets/images/linkedi.png';
        
    
 const Footer = () => {
-  let list = [
-    "Copyright © 2011-2020 Litecoin Project. All rights reserved"
-  ];
+
 
   return (
-    <footer> 
-        <div className="sectionFooter">
-            <h4 className="h4-footer">Amigo Mio - Open Culture Center</h4>
-              <div>
-                  <img className="imgbordes" src={twitterIcon} alt="logo_twitter" width="60rem" />
-                  <img className="imgbordes" src={facebookIcon} alt="facebook_logo" width="60rem"/>
-                  <img className="imgbordes" src={instagramIcon} alt="instagram_logo" width="60rem"/>
+    <footer id="footer" className="pt-4 mt-4"> 
+        <div className="container ">
+        <div className="row text-center pt-2">
+              <div className="col-12 col-lg pb-1" >
+                <a target="_blank" rel="noreferrer" href="https://www.google.com/maps/place/Open+Cultural+Center,+Carrer+del+Rec,+27,+08003+Barcelona/@41.3860019,2.1823493,15z/data=!4m2!3m1!1s0x12a4a2fdd0e3846f:0x5b7de3c819c66eb0">OUR CENTERS</a>
               </div>
-            <p className="paragraph-footer">©Copyright. 2021 Amigo mio Project. All rights reserved. Team 2 Project.</p>
+              <div className="col-12 col-lg pb-1">
+                <a target="_blank" rel="noreferrer" href="https://openculturalcenter.org/contact/">CONTACT US</a>
+              </div>
+              <div className="col-12 col-lg pb-1">
+                <a target="_blank" rel="noreferrer" href="/">TERMS AND CONDITIONS</a>
+              </div>
+              <div className="col-12 col-lg pb-1">
+                <a target="_blank" rel="noreferrer" href="/">FREQUENT QUESTIONS</a>
+              </div>
+          </div>
+          <div className="row text-center justify-content-lg-center pb-4 pt-4">
+              <div className="col-12 col-lg-1 pr-0 pl-0 pb-1">
+                <a target="_blank" rel="noreferrer" href="https://twitter.com/occ_project"><img src={twitter} alt="logo-twitter" width="40rem" /></a>
+              </div>
+              <div className="col-12 col-lg-1 pr-0 pl-0 pb-1">
+                <a target="_blank" rel="noreferrer" href="https://www.facebook.com/OpenCulturalCenter/"><img src={facebook} alt="logo-facebook" width="40rem" /></a>
+              </div>
+              <div className="col-12 col-lg-1 pr-0 pl-0 pb-1">
+                <a target="_blank" rel="noreferrer" href="https://www.instagram.com/openculturalcenter/"><img src={instagram} alt="logo-instagram" width="40rem" /></a>
+              </div>
+              <div className="col-12 col-lg-1 pr-0 pl-0 pb-1">
+                <a target="_blank" rel="noreferrer" href="https://www.youtube.com/channel/UC-5iSWf52DKacThUkicp1pA"><img src={youtube} alt="logo-youtube" width="40rem" /></a>
+              </div>
+              <div className="col-12 col-lg-1 pr-0 pl-0 pb-1">
+                <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/company/open-cultural-center/"><img src={linkedi} alt="logo-linkedi" width="40rem" /></a>
+              </div>
+          </div>
+          <div className="row text-center">
+              <div className="col-12 col-lg pb-2 pt-2">
+                 ©Copyright. 2021 Amigo mio Project. All rights reserved. Team 2 Project.
+              </div>
+          </div>
         </div>
     </footer>
   );

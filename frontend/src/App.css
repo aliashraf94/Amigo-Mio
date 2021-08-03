@@ -190,8 +190,37 @@
 /* new */
 
 /* Footer */
+#footer {
+  background-color: black;
+}
+.col-12 {
+  color: white;
+}
+.col-12 > a {
+  color: white;
+}
+.col-12 > a:hover {
+  color:#15D4BE;
+  text-decoration: none;
+}
 
-.sectionFooter{ 
+.col-12 a img {
+  cursor: pointer;
+  border-radius: 20%;
+  opacity: 0.4;
+  width: 2rem;
+  
+}
+.col-12 a img:hover  {
+  cursor: pointer;
+  opacity: 100;
+}
+
+.container-copy {
+  background-color: white;
+}
+
+/* .sectionFooter{ 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -253,7 +282,7 @@
   
 
   
-}
+} */
 
 /* new */
 
