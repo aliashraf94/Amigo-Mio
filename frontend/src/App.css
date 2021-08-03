@@ -64,7 +64,7 @@
  */
 
 .bg-light {
-  background: linear-gradient(to bottom, black, #464646);
+  background: linear-gradient(to bottom, black, #1b1b1b);
 
 }
 
@@ -74,6 +74,8 @@
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
   text-align: left;
+  padding-right: 5rem;
+  font-family: cursive;
 }
 
  .mr-auto, .mx-auto {
@@ -111,6 +113,53 @@
   background-color: #59bbf3;
   }
 
+
+ /*   now */
+
+/*   SectionMainBanner */
+
+.backgroundMain{
+  background: url(../src/assets/images/img_main.jpg);
+  width: 100%; 
+  height: 900px;
+  background-size: cover;
+  background-position: center;
+}
+
+.cuadroparatextos{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  height: 100%;
+  text-align: center;
+  padding-top: 180px;
+  color: aliceblue;
+}
+
+.boton{
+  text-decoration:none;
+  font-weight: 300;
+  font-size: 1rem;
+  color: #000000bd;
+  padding-top:15px;
+  padding-bottom:15px;
+  padding-left:40px;
+  padding-right:40px;
+  background-color:#15D4BE;
+  border-radius:12px;
+ 
+}
+
+.cuadroparatextos .boton{
+  text-decoration: none;
+
+}
+
+ .cuadroparatextos   a:hover{ 
+   color: cornsilk;
+}
 
 
 /*   now */

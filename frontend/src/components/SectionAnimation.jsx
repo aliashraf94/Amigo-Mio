@@ -11,13 +11,15 @@ const SectionMainBanner = () => {
       <header>
         <div className="container-fluid">
           <div className="contenido">
-            <div className="backgroundMain" >
-            <div className="cuadroparatextos">
-                  <h1>Welcome to Amigo Mío</h1>
-                  <h4>An awareness tool for the population</h4>
-                  <a className="boton" href="#section">Lear More</a>
-            </div>
-            </div>
+            <img className="element-animation tree-img img-fluid float-left"
+                src={tree}> 
+            </img>
+            <img className="element-animation2 art-person-img img-fluid  float-left"
+                src={art_person} > 
+            </img>
+            <img className="element-animation3 amigomio-img img-fluid  float-left"
+                src={amigo_mio} > 
+            </img>
           </div>
         </div>
       </header>

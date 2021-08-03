@@ -4,7 +4,7 @@ import amic_meu_column2 from '../assets/images/amic_meu_column2.png';
 const Section = () => {
 
     return (
-        <section >
+        <section id="section" >
             <div className="mainprincipal">
                 <div className="twocolumns">
                     <div className="twocolumnsFirstColumn">
