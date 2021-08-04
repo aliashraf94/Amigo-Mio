@@ -74,7 +74,7 @@
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
   text-align: left;
-  padding-right: 5rem;
+  padding-right: 6rem;
   font-family: cursive;
 }
 
@@ -105,7 +105,7 @@
 }
 
 .navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
-  
+
   color: white;
 }
 
