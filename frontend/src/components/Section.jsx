@@ -1,16 +1,17 @@
 import React from "react";
-import amic_meu from '../assets/images/amic_meu.JPG';
-import amic_meu_column2 from '../assets/images/amic_meu_column2.png';
+import Slides from '../components/Slides'
 const Section = () => {
 
     return (
-        <section >
+        <section id="section" >
             <div className="mainprincipal">
                 <div className="twocolumns">
                     <div className="twocolumnsFirstColumn">
-                        <img className="paddingBottonImg" src={amic_meu} alt="" width="100%" />
+                   
+                    <Slides /> 
+                             
                         <br></br>
-                        <img className="paddingBottonImg d-none d-sm-block" src={amic_meu_column2} alt="" width="100%" />
+                        <iframe className ="paddingBottonImg spaceTop responsive-v" width="520rem" height="400rem" src="https://www.youtube.com/embed/L1Sb6KYIqB0?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
 
                     <div className="" >
