@@ -79,6 +79,7 @@ body {
   text-align: left;
   padding-right: 6rem;
   font-family: 'Raleway', sans-serif;
+  font-size: 1.2rem;
   font-weight: 1000;
 }
 
@@ -146,7 +147,7 @@ body {
   align-content: center;
   height: 100%;
   text-align: center;
-  padding-top: 180px;
+  padding-bottom: 100px;
   color: aliceblue;
 }
 
@@ -166,6 +167,8 @@ body {
 
 .cuadroparatextos .boton{
   text-decoration: none;
+  font-weight: 1000;
+  margin-top: 2rem;
 
 }
 
@@ -257,10 +260,16 @@ body {
 /* Donate */
 .btn-donate{
   text-align: center;
+  margin-top: 3rem;
+}
+a:hover {
+  text-decoration: none;
+  color: white;
 }
 
 .btn-donate .boton{
   margin-right: 5rem;
+  font-weight: 1000;
 }
 
 .marginBottonDonate{

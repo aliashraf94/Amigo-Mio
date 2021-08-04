@@ -15,7 +15,7 @@ const SectionMainBanner = () => {
             <div className="cuadroparatextos">
                   <h1>Welcome to Amigo Mío</h1>
                   <h4>An awareness tool for the population</h4>
-                  <a className="boton" href="#section">Lear More</a>
+                  <a className="boton" href="#section">Learn More</a>
             </div>
             </div>
           </div>
