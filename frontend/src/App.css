@@ -101,7 +101,8 @@ body {
 .navbar-light .navbar-brand {
   color: white;
   font-family: 'Gaegu', cursive;
-  font-size: 1.8rem;
+  font-size: 2.4rem;
+  margin-left: 1rem;
 
 }
 ;
@@ -147,8 +148,8 @@ body {
   align-content: center;
   height: 100%;
   text-align: center;
-  padding-bottom: 100px;
   color: aliceblue;
+  padding-bottom: 100px;
 }
 
 .boton{
