@@ -185,7 +185,7 @@
     align-items: stretch;
     align-content: stretch;
     border-top: #d8d8d85c 0.1rem solid;
-    padding-top: 6rem;
+    padding-top: 2rem;
 }
 
 .twocolumnsFirstColumn{
@@ -263,7 +263,7 @@
 
 .awssld__controls__arrow-left, .awssld__controls__arrow-right {
   
-  transition: transform 0.1s ease-out 0.1s, opacity 0.1s ease-out  !important;
+  transition: transform 0.01s ease-out 0.1s, opacity 0.1s ease-out  !important;
 } 
 
 
@@ -430,6 +430,29 @@
     width:310px;
        
   }  
+
+  .boton{
+    display: block;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+  }
+
+  .btn-donate .boton {
+    margin-right: 2rem;
+    margin-left: 2rem;
+}
+
+.container-fluid {
+  padding-right: 0px;
+  padding-left:  0px;
+}
+
+.backgroundMain {
+ 
+  height: max-content;
+  
+}
+
 }
 
 
