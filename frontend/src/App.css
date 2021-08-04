@@ -51,6 +51,19 @@ body {
   height: 40em;
 }
 
+.mb-4 > button {
+  background-color: #15D4BE;
+  opacity: 0.5;
+  color: black;
+  border-radius: 15px;
+}
+
+.mb-4 > button:hover {
+  background-color: #15D4BE;
+  opacity: 100%;
+  color: white;
+}
+
 .div-sign-up {
   width: 25em;
   height: 30em;
@@ -59,7 +72,6 @@ body {
   padding: 2em 1em 1em 1em;
   box-shadow: 1px 1px 1px 1px gray, 0em 0 .9em
 }
-
 
 /* new */
 
