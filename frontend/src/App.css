@@ -118,6 +118,13 @@
 
 /*   SectionMainBanner */
 
+.container-fluid {
+ 
+  padding-right: 0;
+  padding-left: 0;
+  
+}
+
 .backgroundMain{
   background: url(../src/assets/images/img_main.jpg);
   width: 100%; 
