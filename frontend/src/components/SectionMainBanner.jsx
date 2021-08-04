@@ -18,7 +18,7 @@ const SectionMainBanner = () => {
                 src={art_person} > 
             </img>
             <img className="element-animation3 amigomio-img img-fluid  float-left"
-                src={amigo_mio} > 
+                src={amigo_mio} alt="amigo mio" > 
             </img>
           </div>
         </div>
