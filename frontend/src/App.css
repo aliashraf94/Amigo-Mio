@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+body {
+  font-family: 'Raleway', sans-serif;
+}
 
 .App-logo {
   height: 40vmin;
@@ -75,7 +78,8 @@
   -webkit-text-decoration-skip: objects;
   text-align: left;
   padding-right: 6rem;
-  font-family: cursive;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 1000;
 }
 
  .mr-auto, .mx-auto {
