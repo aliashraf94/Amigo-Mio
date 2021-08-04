@@ -1,20 +1,6 @@
-import React , { useState } from "react";
-import AwesomeSlider from 'react-awesome-slider';
-import 'react-awesome-slider/dist/styles.css';
-import slides_1 from '../assets/images/slides_1.JPG';
-import slides_2 from '../assets/images/slides_2.png';
-import slides_3 from '../assets/images/slides_3.png';
-import slides_4 from '../assets/images/slides_4.png';
-import slides_5 from '../assets/images/slides_5.png';
-import slides_6 from '../assets/images/slides_6.png';
-import amic_meu_column2 from '../assets/images/amic_meu_column2.png';
+import React from "react";
+import Slides from '../components/Slides'
 const Section = () => {
-
-    let ty = 0
-
-
-    let slides = [slides_1 , slides_2 , slides_3, slides_4, slides_5, slides_6]
-    const [orders, setOrders] = useState(0);
 
     return (
         <section id="section" >
@@ -22,17 +8,7 @@ const Section = () => {
                 <div className="twocolumns">
                     <div className="twocolumnsFirstColumn">
                    
-
-                    
-                    <AwesomeSlider>
-                        <div data-src={slides_1} />
-                        <div data-src={slides_2} />
-                        <div data-src={slides_3} />
-                        <div data-src={slides_4} />
-                        <div data-src={slides_5} />
-                        <div data-src={slides_6} />
-                    </AwesomeSlider>
-                            
+                    <Slides /> 
                              
                         <br></br>
                         <iframe className ="paddingBottonImg spaceTop responsive-v" width="520rem" height="400rem" src="https://www.youtube.com/embed/L1Sb6KYIqB0?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

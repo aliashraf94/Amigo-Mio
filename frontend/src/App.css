@@ -191,6 +191,7 @@
 .twocolumnsFirstColumn{
     padding-right: 5rem;
     padding-left: 8rem;
+    margin-bottom:2rem;
 }
 
 .paddingBottonImg{
@@ -239,6 +240,21 @@
     font-weight: 400;
     
 }
+/* new */
+
+/* Donate */
+.btn-donate{
+  text-align: center;
+}
+
+.btn-donate .boton{
+  margin-right: 5rem;
+}
+
+.marginBottonDonate{
+  margin-bottom: 4rem;
+}
+
 
 /* new */
 
@@ -398,7 +414,7 @@
 
 
 @media screen and (max-width: 500px) {
-  .gccv {
+  .responsive-v {
       
     width:310px;
        
