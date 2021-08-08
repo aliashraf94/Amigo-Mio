@@ -11,7 +11,7 @@ const Section = () => {
                     <Slides /> 
                              
                         <br></br>
-                        <iframe className ="paddingBottonImg spaceTop responsive-v" width="520rem" height="400rem" src="https://www.youtube.com/embed/L1Sb6KYIqB0?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe className ="paddingBottonImg spaceTop responsive-v" width="520rem" height="400rem" src="https://www.youtube.com/embed/L1Sb6KYIqB0?controls=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>
                     </div>
 
                     <div className="" >
