@@ -37,7 +37,7 @@ const SignIn = ()=> {
             "email": email,
             "password": password
         };
-        // console.log(user)
+        console.log(user)
         fetch(API, {
             method: 'POST',
             headers: {
@@ -45,16 +45,18 @@ const SignIn = ()=> {
             },
             body: JSON.stringify(user)
         })
-        .then(res => res.json())
-        .then(data => {
-            if(data.isAuthenticated) {
-                localStorage.removeItem("jwt")
-                localStorage.setItem("jwt", data.jwtToken)
-                swal('Login successfully')
-            }else {
-                swal('Error user or password do no exist')
-            }
-        });
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if(data.isAuthenticated) {
+                    localStorage.removeItem("jwt")
+                    localStorage.setItem("jwt", data.jwtToken)
+                    swal('Login successfully')
+                }else {
+                    swal('Error user or password do no exist')
+                }
+            })
+            .catch(err => swal(err.message));
 
         setState.forEach(state => state(""));
     }

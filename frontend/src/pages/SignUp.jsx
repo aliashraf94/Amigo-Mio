@@ -49,16 +49,17 @@ const SignUp = ()=> {
             },
             body: JSON.stringify(newUser)
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            if(data.isAuthenticated) {
-                localStorage.setItem("jwt", data.jwtToken)
-                swal('User created successfully')
-            }else {
-                swal('Error user or password do no exist')
-            }
-        });
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if(data.isAuthenticated) {
+                    localStorage.setItem("jwt", data.jwtToken)
+                    swal('User created successfully')
+                }else {
+                    swal('Error user or password do no exist')
+                }
+            })
+            .catch(err => swal(err.message));
 
         setState.forEach(state => state(""))
     }
