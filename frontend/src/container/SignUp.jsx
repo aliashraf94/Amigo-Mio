@@ -1,5 +1,7 @@
 import React,{useState} from 'react';
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert';
+
 
 const SignUp = ()=> {
     // state
@@ -52,9 +54,9 @@ const SignUp = ()=> {
             console.log(data)
             if(data.isAuthenticated) {
                 localStorage.setItem("jwt", data.jwtToken)
-                alert('User created successfully')
+                swal('User created successfully')
             }else {
-                alert(data.messageError + 'hola')
+                swal('Error user or password do no exist')
             }
         });
 
@@ -85,7 +87,7 @@ const SignUp = ()=> {
                                placeholder="passsword" value={password} autoComplete="on"/>
                     </div>
                     <div className="mb-4">
-                        <button className="btn btn-primary form-control" type="submit">Submit</button>
+                        <button className="btn form-control" type="submit">Submit</button>
                     </div>
                     <div className="mb-3">
                         <center>Already hace an count? <Link to="/signin">Login</Link></center> 
