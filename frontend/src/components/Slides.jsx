@@ -48,7 +48,6 @@ const images = [
           showBullets={true}
           showNavs={true}
           slideDuration = {0.5}
-          startIndex = {2}
         />
       </div>
     );
