@@ -22,25 +22,19 @@ let Gallery = ()=> {
         <>
             <center className="galery-center"><h1>Gallery</h1></center>    
             <main className="main__container">
-                <Categories title="All books">
-                    <Carousel>
-                        <CarouselItem/>
-                        <CarouselItem/>
-                    </Carousel>
-                </Categories>
                 <Categories title="My list">
                     <Carousel>
                         <CarouselItem/>
                         <CarouselItem/>
                     </Carousel>
                 </Categories>
-                <Categories title="Trend">
+                <Categories title="All books">
                     <Carousel>
                         <CarouselItem/>
                         <CarouselItem/>
                     </Carousel>
                 </Categories>
-                <Categories>
+                <Categories title="Trend">
                     <Carousel>
                         <CarouselItem/>
                         <CarouselItem/>
