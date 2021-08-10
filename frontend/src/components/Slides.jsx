@@ -27,7 +27,7 @@ const images = [
   const Slides = () => {
 
 
-    const [isDesktop, setDesktop] = useState(window.innerWidth > 1450);
+    const [isDesktop, setDesktop] = useState(window.innerWidth > 600);
 
     const updateMedia = () => {
       setDesktop(window.innerWidth > 600);
@@ -41,7 +41,8 @@ const images = [
     return (
       <div>
         <SimpleImageSlider
-          width={isDesktop ? '520px' : '320px'}
+/*           depending on the current screen size the width and height will change their value.
+ */          width={isDesktop ? '520px' : '320px'}
           height={isDesktop ? '400px' : '290px'}
           images={images}
           showBullets={true}
