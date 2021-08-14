@@ -3,14 +3,19 @@ import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 
 
-const SignIn = ()=> {
+const SignIn = props => {
     //state
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [authenticated, setAuthenticated] = useState(false);
     const setState = [setEmail, setPassword];
 
     //Api
     const API = "http://localhost:4000/user/sign-in";
+
+    if(authenticated) {
+        props.history.push("/")
+    }
 
     //funtions 
     const handleOnChange = event => {
@@ -37,7 +42,7 @@ const SignIn = ()=> {
             "email": email,
             "password": password
         };
-        console.log(user)
+        // console.log(user)
         fetch(API, {
             method: 'POST',
             headers: {
@@ -52,6 +57,8 @@ const SignIn = ()=> {
                     localStorage.removeItem("jwt")
                     localStorage.setItem("jwt", data.jwtToken)
                     swal('Login successfully')
+                    setAuthenticated(true)
+                    console.log('hola')
                 }else {
                     swal('Error user or password do no exist')
                 }

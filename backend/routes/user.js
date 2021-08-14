@@ -2,91 +2,103 @@ const express = require("express");
 const bcrypt = require("bcrypt");   // bcrypt is used to hash password before saving it to database
 const fs = require("fs");   // fs is node's inbuilt file system module used to manage files
 const generateJWT = require("../utils/generateJWT")
-
-const usersDb = require("../database/db.json");   // import existing data from db.json file
-
-
+const jwt = require("jsonwebtoken");
+const { pool } = require("../database/db.config");   // import database connection
+require("dotenv").config(); 
 const router = express.Router();   // we create a new router using express's inbuilt Router method
-
+const ONEDAY = 86400;
 
 // create a new user with the give email, name, and hashed password
-router.post("/sign-up", async (req, res) => {
-    const {  name, email, password } = req.body;
-  
-    try {
-      const user = await usersDb.filter(user => user.email === email);
-  
-      if (user.length > 0) {
-        return res.status(400).json({error: "User already exist!"});
-      }
-  
-      const salt = await bcrypt.genSalt(10);
-      const bcryptPassword = await bcrypt.hash(password, salt);
-  
-      let newUser = {
-        id: usersDb.length,
-        name: name,
-        email: email,
-        password: bcryptPassword
-      }
-  
-      usersDb.push(newUser);  // we add newUser to usersDb array
-  
-  
-      // we save the updated array to db.json file by using fs module of node
-      
-      await fs.writeFileSync('./database/db.json', JSON.stringify(usersDb));
-  
-      
-      /* Once the user registration is done successfully, we will generate a
-        jsonwebtoken and send it back to user. This token will be used for
-        accessing other resources to verify identity of the user.
-        
-        The following generateJWT function does not exist till now but we
-        will create it in the next step. */
-      
-      const jwtToken = generateJWT(newUser.id);
-  
-      return res.status(201).send({ jwtToken: jwtToken, isAuthenticated: true});
-  
-    } catch (error) {
-      console.error(error.message);
-      res.status(500).send({error: error.message});
+router.post("/sign-up", (req, res) => {
+
+  const lowerCaseEmail = req.body.email.toLowerCase();
+  const newUser = {
+    name: req.body.name,
+    email: lowerCaseEmail,
+    password: bcrypt.hashSync(req.body.password, 8)
+  };
+
+  const query = `
+  INSERT INTO users(name, email, password) 
+  VALUES($1,$2,$3) RETURNING *`;
+  const values = [newUser.name, newUser.email, newUser.password];
+
+  pool.connect((error, client, release) => {
+    if(error) {
+      return console.error('Error acquiring client', error.stack)
     }
+    client.query(query, values, (err, result) => {
+      release();
+      if(err) {
+        console.log(err.message);
+        return res.status(400).json({err});
+      }
+      // const user = result.rows[0];
+      // const token = jwt.sign(
+      //   { id: user.id }, 
+      //   process.env.jwtSecret, 
+      //   { expiresIn: ONEDAY }
+      // );
+      const jwtToken = generateJWT(newUser.id);
+
+      return res.status(200).send({
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        accessToken: jwtToken,
+        message: "User was registered successfully!"
+      });
+    });
+  });
+
   });
   
   // sign in with user given email and password
   router.post("/sign-in", async (req, res) => {
-    const { email, password } = req.body;
-  
-    try {
-      const user = await usersDb.filter(user => user.email === email);
-  
-      if (user.length === 0) {
-        return res.status(401).json({error: "Invalid Credential", isAuthenticated: false});
+
+    const lowerCaseEmail = req.body.email.toLowerCase();
+    const findUser = {
+      email: lowerCaseEmail
+    };
+
+    const query = `
+    SELECT * FROM users WHERE email = $1`;
+    const values = [findUser.email];
+    pool.connect((error, client, release) => {
+      if(error) {
+        return console.error('Error acquiring client', error.stack)
       }
-  
-  
-      // if the user exist then we will compare the password provided by user with the hashed password we stored during user registration
-      const isValidPassword = await bcrypt.compare(
-        password,
-        user[0].password
-      );
-  
-      if (!isValidPassword) {
-        return res.status(401).json({error: "Invalid Credential", isAuthenticated: false});
-      }
-  
-      
-      // if the password matches with hashed password then we generate a new token and send it back to user
-      const jwtToken = generateJWT(user[0].id);
-  
-      return res.status(200).send({ jwtToken, isAuthenticated: true });
-  
-    } catch (error) {
-      console.error(error.message);
-      res.status(500).send({error: error.message});
-    }
+      client.query(query, values, (err, result) => {
+        release();
+        if(err) {
+          console.log(err.message);
+          return res.status(400).json({err});
+        }
+        const user = result.rows[0];
+        if(!user){
+          return res.status(404).send({ message: "User Not found." });
+        }
+        const passwordIsValid = bcrypt.compareSync(
+          req.body.password,
+          user.password
+        );
+        if (!passwordIsValid) {
+          return res.status(401).send({
+          accessToken: null,
+          message: "Invalid Password!"
+          });
+        }
+
+        const jwtToken = generateJWT(user.id);
+
+        res.status(200).send({
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            accessToken: jwtToken
+        });
+      });
+    });
   });
 
 

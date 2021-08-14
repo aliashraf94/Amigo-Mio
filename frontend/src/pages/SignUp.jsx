@@ -3,15 +3,21 @@ import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 
 
-const SignUp = ()=> {
+const SignUp = props => {
     // state
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [authenticated, setAuthenticated] = useState(false);
     const setState = [setName, setEmail, setPassword];
 
     // api
     const API = "http://localhost:4000/user/sign-up";
+
+
+    if(authenticated) {
+        props.history.push("/signin")
+    }
 
     // functions
     const handleOnChange = event => {
@@ -55,11 +61,13 @@ const SignUp = ()=> {
                 if(data.isAuthenticated) {
                     localStorage.setItem("jwt", data.jwtToken)
                     swal('User created successfully')
+                    setAuthenticated(data.isAuthenticated)
+                    // props.history,push('/')
                 }else {
                     swal('Error user or password do no exist')
                 }
             })
-            .catch(err => swal(err.message));
+            .catch(err => swal(err.message) );
 
         setState.forEach(state => state(""))
     }
@@ -72,19 +80,24 @@ const SignUp = ()=> {
                     <div className="mb-3">
                         <label  className="form-label">Name</label>
                         <input onChange={handleOnChange} type="text" 
-                               className="form-control" id="name" 
+                               className="form-control" id="name"
+                               maxLength="50"
+                               minLength="1" 
                                placeholder="name" value={name} autoComplete="on"/>
                     </div>
                     <div className="mb-3">
                         <label  className="form-label">Email</label>
                         <input onChange={handleOnChange} type="email" 
-                               className="form-control" id="email" 
+                               className="form-control" id="email"
+                               maxLength="256"  
                                placeholder="email@email.com" value={email} autoComplete="on"/>
                     </div>
                     <div className="mb-5">
                         <label  className="form-label">Password</label>
                         <input onChange={handleOnChange} type="password" 
-                               className="form-control" id="password" 
+                               className="form-control" id="password"
+                               maxLength="8"
+                               minLength="8"  
                                placeholder="passsword" value={password} autoComplete="on"/>
                     </div>
                     <div className="mb-4">
