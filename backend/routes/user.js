@@ -12,20 +12,18 @@ const ONEDAY = 86400;
 // create a new user with the give email, name, and hashed password
 router.post("/sign-up", (req, res) => {
 
-  console.log(req.body);
   const lowerCaseEmail = req.body.email.toLowerCase();
   const newUser = {
     name: req.body.name,
     email: lowerCaseEmail,
     password: bcrypt.hashSync(req.body.password, 8)
   };
-  console.log(newUser);
+
   const queryEmail = "select * from users where email=$1"
-  // const queryEmail = "select * from users"
   const value = [newUser.email];
   pool.connect((error, client, release) => {
     if (error) {
-      return console.error('Error acquiring client1', error.stack)
+      return console.error('Error acquiring client', error.stack)
     }
     client.query(queryEmail, value, (err, result) => {
 
@@ -34,7 +32,7 @@ router.post("/sign-up", (req, res) => {
         console.log(err.message);
         return res.status(400).json({ err });
       }
-      console.log(result.rows);
+
       if (result.rows.length > 0) {
         return res.status(400).send("A user with the same email already exists!");
       } else {
@@ -44,7 +42,7 @@ router.post("/sign-up", (req, res) => {
 
         pool.connect((error, client, release) => {
           if (error) {
-            return console.error('Error acquiring client2', error.stack)
+            return console.error('Error acquiring client', error.stack)
           }
           client.query(query, values, (err, result) => {
             release();
@@ -69,12 +67,9 @@ router.post("/sign-up", (req, res) => {
             });
           });
         });
-
       }
     });
   });
-
-
 })
 
 
