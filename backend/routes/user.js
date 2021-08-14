@@ -1,11 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcrypt");   // bcrypt is used to hash password before saving it to database
-const fs = require("fs");   // fs is node's inbuilt file system module used to manage files
+// const fs = require("fs");   // fs is node's inbuilt file system module used to manage files
 const generateJWT = require("../utils/generateJWT")
 const jwt = require("jsonwebtoken");
 const { pool } = require("../database/db.config");   // import database connection
 const authenticate = require("../middleware/authenticate");
-require("dotenv").config(); 
+require("dotenv").config();
 const router = express.Router();   // we create a new router using express's inbuilt Router method
 const ONEDAY = 86400;
 
@@ -19,33 +19,36 @@ router.post("/sign-up", (req, res) => {
     password: bcrypt.hashSync(req.body.password, 8)
   };
 
-  const queryEmail = " select * from users where email=$1 "
+  const queryEmail = "select * from users where email=$1"
   const value = [newUser.email];
-  // pool.connect((error, client, release) => {
-  //   if(error) {
-  //     return console.error('Error acquiring client', error.stack)
-  //   }
-  //   client.query(query, values, (err, result) => {
-  //     release();
-  //     if(err) {
-  //       console.log(err.message);
-  //       return res.status(400).json({err});
-  //     }
+  pool.connect((error, client, release) => {
+    if (error) {
+      return console.error('Error acquiring client', error.stack)
+    }
+    client.query(query, value, (err, result) => {
+      release();
+      if (err) {
+        console.log(err.message);
+        return res.status(400).json({ err });
+      }
+      if (result.rows.length > 0) {
+        return res.status(400).send("A user with the same email already exists!");
+      }
+    });
+  });
 
-  const query = `
-  INSERT INTO users(name, email, password) 
-  VALUES($1,$2,$3) RETURNING *`;
+  const query = "INSERT INTO users(name, email, password) VALUES($1,$2,$3) RETURNING *";
   const values = [newUser.name, newUser.email, newUser.password];
 
   pool.connect((error, client, release) => {
-    if(error) {
+    if (error) {
       return console.error('Error acquiring client', error.stack)
     }
     client.query(query, values, (err, result) => {
       release();
-      if(err) {
+      if (err) {
         console.log(err.message);
-        return res.status(400).json({err});
+        return res.status(400).json({ err });
       }
       // const user = result.rows[0];
       // const token = jwt.sign(
@@ -65,8 +68,8 @@ router.post("/sign-up", (req, res) => {
     });
   });
 
-  });
-  
+
+
   // sign in with user given email and password
   router.post("/sign-in", async (req, res) => {
 
@@ -79,17 +82,17 @@ router.post("/sign-up", (req, res) => {
     SELECT * FROM users WHERE email = $1`;
     const values = [findUser.email];
     pool.connect((error, client, release) => {
-      if(error) {
+      if (error) {
         return console.error('Error acquiring client', error.stack)
       }
       client.query(query, values, (err, result) => {
         release();
-        if(err) {
+        if (err) {
           console.log(err.message);
-          return res.status(400).json({err});
+          return res.status(400).json({ err });
         }
         const user = result.rows[0];
-        if(!user){
+        if (!user) {
           return res.status(404).send({ message: "User Not found." });
         }
         const passwordIsValid = bcrypt.compareSync(
@@ -98,18 +101,18 @@ router.post("/sign-up", (req, res) => {
         );
         if (!passwordIsValid) {
           return res.status(401).send({
-          accessToken: null,
-          message: "Invalid Password!"
+            accessToken: null,
+            message: "Invalid Password!"
           });
         }
 
         const jwtToken = generateJWT(user.id);
 
         res.status(200).send({
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            accessToken: jwtToken
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          accessToken: jwtToken
         });
       });
     });
@@ -118,9 +121,9 @@ router.post("/sign-up", (req, res) => {
   router.get("/allusers", authenticate, async (req, res) => {
     console.log(req);
     pool
-    .query("SELECT * FROM users")
-    .then((result) => res.json(result.rows))
-    .catch((e) => console.error(e));
+      .query("SELECT * FROM users")
+      .then((result) => res.json(result.rows))
+      .catch((e) => console.error(e));
 
   })
 
@@ -129,13 +132,13 @@ router.post("/sign-up", (req, res) => {
     const id = req.user.id
     // console.log(id);
     pool
-    .query(`SELECT * FROM users where id=${id}`)
-    .then((result) => res.json(result.rows))
-    .catch((e) => console.error(e));
+      .query(`SELECT * FROM users where id=${id}`)
+      .then((result) => res.json(result.rows))
+      .catch((e) => console.error(e));
 
   })
 
-  
+
 
 
   module.exports = router;   // we need to export this router to implement it inside our server.js file
