@@ -12,20 +12,23 @@ const ONEDAY = 86400;
 // create a new user with the give email, name, and hashed password
 router.post("/sign-up", (req, res) => {
 
+  console.log(req.body);
   const lowerCaseEmail = req.body.email.toLowerCase();
   const newUser = {
     name: req.body.name,
     email: lowerCaseEmail,
     password: bcrypt.hashSync(req.body.password, 8)
   };
-
+  console.log(newUser);
   const queryEmail = "select * from users where email=$1"
+  // const queryEmail = "select * from users"
   const value = [newUser.email];
   pool.connect((error, client, release) => {
     if (error) {
-      return console.error('Error acquiring client', error.stack)
+      return console.error('Error acquiring client1', error.stack)
     }
-    client.query(query, value, (err, result) => {
+    client.query(queryEmail, value, (err, result) => {
+      console.log(result);
       release();
       if (err) {
         console.log(err.message);
@@ -42,7 +45,7 @@ router.post("/sign-up", (req, res) => {
 
   pool.connect((error, client, release) => {
     if (error) {
-      return console.error('Error acquiring client', error.stack)
+      return console.error('Error acquiring client2', error.stack)
     }
     client.query(query, values, (err, result) => {
       release();
@@ -67,78 +70,78 @@ router.post("/sign-up", (req, res) => {
       });
     });
   });
+})
 
 
 
-  // sign in with user given email and password
-  router.post("/sign-in", async (req, res) => {
+// sign in with user given email and password
+router.post("/sign-in", async (req, res) => {
+  const lowerCaseEmail = req.body.email.toLowerCase();
+  const findUser = {
+    email: lowerCaseEmail
+  };
 
-    const lowerCaseEmail = req.body.email.toLowerCase();
-    const findUser = {
-      email: lowerCaseEmail
-    };
-
-    const query = `
+  const query = `
     SELECT * FROM users WHERE email = $1`;
-    const values = [findUser.email];
-    pool.connect((error, client, release) => {
-      if (error) {
-        return console.error('Error acquiring client', error.stack)
+  const values = [findUser.email];
+  pool.connect((error, client, release) => {
+    if (error) {
+      return console.error('Error acquiring client', error.stack)
+    }
+    client.query(query, values, (err, result) => {
+      release();
+      if (err) {
+        console.log(err.message);
+        return res.status(400).json({ err });
       }
-      client.query(query, values, (err, result) => {
-        release();
-        if (err) {
-          console.log(err.message);
-          return res.status(400).json({ err });
-        }
-        const user = result.rows[0];
-        if (!user) {
-          return res.status(404).send({ message: "User Not found." });
-        }
-        const passwordIsValid = bcrypt.compareSync(
-          req.body.password,
-          user.password
-        );
-        if (!passwordIsValid) {
-          return res.status(401).send({
-            accessToken: null,
-            message: "Invalid Password!"
-          });
-        }
-
-        const jwtToken = generateJWT(user.id);
-
-        res.status(200).send({
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          accessToken: jwtToken
+      const user = result.rows[0];
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
+      }
+      const passwordIsValid = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          accessToken: null,
+          message: "Invalid Password!"
         });
+      }
+
+      const jwtToken = generateJWT(user.id);
+
+      res.status(200).send({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        accessToken: jwtToken
       });
     });
   });
+});
 
-  router.get("/allusers", authenticate, async (req, res) => {
-    console.log(req);
-    pool
-      .query("SELECT * FROM users")
-      .then((result) => res.json(result.rows))
-      .catch((e) => console.error(e));
+router.get("/allusers", authenticate, async (req, res) => {
+  console.log(req);
+  pool
+    .query("SELECT * FROM users")
+    .then((result) => res.json(result.rows))
+    .catch((e) => console.error(e));
 
-  })
+})
 
-  router.get("/userProfile", authenticate, async (req, res) => {
-    console.log(req.user.id);
-    const id = req.user.id
-    // console.log(id);
-    pool
-      .query(`SELECT * FROM users where id=${id}`)
-      .then((result) => res.json(result.rows))
-      .catch((e) => console.error(e));
+router.get("/userProfile", authenticate, async (req, res) => {
+  console.log(req.user.id);
+  const id = req.user.id
+  // console.log(id);
+  pool
+    .query(`SELECT * FROM users where id=${id}`)
+    .then((result) => res.json(result.rows))
+    .catch((e) => console.error(e));
 
-  })
-
-
+})
 
 
-  module.exports = router;   // we need to export this router to implement it inside our server.js file
+
+
+module.exports = router;   // we need to export this router to implement it inside our server.js file
