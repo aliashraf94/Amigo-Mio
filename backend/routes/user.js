@@ -19,18 +19,15 @@ router.post("/sign-up", (req, res) => {
     password: bcrypt.hashSync(req.body.password, 8)
   };
 
-  const queryEmail = " select * from users where email=$1 "
-  const value = [newUser.email];
-  // pool.connect((error, client, release) => {
-  //   if(error) {
-  //     return console.error('Error acquiring client', error.stack)
-  //   }
-  //   client.query(query, values, (err, result) => {
-  //     release();
-  //     if(err) {
-  //       console.log(err.message);
-  //       return res.status(400).json({err});
-  //     }
+  // const queryEmail = `select * from users where email=${newUser.email}`
+  // console.log(newUser.email);
+  // pool
+  // .query(`select * from users where email=${newUser.email}`)
+  // .then((result) => {
+  //   res.json(result.rows)
+  //   console.log(",,,,,,,,,,,sdjfkasjdhfgkajsbdjkahsgbjkhgasjh,,,,,,",result.rows.length);
+  // })
+  // .catch((e) => console.error(e));
 
   const query = `
   INSERT INTO users(name, email, password) 
