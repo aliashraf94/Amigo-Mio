@@ -4,6 +4,7 @@ const fs = require("fs");   // fs is node's inbuilt file system module used to m
 const generateJWT = require("../utils/generateJWT")
 const jwt = require("jsonwebtoken");
 const { pool } = require("../database/db.config");   // import database connection
+const authenticate = require("../middleware/authenticate");
 require("dotenv").config(); 
 const router = express.Router();   // we create a new router using express's inbuilt Router method
 const ONEDAY = 86400;
@@ -17,6 +18,19 @@ router.post("/sign-up", (req, res) => {
     email: lowerCaseEmail,
     password: bcrypt.hashSync(req.body.password, 8)
   };
+
+  const queryEmail = " select * from users where email=$1 "
+  const value = [newUser.email];
+  // pool.connect((error, client, release) => {
+  //   if(error) {
+  //     return console.error('Error acquiring client', error.stack)
+  //   }
+  //   client.query(query, values, (err, result) => {
+  //     release();
+  //     if(err) {
+  //       console.log(err.message);
+  //       return res.status(400).json({err});
+  //     }
 
   const query = `
   INSERT INTO users(name, email, password) 
@@ -100,6 +114,28 @@ router.post("/sign-up", (req, res) => {
       });
     });
   });
+
+  router.get("/allusers", authenticate, async (req, res) => {
+    console.log(req);
+    pool
+    .query("SELECT * FROM users")
+    .then((result) => res.json(result.rows))
+    .catch((e) => console.error(e));
+
+  })
+
+  router.get("/userProfile", authenticate, async (req, res) => {
+    console.log(req.user.id);
+    const id = req.user.id
+    // console.log(id);
+    pool
+    .query(`SELECT * FROM users where id=${id}`)
+    .then((result) => res.json(result.rows))
+    .catch((e) => console.error(e));
+
+  })
+
+  
 
 
   module.exports = router;   // we need to export this router to implement it inside our server.js file
