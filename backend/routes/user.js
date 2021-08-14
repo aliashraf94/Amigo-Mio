@@ -28,48 +28,53 @@ router.post("/sign-up", (req, res) => {
       return console.error('Error acquiring client1', error.stack)
     }
     client.query(queryEmail, value, (err, result) => {
-      console.log(result);
+
       release();
       if (err) {
         console.log(err.message);
         return res.status(400).json({ err });
       }
+      console.log(result.rows);
       if (result.rows.length > 0) {
         return res.status(400).send("A user with the same email already exists!");
+      } else {
+
+        const query = "INSERT INTO users(name, email, password) VALUES($1,$2,$3) RETURNING *";
+        const values = [newUser.name, newUser.email, newUser.password];
+
+        pool.connect((error, client, release) => {
+          if (error) {
+            return console.error('Error acquiring client2', error.stack)
+          }
+          client.query(query, values, (err, result) => {
+            release();
+            if (err) {
+              console.log(err.message);
+              return res.status(400).json({ err });
+            }
+            // const user = result.rows[0];
+            // const token = jwt.sign(
+            //   { id: user.id }, 
+            //   process.env.jwtSecret, 
+            //   { expiresIn: ONEDAY }
+            // );
+            const jwtToken = generateJWT(newUser.id);
+
+            return res.status(200).send({
+              id: newUser.id,
+              name: newUser.name,
+              email: newUser.email,
+              accessToken: jwtToken,
+              message: "User was registered successfully!"
+            });
+          });
+        });
+
       }
     });
   });
 
-  const query = "INSERT INTO users(name, email, password) VALUES($1,$2,$3) RETURNING *";
-  const values = [newUser.name, newUser.email, newUser.password];
 
-  pool.connect((error, client, release) => {
-    if (error) {
-      return console.error('Error acquiring client2', error.stack)
-    }
-    client.query(query, values, (err, result) => {
-      release();
-      if (err) {
-        console.log(err.message);
-        return res.status(400).json({ err });
-      }
-      // const user = result.rows[0];
-      // const token = jwt.sign(
-      //   { id: user.id }, 
-      //   process.env.jwtSecret, 
-      //   { expiresIn: ONEDAY }
-      // );
-      const jwtToken = generateJWT(newUser.id);
-
-      return res.status(200).send({
-        id: newUser.id,
-        name: newUser.name,
-        email: newUser.email,
-        accessToken: jwtToken,
-        message: "User was registered successfully!"
-      });
-    });
-  });
 })
 
 
