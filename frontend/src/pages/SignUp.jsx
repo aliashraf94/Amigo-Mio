@@ -58,10 +58,10 @@ const SignUp = props => {
             .then(res => res.json())
             .then(data => {
                 console.log(data)
-                if(data.isAuthenticated) {
+                if(data.accessToken) {
                     localStorage.setItem("jwt", data.jwtToken)
                     swal('User created successfully')
-                    setAuthenticated(data.isAuthenticated)
+                    setAuthenticated(true)
                     // props.history,push('/')
                 }else {
                     swal('Error user or password do no exist')
