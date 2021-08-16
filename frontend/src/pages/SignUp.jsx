@@ -64,7 +64,7 @@ const SignUp = props => {
                     setAuthenticated(true)
                     // props.history,push('/')
                 }else {
-                    swal('Error user or password do no exist')
+                    swal(data.error)
                 }
             })
             .catch(err => swal(err.message) );

@@ -34,7 +34,7 @@ router.post("/sign-up", (req, res) => {
       }
 
       if (result.rows.length > 0) {
-        return res.status(400).send("A user with the same email already exists!");
+        return res.status(400).send({error:"A user with the same email already exists!"});
       } else {
 
         const query = "INSERT INTO users(name, email, password) VALUES($1,$2,$3) RETURNING *";

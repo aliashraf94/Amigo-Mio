@@ -3,10 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './routes/App';
 import reportWebVitals from './reportWebVitals';
+import {AuthContext} from './context/AppContext';
+// import useSetion from './hooks/useSetion';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AuthContext>
+      <App />
+    </AuthContext>
   </React.StrictMode>,
   document.getElementById('root')
 );
