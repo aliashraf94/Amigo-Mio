@@ -11,15 +11,10 @@ const SignIn = props => {
     //state
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [authenticated, setAuthenticated] = useState(false);
     const setState = [setEmail, setPassword];
 
     //Api
     const API = "http://localhost:4000/user/sign-in";
-
-    if(authenticated) {
-        props.history.push("/")
-    }
 
     //funtions 
     const handleOnChange = event => {
@@ -56,13 +51,13 @@ const SignIn = props => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 if(data.isAuth) {
                     localStorage.removeItem("user")
                     localStorage.setItem("user", JSON.stringify(data))
                     swal('Login successfully')
                     setCurrentUser(JSON.parse(data.isAuth))
-                    setAuthenticated(true)
+                    props.history.push("/")
                 }else {
                     swal('Error user or password do no exist')
                 }

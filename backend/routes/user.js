@@ -59,11 +59,8 @@ router.post("/sign-up", (req, res) => {
             const jwtToken = generateJWT(newUser.id);
 
             return res.status(200).send({
-              id: newUser.id,
-              name: newUser.name,
-              email: newUser.email,
-              accessToken: jwtToken,
-              message: "User was registered successfully!"
+              isAuth: true,
+              accessToken: jwtToken
             });
           });
         });
@@ -112,9 +109,7 @@ router.post("/sign-in", async (req, res) => {
       const jwtToken = generateJWT(user.id);
 
       res.status(200).send({
-        id: user.id,
-        username: user.username,
-        email: user.email,
+        isAuth: true,
         accessToken: jwtToken
       });
     });
