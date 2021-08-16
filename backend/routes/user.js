@@ -19,8 +19,26 @@ router.post("/sign-up", (req, res) => {
     password: bcrypt.hashSync(req.body.password, 8)
   };
 
+<<<<<<< HEAD
+  // const queryEmail = `select * from users where email=${newUser.email}`
+  // console.log(newUser.email);
+  // pool
+  // .query(`select * from users where email=${newUser.email}`)
+  // .then((result) => {
+  //   res.json(result.rows)
+  //   console.log(",,,,,,,,,,,sdjfkasjdhfgkajsbdjkahsgbjkhgasjh,,,,,,",result.rows.length);
+  // })
+  // .catch((e) => console.error(e));
+
+  const query = `
+  INSERT INTO users(name, email, password) 
+  VALUES($1,$2,$3) RETURNING *`;
+  const values = [newUser.name, newUser.email, newUser.password];
+
+=======
   const queryEmail = "select * from users where email=$1"
   const value = [newUser.email];
+>>>>>>> 3a51d407f8199b99289bf90848f4772c09d7ff92
   pool.connect((error, client, release) => {
     if (error) {
       return console.error('Error acquiring client', error.stack)
