@@ -19,7 +19,6 @@ router.post("/sign-up", (req, res) => {
     password: bcrypt.hashSync(req.body.password, 8)
   };
 
-<<<<<<< HEAD
   // const queryEmail = `select * from users where email=${newUser.email}`
   // console.log(newUser.email);
   // pool
@@ -35,10 +34,6 @@ router.post("/sign-up", (req, res) => {
   VALUES($1,$2,$3) RETURNING *`;
   const values = [newUser.name, newUser.email, newUser.password];
 
-=======
-  const queryEmail = "select * from users where email=$1"
-  const value = [newUser.email];
->>>>>>> 3a51d407f8199b99289bf90848f4772c09d7ff92
   pool.connect((error, client, release) => {
     if (error) {
       return console.error('Error acquiring client', error.stack)
@@ -130,9 +125,7 @@ router.post("/sign-in", async (req, res) => {
       const jwtToken = generateJWT(user.id);
 
       res.status(200).send({
-        id: user.id,
-        username: user.username,
-        email: user.email,
+        isAuthenticated: true,
         accessToken: jwtToken
       });
     });
@@ -162,4 +155,4 @@ router.get("/userProfile", authenticate, async (req, res) => {
 
 
 
-module.exports = router;   // we need to export this router to implement it inside our server.js file
+module.exports = router;   // we need to export this router to implement it inside our server.js files
