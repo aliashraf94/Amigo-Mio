@@ -1,5 +1,7 @@
 import React from 'react';
 import '../assets/styles/components/carouselItem.css';
+import {Link} from 'react-router-dom';
+
 
 let CarouselItem = (props)=> { 
 
@@ -16,6 +18,9 @@ let CarouselItem = (props)=> {
           <div className="carousel-item__details">
             <p className="carousel-item__details--title">{result.title}  </p>
             <p className="carousel-item__details--subtitle">Likes: {result.likes} </p>
+            <span className=""  ></span><Link to={{ pathname: '/PageBookDetails', state: { book: result} }}>See book details</Link>
+            
+
           </div>
         </div>
         }

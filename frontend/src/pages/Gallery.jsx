@@ -15,23 +15,12 @@ let Gallery = ()=> {
     let API = "http://localhost:4000/user/allbooks";
 
     useEffect(()=> {
-        console.log("dddddddd")
         fetch(API)
             .then(res => res.json())
             .then(data =>{ setBooks(data)})
             .catch(err => console.error(err.message))
     }, []);
-   let yu = 0;
-    books.forEach(book => 
-       console.log(book)
-   
-    )
-
-/*     setTimeout(() => {
-        console.log(books)
-    }, 3000); */
     
-
     return (
         <>
             <center className="galery-center"><h1>Gallery</h1></center>    

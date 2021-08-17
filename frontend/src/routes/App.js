@@ -10,6 +10,7 @@ import NotFound from '../pages/NotFound';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Gallery from '../pages/Gallery';
+import PageBookDetails from '../pages/PageBookDetails';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route exact path='/signup' component={SignUp}/>
               <Route exact path='/signin' component={SignIn}/>
               <Route exact path='/gallery' component={Gallery}/>
+              <Route exact path='/PageBookDetails' component={PageBookDetails}/>
               <Route component={NotFound}/>
           </Switch>
           <Footer /> 
