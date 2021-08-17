@@ -18,6 +18,8 @@ const PageBookDetails = (props) => {
         <div className="">
           <p className="">{book.title}  </p>
           <p className="">Likes: {book.likes} </p>
+          <h3>Description:</h3>
+          <p className="">Descriptoin: {book.descriptoin} </p>
         </div>
       </div>
   ) 
