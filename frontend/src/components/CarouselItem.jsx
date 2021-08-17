@@ -8,8 +8,6 @@ let CarouselItem = (props)=> {
     return (
         <> 
      {props.results != undefined ?  
-
-        
      (
       props.results.map((result, index )=> { 
         if (result.approved === true ){
@@ -19,8 +17,6 @@ let CarouselItem = (props)=> {
             <p className="carousel-item__details--title">{result.title}  </p>
             <p className="carousel-item__details--subtitle">Likes: {result.likes} </p>
             <span className=""  ></span><Link to={{ pathname: '/PageBookDetails', state: { book: result} }}>See book details</Link>
-            
-
           </div>
         </div>
         }
@@ -29,7 +25,6 @@ let CarouselItem = (props)=> {
 
      :
     (console.log("loading")       )}
-         
         </>
     );
 };

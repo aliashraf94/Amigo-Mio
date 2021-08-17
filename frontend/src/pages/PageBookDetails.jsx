@@ -11,24 +11,18 @@ const PageBookDetails = (props) => {
 
     return (
       <> 
-   {foo != undefined ?  
-
-      
+   {book != undefined ?  
    (
     <div  className="">
         <img className="" src={book.image_url} alt=""  />
         <div className="">
-          <p className="">{foo.title}  </p>
-          <p className="">Likes: {foo.likes} </p>
+          <p className="">{book.title}  </p>
+          <p className="">Likes: {book.likes} </p>
         </div>
       </div>
-    
-  
   ) 
-
    :
-  (console.log("loading")       )}
-       
+  (console.log("loading"))}
       </>
   );
 };
