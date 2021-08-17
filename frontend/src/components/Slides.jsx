@@ -18,12 +18,6 @@ const images = [
   ];
 
   
-
-  
-  
-   
-  
-  
   const Slides = () => {
 
 
@@ -42,7 +36,7 @@ const images = [
       <div>
         <SimpleImageSlider
 /*           depending on the current screen size the width and height will change their value.
- */          width={isDesktop ? '520px' : '320px'}
+ */       width={isDesktop ? '520px' : '320px'}
           height={isDesktop ? '400px' : '290px'}
           images={images}
           showBullets={true}

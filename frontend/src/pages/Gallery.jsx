@@ -4,19 +4,33 @@ import Carousel from '../components/Carousel';
 import CarouselItem from '../components/CarouselItem';
 import "../assets/styles/components/Gallery.css"
 
+
+
+
 let Gallery = ()=> {
     // state
     let [books, setBooks] = useState([]);
 
     // api 
-    let API = "";
+    let API = "http://localhost:4000/user/allbooks";
 
     useEffect(()=> {
+        console.log("dddddddd")
         fetch(API)
             .then(res => res.json())
-            .then(data => setBooks(data))
+            .then(data =>{ setBooks(data)})
             .catch(err => console.error(err.message))
     }, []);
+   let yu = 0;
+    books.forEach(book => 
+       console.log(book)
+   
+    )
+
+/*     setTimeout(() => {
+        console.log(books)
+    }, 3000); */
+    
 
     return (
         <>
@@ -30,8 +44,7 @@ let Gallery = ()=> {
                 </Categories>
                 <Categories title="All books">
                     <Carousel>
-                        <CarouselItem/>
-                        <CarouselItem/>
+                            <CarouselItem  results={books}  />
                     </Carousel>
                 </Categories>
                 <Categories title="Trend">
