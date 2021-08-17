@@ -421,6 +421,21 @@ a:hover {
 /* new */
 
 
+/* new */
+
+/* carousel-item 
+ */
+
+ .carousel > .carousel__container > .carousel-item {
+  overflow: hidden;
+ }
+
+ .carousel > .carousel__container > .carousel-item:hover {
+  width: 350px;
+ }
+
+
+
 /* section @media screen  */
 
 @media screen and (max-width: 960px) {
