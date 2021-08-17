@@ -127,6 +127,18 @@ body {
   color: white;
 }
 
+#navbarDropdownMenuLink {
+  color: white;
+}
+
+#navbarDropdownMenuLink:hover {
+  color: #15D4BE;
+  text-decoration: underline;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
 .navbar-toggler{
   
   background-color: #15D4BE;

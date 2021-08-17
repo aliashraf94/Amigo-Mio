@@ -8,16 +8,10 @@ const SignUp = props => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [authenticated, setAuthenticated] = useState(false);
     const setState = [setName, setEmail, setPassword];
 
     // api
     const API = "http://localhost:4000/user/sign-up";
-
-
-    if(authenticated) {
-        props.history.push("/signin")
-    }
 
     // functions
     const handleOnChange = event => {
@@ -59,12 +53,10 @@ const SignUp = props => {
             .then(data => {
                 console.log(data)
                 if(data.accessToken) {
-                    localStorage.setItem("jwt", data.jwtToken)
                     swal('User created successfully')
-                    setAuthenticated(true)
-                    // props.history,push('/')
+                    props.history.push("/signin")
                 }else {
-                    swal('Error user or password do no exist')
+                    swal(data.error)
                 }
             })
             .catch(err => swal(err.message) );

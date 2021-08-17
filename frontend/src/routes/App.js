@@ -2,6 +2,7 @@ import React from "react";
 import '../App.css';
 import '../css/secctionMainBanner.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { AppProvider } from "../context/AppContext";
 import Main from '../pages/Main';
 import SignUp from '../pages/SignUp';
 import SignIn from '../pages/SignIn';
@@ -12,17 +13,19 @@ import Gallery from '../pages/Gallery';
 
 function App() {
   return (
-    <BrowserRouter>
-        <NavBar /> 
-        <Switch>
-            <Route exact path='/' component={Main}/>
-            <Route exact path='/signup' component={SignUp}/>
-            <Route exact path='/signin' component={SignIn}/>
-            <Route exact path='/gallery' component={Gallery}/>
-            <Route component={NotFound}/>
-        </Switch>
-        <Footer /> 
-    </BrowserRouter>
+    <AppProvider>
+      <BrowserRouter>
+          <NavBar /> 
+          <Switch>
+              <Route exact path='/' component={Main}/>
+              <Route exact path='/signup' component={SignUp}/>
+              <Route exact path='/signin' component={SignIn}/>
+              <Route exact path='/gallery' component={Gallery}/>
+              <Route component={NotFound}/>
+          </Switch>
+          <Footer /> 
+      </BrowserRouter>
+    </AppProvider>
   );
 }
 

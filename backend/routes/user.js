@@ -47,7 +47,7 @@ router.post("/sign-up", (req, res) => {
       }
 
       if (result.rows.length > 0) {
-        return res.status(400).send("A user with the same email already exists!");
+        return res.status(400).send({error:"A user with the same email already exists!"});
       } else {
 
         const query = "INSERT INTO users(name, email, password) VALUES($1,$2,$3) RETURNING *";
@@ -72,11 +72,8 @@ router.post("/sign-up", (req, res) => {
             const jwtToken = generateJWT(newUser.id);
 
             return res.status(200).send({
-              id: newUser.id,
-              name: newUser.name,
-              email: newUser.email,
-              accessToken: jwtToken,
-              message: "User was registered successfully!"
+              isAuth: true,
+              accessToken: jwtToken
             });
           });
         });
@@ -125,7 +122,7 @@ router.post("/sign-in", async (req, res) => {
       const jwtToken = generateJWT(user.id);
 
       res.status(200).send({
-        isAuthenticated: true,
+        isAuth: true,
         accessToken: jwtToken
       });
     });

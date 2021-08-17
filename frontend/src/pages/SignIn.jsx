@@ -1,21 +1,20 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import {AppContext} from '../context/AppContext';
 import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 
 
 const SignIn = props => {
+    //context
+    let {setCurrentUser} = useContext(AppContext);
+
     //state
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [authenticated, setAuthenticated] = useState(false);
     const setState = [setEmail, setPassword];
 
     //Api
     const API = "http://localhost:4000/user/sign-in";
-
-    if(authenticated) {
-        props.history.push("/")
-    }
 
     //funtions 
     const handleOnChange = event => {
@@ -52,13 +51,13 @@ const SignIn = props => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
-                if(data.isAuthenticated) {
-                    localStorage.removeItem("jwt")
-                    localStorage.setItem("jwt", data.jwtToken)
+                // console.log(data)
+                if(data.isAuth) {
+                    localStorage.removeItem("user")
+                    localStorage.setItem("user", JSON.stringify(data))
                     swal('Login successfully')
-                    setAuthenticated(true)
-                    console.log('hola')
+                    setCurrentUser(JSON.parse(data.isAuth))
+                    props.history.push("/")
                 }else {
                     swal('Error user or password do no exist')
                 }
