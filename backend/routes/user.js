@@ -5,6 +5,7 @@ const generateJWT = require("../utils/generateJWT")
 const jwt = require("jsonwebtoken");
 const { pool } = require("../database/db.config");   // import database connection
 const authenticate = require("../middleware/authenticate");
+const { query } = require("express");
 require("dotenv").config();
 const router = express.Router();   // we create a new router using express's inbuilt Router method
 const ONEDAY = 86400;
@@ -38,7 +39,7 @@ router.post("/sign-up", (req, res) => {
     if (error) {
       return console.error('Error acquiring client', error.stack)
     }
-    client.query(queryEmail, value, (err, result) => {
+    client.query(query, values, (err, result) => {
 
       release();
       if (err) {
@@ -173,6 +174,18 @@ router.get("/comments", async (req, res) => {
     .query(`SELECT * FROM comments`)
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
+
+})
+
+router.patch("/changeEmail", authenticate, (req, res) => {
+  console.log(req.user.id);
+  const id = req.user.id
+  const email = req.body.email.toLowerCase();
+  const query = `UPDATE users set email=$1 where id=$2`
+  pool
+  .query(query, [email, id])
+  .then(() => res.status(200).send("Email is Updated"))
+  .catch((e) => console.error(e));
 
 })
 
