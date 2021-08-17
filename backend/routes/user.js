@@ -149,7 +149,35 @@ router.get("/userProfile", authenticate, async (req, res) => {
 
 })
 
+router.get("/allbooks", async (req, res) => {
+
+  pool
+    .query(`SELECT * FROM books`)
+    .then((result) => res.json(result.rows))
+    .catch((e) => console.error(e));
+
+})
+
+router.get("/favorites", async (req, res) => {
+
+  pool
+    .query(`SELECT * FROM favorites`)
+    .then((result) => res.json(result.rows))
+    .catch((e) => console.error(e));
+
+})
+
+router.get("/comments", async (req, res) => {
+
+  pool
+    .query(`SELECT * FROM comments`)
+    .then((result) => res.json(result.rows))
+    .catch((e) => console.error(e));
+
+})
 
 
 
-module.exports = router;   // we need to export this router to implement it inside our server.js file
+
+
+module.exports = router;   // we need to export this router to implement it inside our server.js files
