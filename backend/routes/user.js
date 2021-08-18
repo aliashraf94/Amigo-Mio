@@ -184,7 +184,19 @@ router.patch("/changeEmail", authenticate, (req, res) => {
   const query = `UPDATE users set email=$1 where id=$2`
   pool
   .query(query, [email, id])
-  .then(() => res.status(200).send("Email is Updated"))
+  .then(() => res.status(200).send("Email is updated"))
+  .catch((e) => console.error(e));
+
+})
+
+router.patch("/changeUsername", authenticate, (req, res) => {
+  console.log(req.user.id);
+  const id = req.user.id
+  const name = req.body.name;
+  const query = `UPDATE users set name=$1 where id=$2`
+  pool
+  .query(query, [name, id])
+  .then(() => res.status(200).send("Username is updated"))
   .catch((e) => console.error(e));
 
 })
