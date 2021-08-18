@@ -30,16 +30,19 @@ router.post("/sign-up", (req, res) => {
   // })
   // .catch((e) => console.error(e));
 
-  const query = `
-  INSERT INTO users(name, email, password) 
-  VALUES($1,$2,$3) RETURNING *`;
-  const values = [newUser.name, newUser.email, newUser.password];
+  // const query = `
+  // INSERT INTO users(name, email, password) 
+  // VALUES($1,$2,$3) RETURNING *`;
+  // const values = [newUser.name, newUser.email, newUser.password];
+
+  const queryEmail = "select * from users where email=$1"
+  const value = [newUser.email];
 
   pool.connect((error, client, release) => {
     if (error) {
       return console.error('Error acquiring client', error.stack)
     }
-    client.query(query, values, (err, result) => {
+    client.query(queryEmail, value, (err, result) => {
 
       release();
       if (err) {
@@ -49,7 +52,8 @@ router.post("/sign-up", (req, res) => {
 
       if (result.rows.length > 0) {
         return res.status(400).send({error:"A user with the same email already exists!"});
-      } else {
+      }
+    })
 
         const query = "INSERT INTO users(name, email, password) VALUES($1,$2,$3) RETURNING *";
         const values = [newUser.name, newUser.email, newUser.password];
@@ -78,10 +82,8 @@ router.post("/sign-up", (req, res) => {
             });
           });
         });
-      }
     });
   });
-})
 
 
 
