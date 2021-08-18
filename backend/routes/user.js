@@ -178,7 +178,6 @@ router.get("/comments", async (req, res) => {
 })
 
 router.patch("/changeEmail", authenticate, (req, res) => {
-  console.log(req.user.id);
   const id = req.user.id
   const email = req.body.email.toLowerCase();
   const query = `UPDATE users set email=$1 where id=$2`
@@ -190,13 +189,23 @@ router.patch("/changeEmail", authenticate, (req, res) => {
 })
 
 router.patch("/changeUsername", authenticate, (req, res) => {
-  console.log(req.user.id);
   const id = req.user.id
   const name = req.body.name;
   const query = `UPDATE users set name=$1 where id=$2`
   pool
   .query(query, [name, id])
   .then(() => res.status(200).send("Username is updated"))
+  .catch((e) => console.error(e));
+
+})
+
+router.patch("/changePassword", authenticate, (req, res) => {
+  const id = req.user.id
+  const password = bcrypt.hashSync(req.body.password, 8)
+  const query = `UPDATE users set password=$1 where id=$2`
+  pool
+  .query(query, [password, id])
+  .then(() => res.status(200).send("Password is updated"))
   .catch((e) => console.error(e));
 
 })
