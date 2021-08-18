@@ -140,7 +140,6 @@ router.get("/allusers", authenticate, async (req, res) => {
 })
 
 router.get("/userProfile", authenticate, async (req, res) => {
-  console.log(req.user.id);
   const id = req.user.id
   // console.log(id);
   pool
@@ -207,6 +206,19 @@ router.patch("/changePassword", authenticate, (req, res) => {
   .query(query, [password, id])
   .then(() => res.status(200).send("Password is updated"))
   .catch((e) => console.error(e));
+
+})
+
+// Creating a end point where we can delete the user.
+router.delete("/deleteAccount", authenticate, (req, res) => {
+  const id = req.user.id
+  // const id = 15
+  const query = `DELETE FROM users WHERE id=$1`
+  pool
+  .query(query, [id])
+  .then(() => res.status(200).send("The account is deleted"))
+  .catch((e) => console.error(e));
+  // Bug: If user is connected to other tables we should receive that error.
 
 })
 
