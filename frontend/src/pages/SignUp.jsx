@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory  } from 'react-router-dom';
 import swal from 'sweetalert';
 
 
@@ -12,7 +12,7 @@ const SignUp = props => {
 
     // api
     const API = "http://localhost:4000/user/sign-up";
-
+    
     // functions
     const handleOnChange = event => {
         let id = event.target.id;
@@ -54,7 +54,7 @@ const SignUp = props => {
                 console.log(data)
                 if(data.accessToken) {
                     swal('User created successfully')
-                    props.history.push("/signin")
+                   props.history.push("/signin")  
                 }else {
                     swal(data.error)
                 }

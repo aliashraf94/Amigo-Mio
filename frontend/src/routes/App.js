@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import '../App.css';
-import '../css/secctionMainBanner.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Main from '../pages/Main';
 import SignUp from '../pages/SignUp';

@@ -62,3 +62,12 @@
   margin: 3px 0px;
 }
 
+.carousel > .carousel__container > .carousel-item {
+  overflow: hidden;
+ }
+
+ .carousel > .carousel__container > .carousel-item:hover {
+  width: 350px;
+ }
+
+

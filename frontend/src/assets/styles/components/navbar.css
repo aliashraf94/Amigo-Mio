@@ -1,0 +1,75 @@
+
+.bg-light {
+    background: linear-gradient(to bottom, black, #1b1b1b);
+  
+  }
+  
+  .bg-light a {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+    text-align: left;
+    padding-right: 6rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 1000;
+  }
+  
+   .mr-auto, .mx-auto {
+    margin-right: unset !important;
+  
+    margin-left: auto  !important;
+   
+  } 
+  
+  .bg-light a:hover {
+    color: #15D4BE;
+    text-decoration: underline;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+  }
+  
+  .navbar-light .navbar-brand {
+    color: white;
+    font-family: 'Gaegu', cursive;
+    font-size: 2.4rem;
+    margin-left: 1rem;
+  
+  }
+  ;
+  .navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
+    color: rgb(255 255 255 / 90%);
+  }
+  
+  .navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
+  
+    color: white;
+  }
+  
+  #navbarDropdownMenuLink {
+    color: white;
+  }
+  
+  #navbarDropdownMenuLink:hover {
+    color: #15D4BE;
+    text-decoration: underline;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+  }
+  
+  .navbar-toggler{
+    
+    background-color: #15D4BE;
+    }
+  
+    a span {
+   height: 1px;
+   width: 1px;
+   position: absolute;
+   overflow: hidden;
+   top: -10px;
+  }
+  

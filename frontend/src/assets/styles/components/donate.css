@@ -1,0 +1,35 @@
+
+.btn-donate{
+    text-align: center;
+    margin-top: 3rem;
+  }
+  a:hover {
+    text-decoration: none;
+    color: white;
+  }
+  
+  .btn-donate .boton{
+    margin-right: 5rem;
+    font-weight: 1000;
+  }
+  
+  .marginBottonDonate{
+    margin-bottom: 4rem;
+  }
+
+
+  @media screen and (max-width: 500px) {
+
+    .boton{
+      display: block;
+      margin-bottom: 1rem;
+      margin-top: 2rem;
+    }
+  
+    .btn-donate .boton {
+      margin-right: 2rem;
+      margin-left: 2rem;
+  }
+  
+  
+  }
