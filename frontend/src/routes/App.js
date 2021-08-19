@@ -11,6 +11,7 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Gallery from '../pages/Gallery';
 import PageBookDetails from '../pages/PageBookDetails';
+import UserProfile from "../pages/UserProfile";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route exact path='/signin' component={SignIn}/>
               <Route exact path='/gallery' component={Gallery}/>
               <Route exact path='/PageBookDetails' component={PageBookDetails}/>
+              <Route exact path='/UserProfile' component={UserProfile}/>
               <Route component={NotFound}/>
           </Switch>
           <Footer /> 

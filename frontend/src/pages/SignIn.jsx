@@ -54,7 +54,9 @@ const SignIn = props => {
                 // console.log(data)
                 if(data.isAuth) {
                     localStorage.removeItem("user")
-                    localStorage.setItem("user", JSON.stringify(data))
+                    localStorage.removeItem("jwt")
+                    localStorage.setItem("jwt", JSON.stringify(data.accessToken))
+                    localStorage.setItem("user", JSON.stringify(data.isAuth))
                     swal('Login successfully')
                     setCurrentUser(JSON.parse(data.isAuth))
                     props.history.push("/")
@@ -76,12 +78,16 @@ const SignIn = props => {
                         <label  className="form-label">Email</label>
                         <input onChange={handleOnChange} type="email" 
                             className="form-control" id="email" placeholder="email@email.com" 
+                            minLength="1"
+                            maxLength="256" 
                             value={email} autoComplete="on"/>
                     </div>
                     <div className="mb-5">
                         <label  className="form-label">Password</label>
                         <input onChange={handleOnChange} type="password" 
                             className="form-control" id="password" placeholder="passsword" 
+                            maxLength="8"
+                            minLength="8" 
                             value={password} autoComplete="on"/>
                     </div>
                     <div className="mb-4">

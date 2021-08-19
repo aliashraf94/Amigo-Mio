@@ -27,12 +27,13 @@ const NavBar = () => {
                 ? 
                   <>
                     <li className="nav-item">
-                      <span className="nav-link" ></span><Link to="/SignIn">Profile</Link>
+                      <span className="nav-link" ></span><Link to="/userProfile">Profile</Link>
                     </li>
                     <li className="nav-item">
                       <span className="nav-link" ></span>
                       <Link to="/" onClick = {()=> {
                         localStorage.removeItem('user')
+                        localStorage.removeItem('jwt')
                         setCurrentUser(JSON.parse(localStorage.getItem('user')))
                         }}
                        >Sign off
