@@ -18,7 +18,7 @@ const SignUp = props => {
     se usa para navegar programáticamente a otras rutas usando métodos de empujar y reemplazar
     history.replace("/signin"); */
     let history = useHistory();
-    useHistory();
+     useHistory();
 
     // functions
     const handleOnChange = event => {
@@ -61,7 +61,8 @@ const SignUp = props => {
                 console.log(data)
                 if(data.accessToken) {
                     swal('User created successfully')
-                   /*  props.history.push("/signin") */
+                   /*props.history.push("/signin") */
+                   //Usando gancho useHistory 
                     history.replace("/signin");
                 }else {
                     swal(data.error)
