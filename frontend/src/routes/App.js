@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import '../App.css';
 import '../css/secctionMainBanner.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import { AppProvider } from "../context/AppContext";
 import Main from '../pages/Main';
 import SignUp from '../pages/SignUp';
 import SignIn from '../pages/SignIn';
@@ -11,11 +10,14 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Gallery from '../pages/Gallery';
 import PageBookDetails from '../pages/PageBookDetails';
-import UserProfile from "../pages/UserProfile";
+import PriveteRouters from "./PriveteRouters";
+import { AppContext } from "../context/AppContext";
 
 function App() {
+  // context
+  let { currentUser } = useContext(AppContext)
+
   return (
-    <AppProvider>
       <BrowserRouter>
           <NavBar /> 
           <Switch>
@@ -24,12 +26,11 @@ function App() {
               <Route exact path='/signin' component={SignIn}/>
               <Route exact path='/gallery' component={Gallery}/>
               <Route exact path='/PageBookDetails' component={PageBookDetails}/>
-              <Route exact path='/UserProfile' component={UserProfile}/>
+              <PriveteRouters isAuth={currentUser}/>
               <Route component={NotFound}/>
           </Switch>
           <Footer /> 
       </BrowserRouter>
-    </AppProvider>
   );
 }
 
