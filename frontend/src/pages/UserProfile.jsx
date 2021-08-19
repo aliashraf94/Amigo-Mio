@@ -1,12 +1,15 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { AppContext } from '../context/AppContext';
+import iconUser from '../assets/icons/icons-user.png';
+import iconsChanges from '../assets/icons/icons-changes.png';
+import iconsBook from '../assets/icons/icons-book.png'
 
 const UserProfile = ()=> {
     // context
     let {currentUser} = useContext(AppContext);
 
     // state
-    let [dataUser, setDataUser] = useState([]);
+    let [dataUser, setDataUser] = useState(null);
 
     // Api
     let API_USER = 'http://localhost:4000/user/userProfile';
@@ -23,16 +26,41 @@ const UserProfile = ()=> {
             }
         })
             .then(res => res.json())
-            .then(data => setDataUser(data))
+            .then(data => setDataUser(data[0]))
             .catch(err => console.error(err))
-    }, []);
+    }, []); 
     console.log(dataUser)
 
     return (
         <>
-            <div>
-                <h2>{}</h2>
-            </div>
+            <center><h1>Welcome to Amigo Mio</h1></center>
+            {
+                dataUser ? (
+                    <>
+                        <div>
+                            <h4><img src={iconUser} alt="icon-user" width='30px' /> User Name: { dataUser.name.toUpperCase()}</h4>
+                        </div>
+                        <div>
+                            <h4>User {dataUser.is_admin ? 'admin' : 'regular'}</h4>
+                        </div>
+                    </>
+                ) : ( null )
+            }
+            <main>
+                <center>
+                    <section>
+                        <h3>Register book <img src={iconsBook} alt="icons-book" /></h3>
+                    </section>
+                    <section>
+                        <h3>Chance in your profile <img src={iconsChanges} alt="icons-changes" /></h3>
+                        <ul>
+                            <li>changeName</li>
+                            <li>changeEmail</li>
+                            <li>changePassword</li>
+                        </ul>
+                    </section>
+                </center>
+            </main>
         </>
     )
 };
