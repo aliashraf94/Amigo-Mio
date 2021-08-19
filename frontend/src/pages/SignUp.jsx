@@ -13,13 +13,6 @@ const SignUp = props => {
     // api
     const API = "http://localhost:4000/user/sign-up";
     
-    // useHistory
-    /* El gancho useHistory nos ayuda a acceder al objeto de historial, que
-    se usa para navegar programáticamente a otras rutas usando métodos de empujar y reemplazar
-    history.replace("/signin"); */
-    let history = useHistory();
-     useHistory();
-
     // functions
     const handleOnChange = event => {
         let id = event.target.id;
@@ -61,9 +54,7 @@ const SignUp = props => {
                 console.log(data)
                 if(data.accessToken) {
                     swal('User created successfully')
-                   /*props.history.push("/signin") */
-                   //Usando gancho useHistory 
-                    history.replace("/signin");
+                   props.history.push("/signin")  
                 }else {
                     swal(data.error)
                 }
