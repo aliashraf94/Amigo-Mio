@@ -1,5 +1,6 @@
 import React from "react";
 import Slides from '../components/Slides'
+import '../assets/styles/components/section.css'; 
 const Section = () => {
 
     return (

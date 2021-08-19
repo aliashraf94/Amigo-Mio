@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory  } from 'react-router-dom';
 import swal from 'sweetalert';
 
 
@@ -12,6 +12,13 @@ const SignUp = props => {
 
     // api
     const API = "http://localhost:4000/user/sign-up";
+    
+    // useHistory
+    /* El gancho useHistory nos ayuda a acceder al objeto de historial, que
+    se usa para navegar programáticamente a otras rutas usando métodos de empujar y reemplazar
+    history.replace("/signin"); */
+    let history = useHistory();
+    useHistory();
 
     // functions
     const handleOnChange = event => {
@@ -54,7 +61,8 @@ const SignUp = props => {
                 console.log(data)
                 if(data.accessToken) {
                     swal('User created successfully')
-                    props.history.push("/signin")
+                   /*  props.history.push("/signin") */
+                    history.replace("/signin");
                 }else {
                     swal(data.error)
                 }

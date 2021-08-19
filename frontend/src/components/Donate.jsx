@@ -1,6 +1,7 @@
 import React from "react";
 import donate_amic_meu from '../assets/images/donate_amic_meu.png';
 import { Link } from 'react-router-dom';
+import '../assets/styles/components/donate.css'
 
 const Donate = () => {
    

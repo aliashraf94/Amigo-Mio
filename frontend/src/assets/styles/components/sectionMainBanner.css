@@ -1,0 +1,61 @@
+
+.container-fluid {
+ 
+    padding-right: 0;
+    padding-left: 0;
+    
+  }
+  
+  .backgroundMain{
+    background: url(../../images/img_main.jpg);
+    width: 100%; 
+    height: 900px;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .cuadroparatextos{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height: 100%;
+    text-align: center;
+    color: aliceblue;
+    padding-bottom: 100px;
+  }
+  
+  .boton{
+    text-decoration:none;
+    font-weight: 300;
+    font-size: 1rem;
+    color: #000000bd;
+    padding-top:15px;
+    padding-bottom:15px;
+    padding-left:40px;
+    padding-right:40px;
+    background-color:#15D4BE;
+    border-radius:12px;
+   
+  }
+  
+  .cuadroparatextos .boton{
+    text-decoration: none;
+    font-weight: 1000;
+    margin-top: 2rem;
+  
+  }
+  
+   .cuadroparatextos   a:hover{ 
+     color: cornsilk;
+  }
+  
+
+  @media screen and (max-width: 500px) {
+    .backgroundMain {
+ 
+      height: max-content;
+      
+    }
+  }
