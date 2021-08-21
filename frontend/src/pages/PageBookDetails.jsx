@@ -11,20 +11,23 @@ const PageBookDetails = (props) => {
 
       // state
       let [bookcomment, setbookComment] = useState([]);
+      let [userCommentDetails, setUserCommentDetails] = useState([]);
   
-      // api 
-      let API = "http://localhost:4000/user/comments";
+        // api fetch comments  
+        let apiUsers = `http://localhost:4000/user/booksCommentsUser/${book.id}`;
   
-      useEffect(()=> {
-          fetch(API)
-              .then(res => res.json())
-              .then(data =>{ setbookComment(data)})
-              .catch(err => console.error(err.message))
-      }, []);
+        useEffect(()=> {
+            fetch(apiUsers)
+                .then(res => res.json())
+                .then(data =>{ setUserCommentDetails(data)}) 
+                .catch(err => console.error(err.message))
+        }, []);
+
+
+
 
     return (
     <div  className="">
-     { console.log(bookcomment)}
         <img className="" src={book.image_url} alt=""  />
         <div className="">
           <p className="">{book.title}  </p>
@@ -34,17 +37,20 @@ const PageBookDetails = (props) => {
         </div>
         <br></br>
         <h3>Comments:</h3>
-        <p>{bookcomment ?
-          (bookcomment.map(bookcommentDetail => {
-             if(bookcommentDetail.book_id == book.id)  {
-                    return <div>
-                              <p>{bookcommentDetail.comment}</p> 
-                              <p>User: {bookcommentDetail.user_id}</p>
-                          </div>
-             }
-           })) 
-          :
-          (<p>Loading...</p>)}</p>
+        <div>{userCommentDetails ?
+              (userCommentDetails.map((bookcommentDetail, index) => {
+                        return <div key={index}>
+                                  <p>-------------------------------------------------</p>
+                                  <h5>User</h5>
+                                  <p> {bookcommentDetail.name}</p>
+                                  <h5>Comment:</h5>
+                                  <p> {bookcommentDetail.comment}</p> 
+                                  <p>-------------------------------------------------</p>
+                              </div>
+              })) 
+              :
+              (<span>Loading...</span>)}
+         </div>
       </div>
     )
 };
