@@ -253,6 +253,27 @@ router.post("/uploadBook" , authenticate, (req, res) => {
 
 })
 
+router.get("/userFavourite", authenticate, (req,res)=>{
+  const userId = req.user.id
+
+  pool
+    .query(`SELECT * FROM favorites where id=${userId} `)
+    .then((result) => res.json(result.rows))
+    .catch((e) => console.error(e));
+
+})
+
+router.post("/addFavourite", authenticate, (req, res)=>{
+  const userId = req.user.id
+  const bookId = req.body.id
+  const query = "INSERT INTO favorites (user_id, book_id) values ($1, $2);"
+  const values = [userId, bookId]
+  pool
+  .query(query, values)
+  .then(() => res.status(200).send("Selected book is added as your favourite."))
+  .catch((e) => console.error(e));
+})
+
 
 
 
