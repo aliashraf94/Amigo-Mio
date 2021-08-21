@@ -138,7 +138,6 @@ router.get("/allusers", authenticate, async (req, res) => {
     .query("SELECT * FROM users")
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
-
 })
 
 router.get("/userProfile", authenticate, async (req, res) => {
@@ -150,6 +149,21 @@ router.get("/userProfile", authenticate, async (req, res) => {
     .catch((e) => console.error(e));
 
 })
+
+router.get("/booksCommentsUser/:bookId", function(req, res) {
+  const bookId =   parseInt(req.params.bookId) ;
+  const queryBooksCommentsUserId = `SELECT name, comment FROM users JOIN  comments ON users.id=comments.user_id JOIN books ON books.id=comments.book_id WHERE books.id =  $1`
+  if(!isNaN(bookId) && bookId > 0 ){ 
+    pool
+        .query(queryBooksCommentsUserId, [bookId])
+        .then((result) => res.json(result.rows))
+        .catch((e) => console.error(e))
+  }else{
+    res.send(`The value ${req.params.bookId} is not a number`)
+  }
+})
+ 
+
 
 router.get("/allbooks", async (req, res) => {
 
