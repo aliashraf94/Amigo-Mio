@@ -1,7 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useContext} from 'react';
+import { AppContext } from '../context/AppContext';
+import FormBookComment from '../components/FormBookComment'
 
 
 const PageBookDetails = (props) => {
+
+   // context
+   let {currentUser} = useContext(AppContext);
 
 /*   We use <Link to = {{pathname: '/ PageBookDetails', state: {foo: result}}}> 
   from CarouselItem.jsx and the way to share code from a <Link to = {} </Link> 
@@ -10,7 +15,6 @@ const PageBookDetails = (props) => {
     const {book} = props.location.state
 
       // state
-      let [bookcomment, setbookComment] = useState([]);
       let [userCommentDetails, setUserCommentDetails] = useState([]);
   
         // api fetch comments  
@@ -22,6 +26,9 @@ const PageBookDetails = (props) => {
                 .then(data =>{ setUserCommentDetails(data)}) 
                 .catch(err => console.error(err.message))
         }, []);
+
+
+        
 
 
 
@@ -46,11 +53,13 @@ const PageBookDetails = (props) => {
                                   <h5>Comment:</h5>
                                   <p> {bookcommentDetail.comment}</p> 
                                   <p>-------------------------------------------------</p>
+                                  {console.log(currentUser)}
                               </div>
               })) 
               :
               (<span>Loading...</span>)}
          </div>
+      {   currentUser &&  <FormBookComment />    }
       </div>
     )
 };
