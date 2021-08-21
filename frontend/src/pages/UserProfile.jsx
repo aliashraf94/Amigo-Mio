@@ -13,8 +13,6 @@ const UserProfile = ()=> {
 
     // Api
     let API_USER = 'http://localhost:4000/user/userProfile';
-    let API_C_NAME = 'http://localhost:4000/user/changeUsername';
-    let API_C_EMAIL = 'http://localhost:4000/user/changeEmail';
     let API_C_PASSWORD = 'http://localhost:4000/user/changePassword';
     let API_ALL_USERS = 'http://localhost:4000/user/allusers';
 
@@ -28,8 +26,8 @@ const UserProfile = ()=> {
             .then(res => res.json())
             .then(data => setDataUser(data[0]))
             .catch(err => console.error(err))
-    }, []); 
-    console.log(dataUser)
+    }, [currentUser]); 
+    // console.log(JSON.parse(localStorage.getItem('jwt')))
 
     return (
         <>
@@ -38,7 +36,7 @@ const UserProfile = ()=> {
                 dataUser ? (
                     <>
                         <div>
-                            <h4><img src={iconUser} alt="icon-user" width='30px' /> User Name: { dataUser.name.toUpperCase()}</h4>
+                            <h4><img src={iconUser} alt="icon-user" width='30px' /> User Name: { dataUser.name}</h4>
                         </div>
                         <div>
                             <h4>User {dataUser.is_admin ? 'admin' : 'regular'}</h4>

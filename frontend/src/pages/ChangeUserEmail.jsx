@@ -1,26 +1,23 @@
-import React,{useState} from 'react';
-import { Link} from 'react-router-dom';
+import React, {useState} from 'react';
+import { Link } from 'react-router-dom';
+import '../assets/styles/pages/signUpAndSingIn.css';
+import iconsChange from '../assets/icons/icons-changes.png';
 import swal from 'sweetalert';
 
-
-const SignUp = props => {
+const ChangeUserEmail = (props)=> {
     // state
-    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const setState = [setName, setEmail, setPassword];
+    const setState = [setEmail, setPassword];
 
     // api
-    const API = "http://localhost:4000/user/sign-up";
+    let API_C_EMAIL = 'http://localhost:4000/user/changeEmail';
     
     // functions
     const handleOnChange = event => {
         let id = event.target.id;
         let value = event.target.value;
         switch (id) {
-            case "name":
-                setName(value)
-                break;
             case "email":
                 setEmail(value)
                 break;
@@ -37,15 +34,15 @@ const SignUp = props => {
         event.preventDefault();
 
         const newUser = {
-            "name": name,
             "email": email,
             "password": password
         };
-        // console.log(newUser)
-        fetch(API, {
-            method: 'POST', 
+        console.log(newUser)
+        fetch(API_C_EMAIL, {
+            method: 'PATCH', 
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt'))}`
             },
             body: JSON.stringify(newUser)
         })
@@ -62,23 +59,15 @@ const SignUp = props => {
             .catch(err => swal(err.message) );
 
         setState.forEach(state => state(""))
-    }
+    };
 
-    return(
+    return (
         <main className="main-sign-up">
             <div className="div-sign-up">
-                <center><h1>Register With Us</h1></center>
+                <center><h1>Email Change <img src={iconsChange} alt='icons-change' width='30px'/></h1></center>
                 <form onSubmit={handleOnSubmit}>
                     <div className="mb-3">
-                        <label  className="form-label">Name</label>
-                        <input onChange={handleOnChange} type="text" 
-                               className="form-control" id="name"
-                               maxLength="50"
-                               minLength="1" 
-                               placeholder="name" value={name} autoComplete="on"/>
-                    </div>
-                    <div className="mb-3">
-                        <label  className="form-label">Email</label>
+                        <label  className="form-label">New Email</label>
                         <input onChange={handleOnChange} type="email" 
                                className="form-control" id="email"
                                maxLength="256"  
@@ -93,10 +82,10 @@ const SignUp = props => {
                                placeholder="passsword" value={password} autoComplete="on"/>
                     </div>
                     <div className="mb-4">
-                        <button className="btn form-control" type="submit">Submit</button>
+                        <button className="btn form-control" type="submit">Change</button>
                     </div>
                     <div className="mb-3">
-                        <center>Already hace an count? <Link to="/signin">Login</Link></center> 
+                        <center>Go Back!!! <Link to="/userProfile">Profile</Link></center> 
                     </div>
                 </form>
             </div>
@@ -104,4 +93,4 @@ const SignUp = props => {
     );
 };
 
-export default SignUp;
+export default ChangeUserEmail;

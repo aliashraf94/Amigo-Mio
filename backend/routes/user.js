@@ -195,7 +195,7 @@ router.patch("/changeUsername", authenticate, (req, res) => {
   const query = `UPDATE users set name=$1 where id=$2`
   pool
   .query(query, [name, id])
-  .then(() => res.status(200).send("Username is updated"))
+  .then(() => res.status(200).send({Username:"Username is updated"}))
   .catch((e) => console.error(e));
 
 })

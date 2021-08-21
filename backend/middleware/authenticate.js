@@ -5,6 +5,7 @@ const user = require("../routes/user");
 const authenticate = async (req, res, next) => {
     // console.log(req.header("authorization"))
     let token = await req.header("authorization");
+
     if(!token) {
         return res.status(403).send({message: "Authorization Denied", isAutheticated: false})
     }
