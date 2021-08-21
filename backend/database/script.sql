@@ -115,7 +115,8 @@ INSERT INTO comments (user_id, book_id, comment) VALUES (10, 4,
 
 
 INSERT INTO books (title, descriptoin, views,image_url, format, user_id, approved, likes, suggest_age) 
-VALUES ('The Lightless Sky by Gulwali Passarlay (2016)', 
+VALUES ('The Lightless Sky by Gulwali Passarlay (20\
+16)', 
 'More on children, The Lightless Sky is an auto-memoir of a 12-year-old Afghan boy who was forced to flee Afghanistan, only accompanied by his 13-year-old brother to seek safety in another country. The book highlights the topic of children’s trauma in the context of forced migration, especially in armed conflict situations. Gulwali, in fact, sheds light in the book on his trauma as result of the horrific events he had lived because of the Taliban, the fact that both his father and grandfather were killed and the emotional and psychological state of his mother in the midst of all these incidents. Added to that, he is eventually separated from his brother, the closest person he still had at the time.
 Before he finally finds refuge in the UK, the book takes us through the very difficult journey from Afghanistan to Bulgaria, Turkey, Greece, Calais…with a detailed description of the emotional experiences of an unaccompanied minor seeking asylum.',
 27, 'https://images-production.bookshop.org/spree/images/attachments/4325825/original/9780062443892.jpg',
