@@ -4,6 +4,7 @@ import facebook from '../assets/images/facebook.png';
 import instagram from '../assets/images/instagram.png';
 import youtube from '../assets/images/youtube.png';
 import linkedi from '../assets/images/linkedi.png';
+import '../assets/styles/components/footer.css'
        
    
 const Footer = () => {

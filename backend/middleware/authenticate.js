@@ -3,16 +3,17 @@ require("dotenv").config();
 const user = require("../routes/user");
 
 const authenticate = async (req, res, next) => {
-    console.log(req.header("authorization"))
+    // console.log(req.header("authorization"))
     let token = await req.header("authorization");
     if(!token) {
         return res.status(403).send({message: "Authorization Denied", isAutheticated: false})
     }
 
     token = token.split(" ")[1] 
+    // console.log(token)
     try {
         const verify = jwt.verify(token, process.env.jwtSecret)
-        console.log(verify)
+        // console.log(verify)
         req.user = verify.user;
         next();
     } catch (error) {
