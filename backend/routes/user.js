@@ -255,9 +255,12 @@ router.post("/uploadBook" , authenticate, (req, res) => {
 
 router.get("/userFavourite", authenticate, (req,res)=>{
   const userId = req.user.id
+  // const bookId = req.body.book_id
+  const query = "Select  favorites.book_id, books.title, books.descriptoin, books.image_url, books.suggest_age from books inner join favorites on favorites.book_id = books.id inner join users on users.id = favorites.user_id where favorites.user_id = $1 "
+  const values = [userId]
 
   pool
-    .query(`SELECT * FROM favorites where id=${userId} `)
+    .query(query, values)
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
 
@@ -265,12 +268,24 @@ router.get("/userFavourite", authenticate, (req,res)=>{
 
 router.post("/addFavourite", authenticate, (req, res)=>{
   const userId = req.user.id
-  const bookId = req.body.id
+  const bookId = req.body.book_id
   const query = "INSERT INTO favorites (user_id, book_id) values ($1, $2);"
   const values = [userId, bookId]
   pool
   .query(query, values)
-  .then(() => res.status(200).send("Selected book is added as your favourite."))
+  .then(() => res.status(200).send("Selected book is added as your favourites."))
+  .catch((e) => console.error(e));
+})
+
+
+router.delete("/removeFavourite", authenticate, (req, res)=>{
+  const userId = req.user.id
+  const bookId = req.body.book_id
+  const query = "DELETE FROM favorites where user_id=$1 and book_id=$2;"
+  const values = [userId, bookId]
+  pool
+  .query(query, values)
+  .then(() => res.status(200).send("Selected book is removed from your favourites."))
   .catch((e) => console.error(e));
 })
 
