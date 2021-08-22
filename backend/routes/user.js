@@ -150,6 +150,7 @@ router.get("/userProfile", authenticate, async (req, res) => {
 
 })
 
+//This endpoint gives information about the user and the comment made to the book.
 router.get("/booksCommentsUser/:bookId", function(req, res) {
   const bookId =   parseInt(req.params.bookId) ;
   const queryBooksCommentsUserId = `SELECT name, comment FROM users JOIN  comments ON users.id=comments.user_id JOIN books ON books.id=comments.book_id WHERE books.id =  $1`
@@ -162,6 +163,16 @@ router.get("/booksCommentsUser/:bookId", function(req, res) {
     res.send(`The value ${req.params.bookId} is not a number`)
   }
 })
+
+// INSERT DATA IN order_items
+router.post("/commentInsert", (req, res) =>{
+  //Desestructuración
+  const {user_id, book_id, comment  } = req.body
+  const insertDates = "INSERT INTO comment (user_id, book_id, comment) VALUES ($1, $2, $3) "
+  pool.query(insertDates, [user_id, book_id, comment])
+     .then(() => res.send("New comment!") )
+     .catch(e => {res.send(e); console.log(e) })
+})  
  
 
 
