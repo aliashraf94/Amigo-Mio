@@ -196,6 +196,7 @@ router.patch("/changeEmail", authenticate, (req, res) => {
 })
 
 router.patch("/changeUsername", authenticate, (req, res) => {
+  console.log(req.user.id);
   const id = req.user.id
   const name = req.body.name;
   const query = `UPDATE users set name=$1 where id=$2`
@@ -228,6 +229,49 @@ router.delete("/deleteAccount", authenticate, (req, res) => {
     .catch((e) => console.error(e));
   // Bug: If user is connected to other tables we should receive that error.
 
+})
+
+
+router.post("/uploadBook" , authenticate, (req, res) => {
+  
+  const newBook = {
+    title: req.body.title,
+    description: req.body.description,
+    img_url: req.body.img_url,
+    format: req.body.format,
+    user_id: req.user.id,
+    suggest_age: req.body.suggest_age
+  };
+
+  const query = "INSERT INTO books (title, descriptoin,image_url, format, user_id, suggest_age)  VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
+  const values = [newBook.title, newBook.description, newBook.img_url, newBook.format, newBook.user_id, newBook.suggest_age]
+  pool
+  .query(query, values)
+  .then(() => res.status(200).send("Book is uploaded"))
+  .catch((e) => console.error(e));
+
+
+})
+
+router.get("/userFavourite", authenticate, (req,res)=>{
+  const userId = req.user.id
+
+  pool
+    .query(`SELECT * FROM favorites where id=${userId} `)
+    .then((result) => res.json(result.rows))
+    .catch((e) => console.error(e));
+
+})
+
+router.post("/addFavourite", authenticate, (req, res)=>{
+  const userId = req.user.id
+  const bookId = req.body.id
+  const query = "INSERT INTO favorites (user_id, book_id) values ($1, $2);"
+  const values = [userId, bookId]
+  pool
+  .query(query, values)
+  .then(() => res.status(200).send("Selected book is added as your favourite."))
+  .catch((e) => console.error(e));
 })
 
 
