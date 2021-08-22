@@ -13,79 +13,71 @@ const ONEDAY = 86400;
 // create a new user with the give email, name, and hashed password
 router.post("/sign-up", (req, res) => {
 
+  const lowerCaseName = req.body.name.toLowerCase();
   const lowerCaseEmail = req.body.email.toLowerCase();
-  const newUser = {
-    name: req.body.name,
-    email: lowerCaseEmail,
-    password: bcrypt.hashSync(req.body.password, 8)
+  const findUser = {
+    name: lowerCaseName,
+    email: lowerCaseEmail
   };
 
-  // const queryEmail = `select * from users where email=${newUser.email}`
-  // console.log(newUser.email);
-  // pool
-  // .query(`select * from users where email=${newUser.email}`)
-  // .then((result) => {
-  //   res.json(result.rows)
-  //   console.log(",,,,,,,,,,,sdjfkasjdhfgkajsbdjkahsgbjkhgasjh,,,,,,",result.rows.length);
-  // })
-  // .catch((e) => console.error(e));
-
-  // const query = `
-  // INSERT INTO users(name, email, password) 
-  // VALUES($1,$2,$3) RETURNING *`;
-  // const values = [newUser.name, newUser.email, newUser.password];
-
-  const queryEmail = "select * from users where email=$1"
-  const value = [newUser.email];
+  const valuesFind = [findUser.name, findUser.email]
+  const queryFind = `
+  SELECT * FROM users WHERE name = $1 OR email = $2`;
 
   pool.connect((error, client, release) => {
     if (error) {
       return console.error('Error acquiring client', error.stack)
     }
-    client.query(queryEmail, value, (err, result) => {
-
+    client.query(queryFind, valuesFind, (err, result) => {
       release();
       if (err) {
         console.log(err.message);
         return res.status(400).json({ err });
       }
+      const user = result.rows[0];
+      if (!user) {
 
-      if (result.rows.length > 0) {
-        return res.status(400).send({error:"A user with the same email already exists!"});
-      }
-    })
+        const newUser = {
+          name: req.body.name,
+          email: lowerCaseEmail,
+          password: bcrypt.hashSync(req.body.password, 8)
+        };
 
         const query = "INSERT INTO users(name, email, password) VALUES($1,$2,$3) RETURNING *";
         const values = [newUser.name, newUser.email, newUser.password];
 
-        pool.connect((error, client, release) => {
-          if (error) {
-            return console.error('Error acquiring client', error.stack)
+        client.query(query, values, (err, result) => {
+          // release();
+          if (err) {
+            console.log(err.message);
+            return res.status(400).json({ err });
           }
-          client.query(query, values, (err, result) => {
-            release();
-            if (err) {
-              console.log(err.message);
-              return res.status(400).json({ err });
-            }
-            // const user = result.rows[0];
-            // const token = jwt.sign(
-            //   { id: user.id }, 
-            //   process.env.jwtSecret, 
-            //   { expiresIn: ONEDAY }
-            // );
-            const jwtToken = generateJWT(newUser.id);
+          const user = result.rows[0];
+          const token = jwt.sign(
+            { id: user.id },
+            process.env.jwtSecret,
+            { expiresIn: ONEDAY }
+          );
+          const jwtToken = generateJWT(newUser.id);
 
-            return res.status(200).send({
-              isAuth: true,
-              accessToken: jwtToken
-            });
+          return res.status(200).send({
+            isAuth: true,
+            accessToken: jwtToken
           });
         });
-    });
+      } else if (user.name.toLowerCase() === findUser.name && user.email === findUser.email) {
+        res.status(400).send({ message: "Failed! Name and Email are already in use!" });
+        return;
+      } else if (user.name.toLowerCase() === findUser.name) {
+        res.status(400).send({ message: "Failed! Name is already in use!" });
+        return;
+      } else if (user.email === findUser.email) {
+        res.status(400).send({ message: "Failed! Email is already in use!" });
+        return;
+      } 
+    })
   });
-
-
+});
 
 // sign in with user given email and password
 router.post("/sign-in", async (req, res) => {
@@ -138,7 +130,6 @@ router.get("/allusers", authenticate, async (req, res) => {
     .query("SELECT * FROM users")
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
-
 })
 
 router.get("/userProfile", authenticate, async (req, res) => {
@@ -150,6 +141,21 @@ router.get("/userProfile", authenticate, async (req, res) => {
     .catch((e) => console.error(e));
 
 })
+
+router.get("/booksCommentsUser/:bookId", function (req, res) {
+  const bookId = parseInt(req.params.bookId);
+  const queryBooksCommentsUserId = `SELECT name, comment FROM users JOIN  comments ON users.id=comments.user_id JOIN books ON books.id=comments.book_id WHERE books.id =  $1`
+  if (!isNaN(bookId) && bookId > 0) {
+    pool
+      .query(queryBooksCommentsUserId, [bookId])
+      .then((result) => res.json(result.rows))
+      .catch((e) => console.error(e))
+  } else {
+    res.send(`The value ${req.params.bookId} is not a number`)
+  }
+})
+
+
 
 router.get("/allbooks", async (req, res) => {
 
@@ -183,9 +189,9 @@ router.patch("/changeEmail", authenticate, (req, res) => {
   const email = req.body.email.toLowerCase();
   const query = `UPDATE users set email=$1 where id=$2`
   pool
-  .query(query, [email, id])
-  .then(() => res.status(200).send("Email is updated"))
-  .catch((e) => console.error(e));
+    .query(query, [email, id])
+    .then(() => res.status(200).send({userEmail:"Email is updated"}))
+    .catch((e) => console.error(e));
 
 })
 
@@ -205,9 +211,9 @@ router.patch("/changePassword", authenticate, (req, res) => {
   const password = bcrypt.hashSync(req.body.password, 8)
   const query = `UPDATE users set password=$1 where id=$2`
   pool
-  .query(query, [password, id])
-  .then(() => res.status(200).send("Password is updated"))
-  .catch((e) => console.error(e));
+    .query(query, [password, id])
+    .then(() => res.status(200).send("Password is updated"))
+    .catch((e) => console.error(e));
 
 })
 
@@ -217,9 +223,9 @@ router.delete("/deleteAccount", authenticate, (req, res) => {
   // const id = 15
   const query = `DELETE FROM users WHERE id=$1`
   pool
-  .query(query, [id])
-  .then(() => res.status(200).send("The account is deleted"))
-  .catch((e) => console.error(e));
+    .query(query, [id])
+    .then(() => res.status(200).send("The account is deleted"))
+    .catch((e) => console.error(e));
   // Bug: If user is connected to other tables we should receive that error.
 
 })

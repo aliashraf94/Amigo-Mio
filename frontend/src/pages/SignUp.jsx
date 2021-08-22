@@ -51,12 +51,12 @@ const SignUp = props => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 if(data.accessToken) {
                     swal('User created successfully')
                    props.history.push("/signin")  
                 }else {
-                    swal(data.error)
+                    swal(data.message)
                 }
             })
             .catch(err => swal(err.message) );

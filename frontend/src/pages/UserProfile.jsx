@@ -3,6 +3,7 @@ import { AppContext } from '../context/AppContext';
 import iconUser from '../assets/icons/icons-user.png';
 import iconsChanges from '../assets/icons/icons-changes.png';
 import iconsBook from '../assets/icons/icons-book.png'
+import { Link } from 'react-router-dom';
 
 const UserProfile = ()=> {
     // context
@@ -52,9 +53,9 @@ const UserProfile = ()=> {
                     <section>
                         <h3>Chance in your profile <img src={iconsChanges} alt="icons-changes" /></h3>
                         <ul>
-                            <li>changeName</li>
-                            <li>changeEmail</li>
-                            <li>changePassword</li>
+                            <li><Link to='/changeUserName'>hangeName</Link></li>
+                            <li><Link to='/changeUserEmail'>changeEmail</Link></li>
+                            <li><Link to='/changeUserPassword'>changePassword</Link></li>
                         </ul>
                     </section>
                 </center>

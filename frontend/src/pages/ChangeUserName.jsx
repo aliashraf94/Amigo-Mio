@@ -60,7 +60,7 @@ const ChangeUserName = (props)=> {
          })
              .then(res => res.json())
              .then(data => {
-                 console.log(data)
+                //  console.log(data)
                  if(data) {
                      swal(data.Username)
                      setCurrentUser(true)
