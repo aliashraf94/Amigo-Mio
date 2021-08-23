@@ -4,7 +4,7 @@ import FormBookComment from '../components/FormBookComment'
 
 
 const PageBookDetails = (props) => {
-  const [BookingsFetcher, setBookingsFetcher] = useState([]);
+  const [newComment, setNewComment] = useState([]);
 
    // context
    let {currentUser} = useContext(AppContext);
@@ -25,27 +25,16 @@ console.log(currentUser)
                 .then(res => res.json())
                 .then(data =>{ setUserCommentDetails(data)}) 
                 .catch(err => console.error(err.message))
-        }, [BookingsFetcher]);
-
-
-
+        }, [newComment]);
 
   /* Getting data from the Form FormBookComment   */ 
   const GetPropsFormData = valores => {
 
-    let dataComment
-    console.info([valores]);
-    console.log(valores)
-
-
-    setBookingsFetcher(valores)
-    console.log( typeof valores)
-
     let getuserInformation
-    console.warn(valores)
     getuserInformation = localStorage.getItem('userInformation');
     let userInformation = JSON.parse(getuserInformation)
-    
+    setNewComment(valores)
+
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -59,24 +48,7 @@ console.log(currentUser)
       .catch((error) => {
         console.error(error);
       });
-    /*   
-    fetch('http://localhost:4000/user/commentInsert', {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({"user_id": userInformation[0].id, "book_id":  book.id , "comment": valores})
-     })
-     .then((response) => response.json())
-     .then((responseJson) => {
-       return responseJson.movies;
-     })
-     .catch((error) => {
-       console.error(error);
-     });
-   */
    
-   
-   
-
   };
 
     return (

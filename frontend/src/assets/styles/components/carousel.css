@@ -1,6 +1,6 @@
 .carousel {
   height: 25em;
-  overflow:auto;
+  /* overflow:auto; */
   padding-left: 5%;
   padding-bottom: 5%;
   padding-right: 5%;
