@@ -140,25 +140,12 @@ router.get("/allusers", authenticate, async (req, res) => {
     .catch((e) => console.error(e));
 })
 
-/* To store some sensitive information through localstorage in 
-frontEnd but always using the token and its authenticate for security */
-router.get("/allusers/:emailUser", authenticate, async (req, res) => {
-  const emailUser =  req.params.emailUser;
-  const query = `SELECT name , id FROM users WHERE email =  $1` 
-  pool
-    .query(query, [emailUser] )
-    .then((result) => res.json(result.rows))
-    .catch((e) => console.error(e));
-})  
-
-
-
 
 router.get("/userProfile", authenticate, async (req, res) => {
   const id = req.user.id
   // console.log(id);
   pool
-    .query(`SELECT * FROM users where id=${id}`)
+    .query(`SELECT id, name, email, is_admin FROM users where id=${id}`)
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
 
