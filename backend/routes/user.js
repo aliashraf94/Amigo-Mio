@@ -148,13 +148,13 @@ router.get("/userProfile", authenticate, async (req, res) => {
     .query(`SELECT id, name, email, is_admin FROM users where id=${id}`)
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
-
+ 
 })
 
 //This endpoint gives information about the user and the comment made to the book.
-router.get("/booksCommentsUser/:bookId", function(req, res) {
+router.get("/booksCommentsUser/:bookId", function(req, res) { 
   const bookId =   parseInt(req.params.bookId) ;
-  const queryBooksCommentsUserId = `SELECT name, comment FROM users JOIN  comments ON users.id=comments.user_id JOIN books ON books.id=comments.book_id WHERE books.id =  $1 order by comments.id desc`
+  const queryBooksCommentsUserId = `SELECT users.name, comments.user_id, comments.comment, comments.id FROM users JOIN  comments ON users.id=comments.user_id JOIN books ON books.id=comments.book_id WHERE books.id =  $1 order by comments.id desc`
   if(!isNaN(bookId) && bookId > 0 ){ 
     pool
         .query(queryBooksCommentsUserId, [bookId])
@@ -204,7 +204,18 @@ router.get("/comments", async (req, res) => {
 
 })
 
-router.patch("/changeEmail", authenticate, (req, res) => {
+
+router.delete("/deleteComments/:id", authenticate, (req, res) => {
+  const id =   parseInt(req.params.id)  
+  // const id = 15 
+  const query = `DELETE FROM comments WHERE id=$1`
+  pool
+    .query(query, [id])
+    .then(() => res.status(200).send({ message: "delete" }) )
+    .catch((e) => res.status(400).send({ message: e }) )
+})
+
+router.patch("/changeEmail", authenticate, (req, res) => { 
   const id = req.user.id
   const email = req.body.email.toLowerCase();
   const query = `UPDATE users set email=$1 where id=$2`
