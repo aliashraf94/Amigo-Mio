@@ -16,13 +16,6 @@ let Gallery = ()=> {
          token = localStorage.getItem('userInformation');
     }, 300);
 
-    setTimeout(function() {
-        let ffg = JSON.parse(token)
-        console.log(ffg[0])
-    }, 3000);
-
-  
-
     // context
     let {currentUser} = useContext(AppContext);
     // state
