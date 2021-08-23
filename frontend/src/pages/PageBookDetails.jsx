@@ -3,7 +3,7 @@ import { AppContext } from '../context/AppContext';
 import FormBookComment from '../components/FormBookComment'
 import getUserDetails from '../function/getUserDetails.js';
 
-const PageBookDetails = (props) => {
+const PageBookDetails = (props) => { 
 
 
    // context
@@ -35,7 +35,7 @@ const PageBookDetails = (props) => {
   const GetPropsFormData = valores => {
 
     setInputComment(valores)
-    
+
     /* Ensuring to obtain user information in the state */
     const validationUserInformation = async () =>{
       const requestAut = await  getUserDetails() 
