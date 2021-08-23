@@ -4,8 +4,7 @@ import FormBookComment from '../components/FormBookComment'
 import getUserDetails from '../function/getUserDetails.js';
 
 const PageBookDetails = (props) => {
-  const [newComment, setNewComment] = useState([]);
-  let [dataUser, setDataUser] = useState([]);
+
 
    // context
    let {currentUser} = useContext(AppContext);
@@ -17,9 +16,14 @@ const PageBookDetails = (props) => {
 
       // state
       let [userCommentDetails, setUserCommentDetails] = useState([]);
-        // api fetch comments  
-        let API_BOOKS_COMMENTS = `http://localhost:4000/user/booksCommentsUser/${book.id}`;
-        let API_COMMENT_USER = 'http://localhost:4000/user/commentInsert'
+      let [inputComment, setInputComment] = useState([]);
+      let [newComment, setNewComment] = useState([]);
+      let [dataUser, setDataUser] = useState([]);
+
+      // api fetch comments  
+      let API_BOOKS_COMMENTS = `http://localhost:4000/user/booksCommentsUser/${book.id}`;
+      let API_COMMENT_USER = 'http://localhost:4000/user/commentInsert'
+
         useEffect(()=> {
             fetch(API_BOOKS_COMMENTS)
                 .then(res => res.json())
@@ -30,20 +34,23 @@ const PageBookDetails = (props) => {
   /* Getting data from the Form FormBookComment   */ 
   const GetPropsFormData = valores => {
 
-    let validationUserInformation= async () =>{
-      let requestAut = await  getUserDetails()
-      setDataUser(requestAut )
+    setInputComment(valores)
+    
+    /* Ensuring to obtain user information in the state */
+    const validationUserInformation = async () =>{
+      const requestAut = await  getUserDetails() 
+      setDataUser(requestAut)
   }
-
   validationUserInformation()
-    console.log(dataUser)
- 
+  };
+
+  const   fetchComments =  ()  => {
     const requestOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({user_id: dataUser[0].id, book_id:  book.id , comment: valores})
+      body: JSON.stringify({user_id: dataUser[0].id, book_id:  book.id , comment: inputComment})
   };
 
   fetch(API_COMMENT_USER, requestOptions)
@@ -52,8 +59,12 @@ const PageBookDetails = (props) => {
       .catch((error) => {
         console.error(error);
       });
-   
-  };
+    
+  }
+
+  useEffect(()=> {
+    dataUser.length > 0 && fetchComments()
+  }, [dataUser]);
 
     return (
     <div  className="">
