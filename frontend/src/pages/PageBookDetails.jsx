@@ -4,10 +4,11 @@ import FormBookComment from '../components/FormBookComment'
 
 
 const PageBookDetails = (props) => {
+  const [BookingsFetcher, setBookingsFetcher] = useState([]);
 
    // context
    let {currentUser} = useContext(AppContext);
-
+console.log(currentUser)
 /*   We use <Link to = {{pathname: '/ PageBookDetails', state: {foo: result}}}> 
   from CarouselItem.jsx and the way to share code from a <Link to = {} </Link> 
   is using const { book} = props.location.state */
@@ -16,7 +17,6 @@ const PageBookDetails = (props) => {
 
       // state
       let [userCommentDetails, setUserCommentDetails] = useState([]);
-  
         // api fetch comments  
         let apiUsers = `http://localhost:4000/user/booksCommentsUser/${book.id}`;
   
@@ -25,13 +25,59 @@ const PageBookDetails = (props) => {
                 .then(res => res.json())
                 .then(data =>{ setUserCommentDetails(data)}) 
                 .catch(err => console.error(err.message))
-        }, []);
-
-
-        
+        }, [BookingsFetcher]);
 
 
 
+
+  /* Getting data from the Form FormBookComment   */ 
+  const GetPropsFormData = valores => {
+
+    let dataComment
+    console.info([valores]);
+    console.log(valores)
+
+
+    setBookingsFetcher(valores)
+    console.log( typeof valores)
+
+    let getuserInformation
+    console.warn(valores)
+    getuserInformation = localStorage.getItem('userInformation');
+    let userInformation = JSON.parse(getuserInformation)
+    
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({user_id: userInformation[0].id, book_id:  book.id , comment: valores})
+  };
+  fetch('http://localhost:4000/user/commentInsert', requestOptions)
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch((error) => {
+        console.error(error);
+      });
+    /*   
+    fetch('http://localhost:4000/user/commentInsert', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({"user_id": userInformation[0].id, "book_id":  book.id , "comment": valores})
+     })
+     .then((response) => response.json())
+     .then((responseJson) => {
+       return responseJson.movies;
+     })
+     .catch((error) => {
+       console.error(error);
+     });
+   */
+   
+   
+   
+
+  };
 
     return (
     <div  className="">
@@ -43,7 +89,7 @@ const PageBookDetails = (props) => {
           <p className="">Descriptoin: {book.descriptoin} </p>
         </div>
         <br></br>
-        <h3>Comments:</h3>
+        <h3>{userCommentDetails.length >= 1   ?  ("Comments") : ("No comments have been made, be the first to comment on this book!") }</h3> 
         <div>{userCommentDetails ?
               (userCommentDetails.map((bookcommentDetail, index) => {
                         return <div key={index}>
@@ -59,7 +105,7 @@ const PageBookDetails = (props) => {
               :
               (<span>Loading...</span>)}
          </div>
-      {   currentUser &&  <FormBookComment />    }
+      {   currentUser &&  <FormBookComment sendFuntion={GetPropsFormData} />}
       </div>
     )
 };
