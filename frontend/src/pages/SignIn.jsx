@@ -62,15 +62,6 @@ const SignIn = props => {
                     swal('Login successfully')
                     setCurrentUser(JSON.parse(data.isAuth))
                     
-
-                    let validationUserInformation= async () =>{
-                        let requestAut = await  getUserDetails(data.accessToken, email)
-                        console.log(requestAut)
-                         localStorage.setItem('userInformation', JSON.stringify(requestAut))
-                         
-                    }
-                    validationUserInformation()
-                  
                     props.history.push("/")
                 }else {
                     swal('Error user or password do no exist')

@@ -1,33 +1,17 @@
 
 // Authorization": "Bearer"
 
-const getUserDetails= (token, emailUser)  => new Promise(function(resolve) {
-
-    let apiUsers = `/user/allusers/${emailUser}`;
- 
-    fetch(apiUsers, {
-      method: 'GET',
+const getUserDetails= ()  => new Promise(function(resolve) {  
+  let API_USER = 'http://localhost:4000/user/userProfile';
+  fetch(API_USER, {
+      method: 'Get',
       headers: {
-          "Authorization": `Bearer ${token}`
+          authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt'))}`
       }
-  }) 
-    .then(res => {
-      if (!res) {
-        throw new Error(`HTTP error ! status : ${res.ok}`);
-      } else {
-        return res.json();
-      }
-    }) 
-    .then(data => {
-      if(!data.error){
-        resolve(data)
-        console.log(data)
-      }else{
-        console.log(data)
-        resolve(data.error)
-      }
-    })
-    .catch(e => console.log(e));   
+  })
+      .then(res => res.json())
+      .then(data => resolve(data))
+      .catch(err => console.error(err)) 
   })
   
   
