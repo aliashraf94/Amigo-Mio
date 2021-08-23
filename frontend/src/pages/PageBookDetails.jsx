@@ -19,10 +19,19 @@ const PageBookDetails = (props) => {
       let [inputComment, setInputComment] = useState([]);
       let [newComment, setNewComment] = useState([]);
       let [dataUser, setDataUser] = useState([]);
-
+      let [isAdmin, setIsAdmin] = useState([]);
       // api fetch comments  
       let API_BOOKS_COMMENTS = `http://localhost:4000/user/booksCommentsUser/${book.id}`;
       let API_COMMENT_USER = 'http://localhost:4000/user/commentInsert'
+
+      useEffect(()=> {
+        const validationUserInformation = async () =>{
+          const requestAut = await  getUserDetails() 
+          setIsAdmin(requestAut)
+      }
+      validationUserInformation()
+       }, [userCommentDetails]);
+  
 
         useEffect(()=> {
             fetch(API_BOOKS_COMMENTS)
@@ -35,7 +44,6 @@ const PageBookDetails = (props) => {
   const GetPropsFormData = valores => {
 
     setInputComment(valores)
-
     /* Ensuring to obtain user information in the state */
     const validationUserInformation = async () =>{
       const requestAut = await  getUserDetails() 
@@ -65,6 +73,21 @@ const PageBookDetails = (props) => {
   useEffect(()=> {
     dataUser.length > 0 && fetchComments()
   }, [dataUser]);
+
+  const deleteComments = (id)  => {
+    fetch(`http://localhost:4000/user/deleteComments/${id}`, {
+      method: 'Delete',
+      headers: {
+          authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt'))}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => setNewComment(data))
+      .catch(err => console.error(err)) 
+}
+
+
+
  
     return ( 
     <div  className="container">
@@ -87,8 +110,10 @@ const PageBookDetails = (props) => {
                                   <p> {bookcommentDetail.name}</p>
                                   <h5>Comment:</h5>
                                   <p> {bookcommentDetail.comment}</p> 
+                                  {console.log(bookcommentDetail)}
+                                  {isAdmin.length >0 &&  (isAdmin[0].is_admin  || isAdmin[0].id == bookcommentDetail.user_id) &&  <button className= "btn btn-danger" onClick={(e) => deleteComments(bookcommentDetail.id, e)}>Delete Row</button>}  
+                                   
                                   <p>-------------------------------------------------</p>
-                                  {console.log(currentUser)}
                               </div>
               })) 
               :
@@ -98,5 +123,11 @@ const PageBookDetails = (props) => {
       </div>
     )
 };
+
+
+
+
+
+  
   
   export default PageBookDetails;
