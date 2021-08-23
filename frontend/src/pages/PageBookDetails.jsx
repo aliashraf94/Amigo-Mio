@@ -66,7 +66,7 @@ const PageBookDetails = (props) => {
     dataUser.length > 0 && fetchComments()
   }, [dataUser]);
  
-    return (
+    return ( 
     <div  className="container">
         <img className="" src={book.image_url} alt=""  />
         <div className="">

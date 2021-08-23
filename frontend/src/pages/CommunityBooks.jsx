@@ -34,7 +34,7 @@ let Gallery = ()=> {
     return (
         <>              
            
-            <center className="galery-center"><h1>Gallery</h1></center>    
+            <center className="galery-center"><h1>Community Books</h1></center>    
             <main className="main__container">
                 {
                     currentUser 

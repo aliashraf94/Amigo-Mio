@@ -21,7 +21,7 @@ const NavBar = () => {
                 <span className="nav-link" ></span>  <Link  to="/">Home</Link> <span className="sr-only">(current)</span>
               </li>
               <li className="nav-item">
-                <span className="nav-link"  ></span><Link to="/Gallery">Gallery</Link>
+                <span className="nav-link"  ></span><Link to="/CommunityBooks">Community Books</Link>
               </li>
               {
                 currentUser 
