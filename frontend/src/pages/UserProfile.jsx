@@ -50,11 +50,11 @@ const UserProfile = ()=> {
                 <center>
                     <section className='main-cotainer_section'>
                         <h2>Register new book</h2>
-                        <Link className='main-cotainer_section_img' to='/registerBook'><img src={iconsBook} alt="icons-book" /></Link>
+                        <Link className='main-cotainer_section_img' to='/registerBook'><img src={iconsBook} alt="icons-book" width='150px' /></Link>
                     </section>
                     <hr  width='600'/>
                     <section className='main-cotainer_section_change'>
-                        <h3>Chance in your profile <img src={iconsChanges} alt="icons-changes" /></h3>
+                        <h3>Chance in your profile <img src={iconsChanges} alt="icons-changes" width='70px' /></h3>
                         <ul>
                             <li><Link className='main-cotainer_section_change_link' to='/changeUserName'>changeName</Link></li>
                             <li><Link className='main-cotainer_section_change_link' to='/changeUserEmail'>changeEmail</Link></li>

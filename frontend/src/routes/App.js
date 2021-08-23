@@ -25,8 +25,8 @@ function App() {
           <NavBar /> 
           <Switch>
               <Route exact path='/' component={Main}/>
-              <Route exact path='/signup' component={SignUp}/>
-              <Route exact path='/signin' component={SignIn}/>
+              <Route exact path='/signup' component={currentUser ? NotFound : SignUp}/>
+              <Route exact path='/signin' component={currentUser ? NotFound : SignIn}/>
               <Route exact path='/gallery' component={ Gallery}/>
               <Route exact path='/userProfile' component={currentUser ? UserProfile : NotFound}/>
               <Route exact path='/PageBookDetails' component={PageBookDetails}/>

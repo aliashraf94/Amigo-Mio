@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 // import iconsChange from '../assets/icons/icons-changes.png';
 import swal from 'sweetalert';
 import '../assets/styles/pages/registerBook.css';
+import iconBook from '../assets/icons/icons-book.png';
 
 
 const RegisterBook = (props)=> {
@@ -83,9 +84,9 @@ const RegisterBook = (props)=> {
         };
 
     return (
-        <main className="main-sign-up">
-            <div className="div-sign-up">
-                <center><h1>Register With Us</h1></center>
+        <main className="main-register">
+            <div className="div-register">
+                <center><h1>New Book <img src={iconBook} alt="book" width='50px'/></h1></center>
                 <form onSubmit={handleOnSubmit}>
                     <div className="mb-3">
                         <label  className="form-label">Title</label>
@@ -102,7 +103,7 @@ const RegisterBook = (props)=> {
                                maxLength="256"  
                                placeholder="description" value={description} autoComplete="on"/>
                     </div>
-                    <div className="mb-5">
+                    <div className="mb-3">
                         <label  className="form-label">Image</label>
                         <input onChange={handleOnChange} type="text" 
                                className="form-control" id="img_url" 
