@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import { Link } from 'react-router-dom';
 import {AppContext} from '../context/AppContext';
 import '../assets/styles/components/navbar.css';
+import iconsExit from '../assets/icons/icons-exit.png';
 
 
 const NavBar = () => {
@@ -21,7 +22,7 @@ const NavBar = () => {
                 <span className="nav-link" ></span>  <Link  to="/">Home</Link> <span className="sr-only">(current)</span>
               </li>
               <li className="nav-item">
-                <span className="nav-link"  ></span><Link to="/Gallery">Gallery</Link>
+                <span className="nav-link"  ></span><Link to="/CommunityBooks">Community Books</Link>
               </li>
               {
                 currentUser 
@@ -37,7 +38,7 @@ const NavBar = () => {
                         localStorage.removeItem('jwt')
                         setCurrentUser(JSON.parse(localStorage.getItem('user')))
                         }}
-                       >Sign off
+                       >Sign off <img src={iconsExit} alt="exit" width='20px' />
                       </Link>
                     </li>
                   </>

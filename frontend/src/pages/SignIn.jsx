@@ -3,7 +3,6 @@ import {AppContext} from '../context/AppContext';
 import { Link } from 'react-router-dom';
 import '../assets/styles/pages/signUpAndSingIn.css';
 import swal from 'sweetalert';
-import getUserDetails from '../function/getUserDetails.js';
 
 
 const SignIn = props => {

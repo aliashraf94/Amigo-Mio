@@ -27,7 +27,7 @@ const FormBookComment = props => {
 
   return (
     <Fragment>
-      <div className="container">
+      <div className="container-fluid">
         <h2 className="display-6">Insert comment here</h2>
         <form className="row" onSubmit={enviarDatos}>
           <div className="row">

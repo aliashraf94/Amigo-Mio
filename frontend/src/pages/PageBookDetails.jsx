@@ -3,7 +3,7 @@ import { AppContext } from '../context/AppContext';
 import FormBookComment from '../components/FormBookComment'
 import getUserDetails from '../function/getUserDetails.js';
 
-const PageBookDetails = (props) => {
+const PageBookDetails = (props) => { 
 
 
    // context
@@ -35,7 +35,7 @@ const PageBookDetails = (props) => {
   const GetPropsFormData = valores => {
 
     setInputComment(valores)
-    
+
     /* Ensuring to obtain user information in the state */
     const validationUserInformation = async () =>{
       const requestAut = await  getUserDetails() 
@@ -65,9 +65,9 @@ const PageBookDetails = (props) => {
   useEffect(()=> {
     dataUser.length > 0 && fetchComments()
   }, [dataUser]);
-
-    return (
-    <div  className="">
+ 
+    return ( 
+    <div  className="container">
         <img className="" src={book.image_url} alt=""  />
         <div className="">
           <p className="">{book.title}  </p>
@@ -75,6 +75,8 @@ const PageBookDetails = (props) => {
           <h3>Description:</h3>
           <p className="">Descriptoin: {book.descriptoin} </p>
         </div>
+        <br></br>
+        { currentUser && <div><FormBookComment sendFuntion={GetPropsFormData} /></div>}
         <br></br>
         <h3>{userCommentDetails.length >= 1   ?  ("Comments") : ("No comments have been made, be the first to comment on this book!") }</h3> 
         <div>{userCommentDetails ?
@@ -92,7 +94,7 @@ const PageBookDetails = (props) => {
               :
               (<span>Loading...</span>)}
          </div>
-      {   currentUser &&  <FormBookComment sendFuntion={GetPropsFormData} />}
+      
       </div>
     )
 };

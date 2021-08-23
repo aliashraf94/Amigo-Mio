@@ -154,7 +154,7 @@ router.get("/userProfile", authenticate, async (req, res) => {
 //This endpoint gives information about the user and the comment made to the book.
 router.get("/booksCommentsUser/:bookId", function(req, res) {
   const bookId =   parseInt(req.params.bookId) ;
-  const queryBooksCommentsUserId = `SELECT name, comment FROM users JOIN  comments ON users.id=comments.user_id JOIN books ON books.id=comments.book_id WHERE books.id =  $1`
+  const queryBooksCommentsUserId = `SELECT name, comment FROM users JOIN  comments ON users.id=comments.user_id JOIN books ON books.id=comments.book_id WHERE books.id =  $1 order by comments.id desc`
   if(!isNaN(bookId) && bookId > 0 ){ 
     pool
         .query(queryBooksCommentsUserId, [bookId])
