@@ -4,6 +4,7 @@ import iconUser from '../assets/icons/icons-user.png';
 import iconsChanges from '../assets/icons/icons-changes.png';
 import iconsBook from '../assets/icons/icons-book.png'
 import { Link } from 'react-router-dom';
+import '../assets/styles/pages/userProfile.css'
 
 const UserProfile = ()=> {
     // context
@@ -14,7 +15,6 @@ const UserProfile = ()=> {
 
     // Api
     let API_USER = 'http://localhost:4000/user/userProfile';
-    let API_C_PASSWORD = 'http://localhost:4000/user/changePassword';
     let API_ALL_USERS = 'http://localhost:4000/user/allusers';
 
     useEffect(()=> {
@@ -31,36 +31,39 @@ const UserProfile = ()=> {
     // console.log(JSON.parse(localStorage.getItem('jwt')))
 
     return (
-        <>
+        <div className='profile-container'>
             <center><h1>Welcome to Amigo Mio</h1></center>
             {
                 dataUser ? (
-                    <>
+                    <div className='profile-container_user'>
                         <div>
-                            <h4><img src={iconUser} alt="icon-user" width='30px' /> User Name: { dataUser.name}</h4>
+                            <h3><img src={iconUser} alt="icon-user" width='30px' /> { dataUser.name}</h3>
                         </div>
                         <div>
-                            <h4>User {dataUser.is_admin ? 'admin' : 'regular'}</h4>
+                            <h5>User {dataUser.is_admin ? 'admin' : 'regular'}</h5>
                         </div>
-                    </>
+                    </div>
                 ) : ( null )
             }
-            <main>
+            <center><hr width='800'/></center> 
+            <main className='main-container'>
                 <center>
-                    <section>
-                        <h3>Register book <img src={iconsBook} alt="icons-book" /></h3>
+                    <section className='main-cotainer_section'>
+                        <h2>Register new book</h2>
+                        <Link className='main-cotainer_section_img' to='/registerBook'><img src={iconsBook} alt="icons-book" /></Link>
                     </section>
-                    <section>
+                    <hr  width='600'/>
+                    <section className='main-cotainer_section_change'>
                         <h3>Chance in your profile <img src={iconsChanges} alt="icons-changes" /></h3>
                         <ul>
-                            <li><Link to='/changeUserName'>hangeName</Link></li>
-                            <li><Link to='/changeUserEmail'>changeEmail</Link></li>
-                            <li><Link to='/changeUserPassword'>changePassword</Link></li>
+                            <li><Link className='main-cotainer_section_change_link' to='/changeUserName'>changeName</Link></li>
+                            <li><Link className='main-cotainer_section_change_link' to='/changeUserEmail'>changeEmail</Link></li>
+                            <li><Link className='main-cotainer_section_change_link' to='/changeUserPassword'>changePassword</Link></li>
                         </ul>
                     </section>
                 </center>
             </main>
-        </>
+        </div>
     )
 };
 

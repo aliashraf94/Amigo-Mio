@@ -1,0 +1,34 @@
+.profile-container h1 {
+    margin: 1em
+}
+
+.profile-container hr{
+    opacity: 0.1;
+}
+
+.profile-container_user {
+    margin-left: 5em;
+}
+
+.main-cotainer_section_img > img:hover {
+    width: 200px;
+    border-radius: 100%;
+    background-color: #15D4BE;
+}
+
+.main-cotainer_section_change  ul > li {
+    color: black;
+    list-style: none;
+    padding-top: 10px;
+}
+
+.main-cotainer_section_change_link{
+    color: black;
+    font-size: 20px;
+}
+
+.main-cotainer_section_change_link:hover {
+    color: #15D4BE;
+    /* font-size: 10px; */
+}
+

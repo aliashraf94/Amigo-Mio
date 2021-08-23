@@ -213,7 +213,7 @@ router.patch("/changePassword", authenticate, (req, res) => {
   const query = `UPDATE users set password=$1 where id=$2`
   pool
     .query(query, [password, id])
-    .then(() => res.status(200).send("Password is updated"))
+    .then(() => res.status(200).send({userPassword:"Password is updated"}))
     .catch((e) => console.error(e));
 
 })
@@ -242,12 +242,13 @@ router.post("/uploadBook" , authenticate, (req, res) => {
     user_id: req.user.id,
     suggest_age: req.body.suggest_age
   };
+  console.log(newBook)
 
   const query = "INSERT INTO books (title, descriptoin,image_url, format, user_id, suggest_age)  VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
   const values = [newBook.title, newBook.description, newBook.img_url, newBook.format, newBook.user_id, newBook.suggest_age]
   pool
   .query(query, values)
-  .then(() => res.status(200).send("Book is uploaded"))
+  .then(() => res.status(200).send({res:"Book is uploaded"}))
   .catch((e) => console.error(e));
 
 

@@ -11,7 +11,7 @@ const ChangeUserPassword = (props)=> {
         const setState = [setPassword, setNewPassword];
     
         // api
-        let API_C_EMAIL = 'http://localhost:4000/user/changeEmail';
+        let API_C_PASSWORD = 'http://localhost:4000/user/changePassword';
         
         // functions
         const handleOnChange = event => {
@@ -34,12 +34,12 @@ const ChangeUserPassword = (props)=> {
             event.preventDefault();
     
             const newUser = {
-                "newPassword": newPassword,
-                "password": password
+                "password": password,
+                "newPassword": newPassword
             };
             console.log(newUser)
-            fetch(API_C_EMAIL, {
-                method: 'PATH', 
+            fetch(API_C_PASSWORD, {
+                method: 'PATCH', 
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt'))}`
@@ -51,7 +51,7 @@ const ChangeUserPassword = (props)=> {
                     console.log(data)
                     if(data) {
                         swal('successfully')
-                       props.history.push("/")  
+                       props.history.push("/userProfile")  
                     }else {
                         swal(data.error)
                     }
@@ -70,16 +70,17 @@ const ChangeUserPassword = (props)=> {
                         <label  className="form-label">Password</label>
                         <input onChange={handleOnChange} type="password" 
                                className="form-control" id="password"
-                               maxLength="256"  
-                               placeholder="email@email.com" value={password} autoComplete="on"/>
+                               maxLength="8"
+                               minLength="8" 
+                               placeholder="password" value={password} autoComplete="on"/>
                     </div>
                     <div className="mb-5">
                         <label  className="form-label">New Password</label>
                         <input onChange={handleOnChange} type="password" 
-                               className="form-control" id="Newpassword"
+                               className="form-control" id="newPassword"
                                maxLength="8"
                                minLength="8"  
-                               placeholder="passsword" value={newPassword} autoComplete="on"/>
+                               placeholder="new password" value={newPassword} autoComplete="on"/>
                     </div>
                     <div className="mb-4">
                         <button className="btn form-control" type="submit">Change</button>

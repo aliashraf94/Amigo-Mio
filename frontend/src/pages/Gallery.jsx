@@ -23,7 +23,7 @@ let Gallery = ()=> {
             .then(data =>{ setBooks(data)})
             .catch(err => console.error(err.message))
     }, []);
-    
+    // console.log(books)
     return (
         <>
             <center className="galery-center"><h1>Gallery</h1></center>    

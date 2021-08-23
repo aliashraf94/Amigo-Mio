@@ -13,8 +13,8 @@ import UserProfile from "../pages/UserProfile";
 import ChangeUserName from "../pages/ChangeUserName";
 import ChangeUserEmail from "../pages/ChangeUserEmail";
 import ChangeUserPassword from "../pages/ChangeUserPassword";
-import '../App.css';
-// import PriveteRouters from "./PriveteRouters";
+import RegisterBook from "../pages/RegisterBook";
+// import '../App.css';
 
 function App() {
   // context
@@ -33,6 +33,7 @@ function App() {
               <Route exact path='/changeUserName' component={currentUser ? ChangeUserName : NotFound}/>
               <Route exact path='/changeUserEmail' component={currentUser ? ChangeUserEmail : NotFound}/>
               <Route exact path='/changeUserPassword' component={currentUser ? ChangeUserPassword : NotFound}/>
+              <Route exact path='/registerBook' component={ currentUser ? RegisterBook : NotFound}/>
               <Route component={NotFound}/>
           </Switch>
           <Footer /> 

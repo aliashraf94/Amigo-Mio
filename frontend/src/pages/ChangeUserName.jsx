@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import '../assets/styles/pages/signUpAndSingIn.css';
 import iconsChange from '../assets/icons/icons-changes.png';
 import swal from 'sweetalert';
+import '../assets/styles/pages/changeName.css';
 
 const ChangeUserName = (props)=> {
     //Context

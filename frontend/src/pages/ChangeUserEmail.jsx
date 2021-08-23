@@ -37,26 +37,26 @@ const ChangeUserEmail = (props)=> {
             "email": email,
             "password": password
         };
-        console.log(newUser)
-        // fetch(API_C_EMAIL, {
-        //     method: 'PATCH', 
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt'))}`
-        //     },
-        //     body: JSON.stringify(newUser)
-        // })
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         // console.log(data)
-        //         if(data) {
-        //             swal(data.userEmail)
-        //            props.history.push("/signin")  
-        //         }else {
-        //             swal(data.error)
-        //         }
-        //     })
-        //     .catch(err => swal(err.message) );
+        // console.log(newUser)
+        fetch(API_C_EMAIL, {
+            method: 'PATCH', 
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt'))}`
+            },
+            body: JSON.stringify(newUser)
+        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data)
+                if(data) {
+                    swal(data.userEmail)
+                   props.history.push("/userProfile")  
+                }else {
+                    swal(data.error)
+                }
+            })
+            .catch(err => swal(err.message) );
 
         setState.forEach(state => state(""))
     };
