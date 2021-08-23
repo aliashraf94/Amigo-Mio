@@ -6,25 +6,23 @@ const FormBookComment = props => {
   });
 
   const handleInputChange = event => {
-    // console.log(event.target.name)
-    // console.log(event.target.value)
+    event.preventDefault();
+    
     setDatos({
       ...datos,
       [event.target.name]: event.target.value
     });
+
+    console.log(datos)
   };
 
   const enviarDatos = event => {
     event.preventDefault();
-    props.sendFuntion([
+    props.sendFuntion(
       datos.comment
-    ]);
-    console.log(
-      "enviando datos..." +
-        [
-          datos.comment
-        ]
     );
+   //We leave the comment field blank
+   event.target.reset()
   };
 
   return (

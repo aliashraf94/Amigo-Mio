@@ -3,12 +3,26 @@ import { AppContext } from '../context/AppContext';
 import Categories from '../components/Categories';
 import Carousel from '../components/Carousel';
 import CarouselItem from '../components/CarouselItem';
-import "../assets/styles/components/Gallery.css"
+import "../assets/styles/components/Gallery.css" 
 
 
 
 
 let Gallery = ()=> {
+
+    let token
+
+     setTimeout(function() {
+         token = localStorage.getItem('userInformation');
+    }, 300);
+
+    setTimeout(function() {
+        let ffg = JSON.parse(token)
+        console.log(ffg[0])
+    }, 3000);
+
+  
+
     // context
     let {currentUser} = useContext(AppContext);
     // state
@@ -16,7 +30,7 @@ let Gallery = ()=> {
 
     // api 
     let API = "http://localhost:4000/user/allbooks";
-
+   
     useEffect(()=> {
         fetch(API)
             .then(res => res.json())
@@ -25,7 +39,8 @@ let Gallery = ()=> {
     }, []);
     // console.log(books)
     return (
-        <>
+        <>              
+           
             <center className="galery-center"><h1>Gallery</h1></center>    
             <main className="main__container">
                 {

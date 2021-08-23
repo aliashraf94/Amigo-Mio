@@ -3,12 +3,12 @@ import {AppContext} from '../context/AppContext';
 import { Link } from 'react-router-dom';
 import '../assets/styles/pages/signUpAndSingIn.css';
 import swal from 'sweetalert';
+import getUserDetails from '../function/getUserDetails.js';
 
 
 const SignIn = props => {
     //context
     let {setCurrentUser} = useContext(AppContext);
-
     //state
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -35,7 +35,7 @@ const SignIn = props => {
         };
     };
 
-    const handleOnSubmit = event => {
+    const handleOnSubmit = (event) => {
         event.preventDefault();
 
         const user = {
@@ -54,12 +54,14 @@ const SignIn = props => {
             .then(data => {
                 // console.log(data)
                 if(data.isAuth) {
+                   
                     localStorage.removeItem("user")
                     localStorage.removeItem("jwt")
                     localStorage.setItem("jwt", JSON.stringify(data.accessToken))
                     localStorage.setItem("user", JSON.stringify(data.isAuth))
                     swal('Login successfully')
                     setCurrentUser(JSON.parse(data.isAuth))
+                    
                     props.history.push("/")
                 }else {
                     swal('Error user or password do no exist')

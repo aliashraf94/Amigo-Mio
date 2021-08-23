@@ -10,7 +10,7 @@ export const AppProvider = ({children})=> {
     }, []);
 
     return (
-        <AppContext.Provider value={{currentUser, setCurrentUser}}>
+        <AppContext.Provider value={{currentUser, setCurrentUser} }>
             {children}
         </AppContext.Provider>
     )
