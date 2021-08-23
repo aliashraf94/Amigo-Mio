@@ -13,71 +13,79 @@ const ONEDAY = 86400;
 // create a new user with the give email, name, and hashed password
 router.post("/sign-up", (req, res) => {
 
-  const lowerCaseName = req.body.name.toLowerCase();
   const lowerCaseEmail = req.body.email.toLowerCase();
-  const findUser = {
-    name: lowerCaseName,
-    email: lowerCaseEmail
+  const newUser = {
+    name: req.body.name,
+    email: lowerCaseEmail,
+    password: bcrypt.hashSync(req.body.password, 8)
   };
 
-  const valuesFind = [findUser.name, findUser.email]
-  const queryFind = `
-  SELECT * FROM users WHERE name = $1 OR email = $2`;
+  // const queryEmail = `select * from users where email=${newUser.email}`
+  // console.log(newUser.email);
+  // pool
+  // .query(`select * from users where email=${newUser.email}`)
+  // .then((result) => {
+  //   res.json(result.rows)
+  //   console.log(",,,,,,,,,,,sdjfkasjdhfgkajsbdjkahsgbjkhgasjh,,,,,,",result.rows.length);
+  // })
+  // .catch((e) => console.error(e));
+
+  // const query = `
+  // INSERT INTO users(name, email, password) 
+  // VALUES($1,$2,$3) RETURNING *`;
+  // const values = [newUser.name, newUser.email, newUser.password];
+
+  const queryEmail = "select * from users where email=$1"
+  const value = [newUser.email];
 
   pool.connect((error, client, release) => {
     if (error) {
       return console.error('Error acquiring client', error.stack)
     }
-    client.query(queryFind, valuesFind, (err, result) => {
+    client.query(queryEmail, value, (err, result) => {
+
       release();
       if (err) {
         console.log(err.message);
         return res.status(400).json({ err });
       }
-      const user = result.rows[0];
-      if (!user) {
 
-        const newUser = {
-          name: req.body.name,
-          email: lowerCaseEmail,
-          password: bcrypt.hashSync(req.body.password, 8)
-        };
+      if (result.rows.length > 0) {
+        return res.status(400).send({error:"A user with the same email already exists!"});
+      }
+    })
 
         const query = "INSERT INTO users(name, email, password) VALUES($1,$2,$3) RETURNING *";
         const values = [newUser.name, newUser.email, newUser.password];
 
-        client.query(query, values, (err, result) => {
-          // release();
-          if (err) {
-            console.log(err.message);
-            return res.status(400).json({ err });
+        pool.connect((error, client, release) => {
+          if (error) {
+            return console.error('Error acquiring client', error.stack)
           }
-          const user = result.rows[0];
-          const token = jwt.sign(
-            { id: user.id },
-            process.env.jwtSecret,
-            { expiresIn: ONEDAY }
-          );
-          const jwtToken = generateJWT(newUser.id);
+          client.query(query, values, (err, result) => {
+            release();
+            if (err) {
+              console.log(err.message);
+              return res.status(400).json({ err });
+            }
+            // const user = result.rows[0];
+            // const token = jwt.sign(
+            //   { id: user.id }, 
+            //   process.env.jwtSecret, 
+            //   { expiresIn: ONEDAY }
+            // );
+            const jwtToken = generateJWT(newUser.id);
 
-          return res.status(200).send({
-            isAuth: true,
-            accessToken: jwtToken
+            return res.status(200).send({
+              isAuth: true,
+              accessToken: jwtToken
+            });
           });
         });
-      } else if (user.name.toLowerCase() === findUser.name && user.email === findUser.email) {
-        res.status(400).send({ message: "Failed! Name and Email are already in use!" });
-        return;
-      } else if (user.name.toLowerCase() === findUser.name) {
-        res.status(400).send({ message: "Failed! Name is already in use!" });
-        return;
-      } else if (user.email === findUser.email) {
-        res.status(400).send({ message: "Failed! Email is already in use!" });
-        return;
-      } 
-    })
+    });
   });
-});
+
+
 
 // sign in with user given email and password
 router.post("/sign-in", async (req, res) => {
@@ -132,6 +140,20 @@ router.get("/allusers", authenticate, async (req, res) => {
     .catch((e) => console.error(e));
 })
 
+/* To store some sensitive information through localstorage in 
+frontEnd but always using the token and its authenticate for security */
+router.get("/allusers/:emailUser", authenticate, async (req, res) => {
+  const emailUser =  req.params.emailUser;
+  const query = `SELECT name , id FROM users WHERE email =  $1` 
+  pool
+    .query(query, [emailUser] )
+    .then((result) => res.json(result.rows))
+    .catch((e) => console.error(e));
+})  
+
+
+
+
 router.get("/userProfile", authenticate, async (req, res) => {
   const id = req.user.id
   // console.log(id);
@@ -142,38 +164,30 @@ router.get("/userProfile", authenticate, async (req, res) => {
 
 })
 
-<<<<<<< HEAD
 //This endpoint gives information about the user and the comment made to the book.
 router.get("/booksCommentsUser/:bookId", function(req, res) {
   const bookId =   parseInt(req.params.bookId) ;
-=======
-router.get("/booksCommentsUser/:bookId", function (req, res) {
-  const bookId = parseInt(req.params.bookId);
->>>>>>> a34976731aa86f307933781c185f1b2d9c285bf9
   const queryBooksCommentsUserId = `SELECT name, comment FROM users JOIN  comments ON users.id=comments.user_id JOIN books ON books.id=comments.book_id WHERE books.id =  $1`
-  if (!isNaN(bookId) && bookId > 0) {
+  if(!isNaN(bookId) && bookId > 0 ){ 
     pool
-      .query(queryBooksCommentsUserId, [bookId])
-      .then((result) => res.json(result.rows))
-      .catch((e) => console.error(e))
-  } else {
+        .query(queryBooksCommentsUserId, [bookId])
+        .then((result) => res.json(result.rows))
+        .catch((e) => console.error(e))
+  }else{
     res.send(`The value ${req.params.bookId} is not a number`)
   }
 })
 
-<<<<<<< HEAD
 // INSERT DATA IN order_items
 router.post("/commentInsert", (req, res) =>{
   //Desestructuración
   const {user_id, book_id, comment  } = req.body
-  const insertDates = "INSERT INTO comment (user_id, book_id, comment) VALUES ($1, $2, $3) "
+  const insertDates = "INSERT INTO comments (user_id, book_id, comment) VALUES ($1, $2, $3) "
   pool.query(insertDates, [user_id, book_id, comment])
-     .then(() => res.send("New comment!") )
-     .catch(e => {res.send(e); console.log(e) })
+     .then(() => res.status(200).send({ message: "new comment" }) )
+     .catch(e =>   {res.send(e); console.log(e) }    )
 })  
  
-=======
->>>>>>> a34976731aa86f307933781c185f1b2d9c285bf9
 
 
 router.get("/allbooks", async (req, res) => {
@@ -208,21 +222,20 @@ router.patch("/changeEmail", authenticate, (req, res) => {
   const email = req.body.email.toLowerCase();
   const query = `UPDATE users set email=$1 where id=$2`
   pool
-    .query(query, [email, id])
-    .then(() => res.status(200).send("Email is updated"))
-    .catch((e) => console.error(e));
+  .query(query, [email, id])
+  .then(() => res.status(200).send("Email is updated"))
+  .catch((e) => console.error(e));
 
 })
 
 router.patch("/changeUsername", authenticate, (req, res) => {
-  console.log(req.user.id);
   const id = req.user.id
   const name = req.body.name;
   const query = `UPDATE users set name=$1 where id=$2`
   pool
-    .query(query, [name, id])
-    .then(() => res.status(200).send("Username is updated"))
-    .catch((e) => console.error(e));
+  .query(query, [name, id])
+  .then(() => res.status(200).send("Username is updated"))
+  .catch((e) => console.error(e));
 
 })
 
@@ -231,9 +244,9 @@ router.patch("/changePassword", authenticate, (req, res) => {
   const password = bcrypt.hashSync(req.body.password, 8)
   const query = `UPDATE users set password=$1 where id=$2`
   pool
-    .query(query, [password, id])
-    .then(() => res.status(200).send("Password is updated"))
-    .catch((e) => console.error(e));
+  .query(query, [password, id])
+  .then(() => res.status(200).send("Password is updated"))
+  .catch((e) => console.error(e));
 
 })
 
@@ -243,69 +256,11 @@ router.delete("/deleteAccount", authenticate, (req, res) => {
   // const id = 15
   const query = `DELETE FROM users WHERE id=$1`
   pool
-    .query(query, [id])
-    .then(() => res.status(200).send("The account is deleted"))
-    .catch((e) => console.error(e));
+  .query(query, [id])
+  .then(() => res.status(200).send("The account is deleted"))
+  .catch((e) => console.error(e));
   // Bug: If user is connected to other tables we should receive that error.
 
-})
-
-
-router.post("/uploadBook" , authenticate, (req, res) => {
-  
-  const newBook = {
-    title: req.body.title,
-    description: req.body.description,
-    img_url: req.body.img_url,
-    format: req.body.format,
-    user_id: req.user.id,
-    suggest_age: req.body.suggest_age
-  };
-
-  const query = "INSERT INTO books (title, descriptoin,image_url, format, user_id, suggest_age)  VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
-  const values = [newBook.title, newBook.description, newBook.img_url, newBook.format, newBook.user_id, newBook.suggest_age]
-  pool
-  .query(query, values)
-  .then(() => res.status(200).send("Book is uploaded"))
-  .catch((e) => console.error(e));
-
-
-})
-
-router.get("/userFavourite", authenticate, (req,res)=>{
-  const userId = req.user.id
-  // const bookId = req.body.book_id
-  const query = "Select  favorites.book_id, books.title, books.descriptoin, books.image_url, books.suggest_age from books inner join favorites on favorites.book_id = books.id inner join users on users.id = favorites.user_id where favorites.user_id = $1 "
-  const values = [userId]
-
-  pool
-    .query(query, values)
-    .then((result) => res.json(result.rows))
-    .catch((e) => console.error(e));
-
-})
-
-router.post("/addFavourite", authenticate, (req, res)=>{
-  const userId = req.user.id
-  const bookId = req.body.book_id
-  const query = "INSERT INTO favorites (user_id, book_id) values ($1, $2);"
-  const values = [userId, bookId]
-  pool
-  .query(query, values)
-  .then(() => res.status(200).send("Selected book is added as your favourites."))
-  .catch((e) => console.error(e));
-})
-
-
-router.delete("/removeFavourite", authenticate, (req, res)=>{
-  const userId = req.user.id
-  const bookId = req.body.book_id
-  const query = "DELETE FROM favorites where user_id=$1 and book_id=$2;"
-  const values = [userId, bookId]
-  pool
-  .query(query, values)
-  .then(() => res.status(200).send("Selected book is removed from your favourites."))
-  .catch((e) => console.error(e));
 })
 
 
