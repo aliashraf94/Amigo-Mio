@@ -7,7 +7,7 @@ import SignIn from '../pages/SignIn';
 import NotFound from '../pages/NotFound';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
-import CommunityBooks from '../pages/CommunityBooks';
+import Books from '../pages/Books';
 import PageBookDetails from '../pages/PageBookDetails';
 import UserProfile from "../pages/UserProfile";
 import ChangeUserName from "../pages/ChangeUserName";
@@ -27,7 +27,7 @@ function App() {
               <Route exact path='/' component={Main}/>
               <Route exact path='/signup' component={SignUp}/>
               <Route exact path='/signin' component={SignIn}/>
-              <Route exact path='/CommunityBooks' component={CommunityBooks}/>
+              <Route exact path='/Books' component={Books}/>
               <Route exact path='/userProfile' component={currentUser ? UserProfile : NotFound}/>
               <Route exact path='/PageBookDetails' component={PageBookDetails}/>
               <Route exact path='/changeUserName' component={currentUser ? ChangeUserName : NotFound}/>

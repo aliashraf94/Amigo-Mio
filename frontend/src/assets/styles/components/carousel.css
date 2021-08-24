@@ -1,11 +1,12 @@
 .carousel {
-  height: 25em;
+ /*  height: 25em; */
   /* overflow:auto; */
   padding-left: 5%;
   padding-bottom: 5%;
   padding-right: 5%;
   width: 100%;
   position: relative;
+  padding-top: 1rem;
 }
 
 .carousel__container {

@@ -3,49 +3,58 @@ import { AppContext } from '../context/AppContext';
 import Categories from '../components/Categories';
 import Carousel from '../components/Carousel';
 import CarouselItem from '../components/CarouselItem';
-import "../assets/styles/components/Gallery.css" 
+import "../assets/styles/pages/books.css" 
 
 
-
-
-let Gallery = ()=> {
-
-    let token
-
-     setTimeout(function() {
-         token = localStorage.getItem('userInformation');
-    }, 300);
-
+let Books = ()=> {
     // context
-    let {currentUser} = useContext(AppContext);
+    let {currentUser, buttonFavStatus, setDataBooksFavorites} = useContext(AppContext);
     // state
     let [books, setBooks] = useState([]);
-
+    let [booksFavorites, setBooksFavorites] = useState([]);
+    let [pressButton, setPressButton] = useState(false);
     // api 
     let API = "http://localhost:4000/user/allbooks";
-   
+    let API_FAVORITES = "http://localhost:4000/user/favorites/64";
+
     useEffect(()=> {
         fetch(API)
             .then(res => res.json())
             .then(data =>{ setBooks(data)})
             .catch(err => console.error(err.message))
     }, []);
-    // console.log(books)
+
+    useEffect(()=> {
+        fetch(API_FAVORITES)
+            .then(res => res.json())
+            .then(data =>{ setBooksFavorites(data) ; setDataBooksFavorites(data)})
+            .catch(err => console.error(err.message))
+    }, [buttonFavStatus]);
+
     return (
         <>              
            
-            <center className="galery-center"><h1>Community Books</h1></center>    
+            <center className="galery-center"><h1>Books</h1></center>    
             <main className="main__container">
                 {
                     currentUser 
                     ?
-                        <>
-                            <Categories title="My list">
-                                <Carousel>
-                                    <CarouselItem/>
-                                    <CarouselItem/>
-                                </Carousel>
-                            </Categories>
+                        <>  {booksFavorites.length > 0 ? 
+                            (<Categories title="My list">
+                            <Carousel>
+                                <CarouselItem/>
+                                    <CarouselItem  results={booksFavorites}  />
+                                <CarouselItem/>
+                            </Carousel>
+                           </Categories>) 
+                           :
+                           
+                           ( <h5 className = "container favoritesTitle" >
+                            There are no favorites on your list.
+                            <small className="text-muted"> Add a book to favorites!</small>
+                        </h5>)
+                          }
+                           
                             <Categories title="All books">
                                 <Carousel>
                                         <CarouselItem  results={books}  />
@@ -78,4 +87,4 @@ let Gallery = ()=> {
     );
 };
 
-export default Gallery;
+export default Books;
