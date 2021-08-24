@@ -170,22 +170,14 @@ router.get("/allbooks", async (req, res) => {
     .then((result) => res.json(result.rows)) 
     .catch((e) => console.error(e));
 
-})
+}) 
 
-<<<<<<< HEAD
 router.get("/favorites/:userId", async (req, res) => {
   const userId =  parseInt(req.params.userId) ;
   const queryFavorites = `SELECT  books.approved,  books.id, books.title, books.descriptoin, books.views, books.image_url, books.likes FROM books JOIN favorites ON favorites.book_id=books.id JOIN users ON users.id=favorites.user_id  WHERE  favorites.user_id = $1`
   if(!isNaN(userId) && userId > 0 ){  
     pool
     .query(queryFavorites, [userId]) 
-=======
-// get favorite books
-router.get("/favorites", authenticate, async (req, res) => {
-
-  pool
-    .query(`SELECT * FROM favorites`)
->>>>>>> a1971c1c32929a0a24001714b0fcbea57511ad2b
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
   }
@@ -227,7 +219,7 @@ router.get("/comments", async (req, res) => {
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
 
-})
+}) 
 
 // delete the comments
 router.delete("/deleteComments/:id", authenticate, (req, res) => {
