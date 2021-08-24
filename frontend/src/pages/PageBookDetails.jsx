@@ -86,9 +86,6 @@ const PageBookDetails = (props) => {
       .catch(err => console.error(err)) 
 }
 
-
-
- 
     return ( 
     <div  className="container">
         <img className="" src={book.image_url} alt=""  />
@@ -106,12 +103,11 @@ const PageBookDetails = (props) => {
               (userCommentDetails.map((bookcommentDetail, index) => {
                         return <div key={index}>
                                   <p>-------------------------------------------------</p>
-                                  <h5>User</h5>
+                                  <h5>Nombre:</h5>
                                   <p> {bookcommentDetail.name}</p>
                                   <h5>Comment:</h5>
                                   <p> {bookcommentDetail.comment}</p> 
-                                  {console.log(bookcommentDetail)}
-                                  {isAdmin.length >0 &&  (isAdmin[0].is_admin  || isAdmin[0].id == bookcommentDetail.user_id) &&  <button className= "btn btn-danger" onClick={(e) => deleteComments(bookcommentDetail.id, e)}>Delete Row</button>}  
+                                  {isAdmin.length  &&  (isAdmin[0].is_admin  || isAdmin[0].id == bookcommentDetail.user_id) &&  <button className= "btn btn-danger" onClick={(e) => deleteComments(bookcommentDetail.id, e)}>Delete Row</button>}  
                                    
                                   <p>-------------------------------------------------</p>
                               </div>
