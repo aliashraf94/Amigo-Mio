@@ -110,7 +110,9 @@ let CarouselItem = (props)=> {
           <div className="carousel-item__details">
             <p className="carousel-item__details--title">{result.title}  </p>
             <p className="carousel-item__details--subtitle">Likes: {result.likes} </p>
-            {dataUser.length && dataUser.is_admin &&
+            {console.log(dataUser)}
+            {dataUser.length && dataUser[0].is_admin &&
+            
             <div className="img_container"  onClick={getIdBook}  data-value={result.id } >
                 <img src={img} className="save_img"/> 
             </div>}
