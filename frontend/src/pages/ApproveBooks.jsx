@@ -5,15 +5,23 @@ import Carousel from '../components/Carousel';
 import CarouselItemAdmin from '../components/CarouselItemAdmin';
 
 const ApproveBooks = ()=> {
-
+    
     //state
     let [allBooks, setAllBooks] = useState([]);
     // let [toApprove, setToApprove] = useState([]);
     // let [approved, setApproved] = useState([]);
-
+    
     // api
     let API = "http://localhost:4000/user/allbooks";
-
+    
+    useEffect(()=> {
+        fetch(API)
+            .then(res => res.json())
+            .then(data => setAllBooks(data))
+            .catch(err => console.error(err));
+    }, []);
+    // console.log(allBooks)  
+    
     // function
     let approved = id => {
         let appro = allBooks.map(book => {
@@ -40,13 +48,6 @@ const ApproveBooks = ()=> {
         setAllBooks(disAppro)
     }
     
-    useEffect(()=> {
-        fetch(API)
-            .then(res => res.json())
-            .then(data => setAllBooks(data))
-            .catch(err => console.error(err));
-    }, []);
-    // console.log(allBooks)
 
     let notApproved =  allBooks.filter(book => book.approved === false);
     let isApproved = allBooks.filter(book => book.approved === true);

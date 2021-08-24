@@ -9,7 +9,7 @@ import '../assets/styles/pages/userProfile.css'
 
 const UserProfile = ()=> {
     // context
-    let {isAdmin, setIsAdmin} = useContext(AppContext);
+    let {currentUser, isAdmin, setIsAdmin} = useContext(AppContext);
 
     // state
     let [dataUser, setDataUser] = useState(null);
@@ -20,7 +20,7 @@ const UserProfile = ()=> {
 
     useEffect(()=> {
         fetch(API_USER, {
-            method: 'GET',
+            method: 'Get',
             headers: {
                 authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt'))}`
             }
@@ -32,7 +32,7 @@ const UserProfile = ()=> {
 
             })
             .catch(err => console.error(err))
-    }, []); 
+    }, [currentUser]); 
     // console.log(isAdmin)
 
     return (

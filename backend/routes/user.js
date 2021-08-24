@@ -328,7 +328,7 @@ router.patch("/changeApproval", authenticate, (req, res)=>{
   const query = `UPDATE books set approved=$2 where id=$1`
   pool
     .query(query, [book.bookId,book.approved])
-    .then(() => res.status(200).send({bookApproved: approved}))
+    .then(() => res.status(200).send({bookApproved: 'succesfully'}))
     .catch((e) => console.error(e));
 } )
 
