@@ -333,29 +333,16 @@ router.delete("/deleteBook", authenticate, (req, res)=>{
 
 })
 
-router.patch("/approvebook", authenticate, (req, res)=>{
-  const userId = req.user.id
+// this endpoint changes the approved status of a book
+router.patch("/changeApproval", authenticate, (req, res)=>{
   const book = {
     bookId: req.body.id,
-    approved: true
+    approved: req.body.approved
   }
   const query = `UPDATE books set approved=$2 where id=$1`
   pool
     .query(query, [book.bookId,book.approved])
-    .then(() => res.status(200).send({approved:"The book is approved"}))
-    .catch((e) => console.error(e));
-} )
-
-router.patch("/disapprovebook", authenticate, (req, res)=>{
-  const userId = req.user.id
-  const book = {
-    bookId: req.body.id,
-    approved: false
-  }
-  const query = `UPDATE books set approved=$2 where id=$1`
-  pool
-    .query(query, [book.bookId,book.approved])
-    .then(() => res.status(200).send({disapproved:"The book is disapproved"}))
+    .then(() => res.status(200).send({bookApproved: approved}))
     .catch((e) => console.error(e));
 } )
 

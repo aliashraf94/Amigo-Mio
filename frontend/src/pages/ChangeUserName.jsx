@@ -42,7 +42,7 @@ const ChangeUserName = (props)=> {
              "name": name,
              "password": password
          };
-         console.log(JSON.stringify({newUser}))
+         
          fetch(API_C_NAME, {
              method: 'PATCH', 
              headers: {

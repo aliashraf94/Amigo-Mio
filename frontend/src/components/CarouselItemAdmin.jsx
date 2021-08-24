@@ -8,7 +8,26 @@ import iconsRemoveBook from '../assets/icons/icons-remove-book.png';
 
 
 let CarouselItemAdmin = (props)=> { 
+    // props
     let {book, isApproved, approved, disApproved} = props
+
+    // api
+    const API_CHANGE_APPROVED = 'http://localhost:4000/user/changeApproval';
+
+    // function
+    const updateApprovedDB = (id, approved) => {
+        fetch(API_CHANGE_APPROVED, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt'))}`
+            },
+            body: JSON.stringify({id:id, approved: approved})
+        })
+            .then(res => res.json())
+            .then(data => data)
+            .catch(err => console.log(err))
+    }
 
     return (
         <div className="carousel-item">
@@ -21,14 +40,20 @@ let CarouselItemAdmin = (props)=> {
                             className="carousel-item__details--img" 
                             src={iconsRemoveBook} 
                             alt="Remove Icon" 
-                            onClick={()=> disApproved(book.id)}
+                            onClick={()=> {
+                                disApproved(book.id)
+                                updateApprovedDB(book.id, false)
+                            }}
                         />
                       ) : (
                         <img
                             className="carousel-item__details--img" 
                             src={iconsAddBook} 
                             alt="Add Icon" 
-                            onClick={()=> approved(book.id)}
+                            onClick={()=> {
+                                approved(book.id)
+                                updateApprovedDB(book.id, true)
+                            }}
                         />
                       )
                   }
