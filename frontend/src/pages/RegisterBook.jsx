@@ -14,7 +14,7 @@ const RegisterBook = (props)=> {
         const [format, setFormat] = useState("");
         const [suggest_age, setSuggest_age] = useState("");
         // const [description, setDescription] = useState("");
-        const setState = [setTitle, setDescription, setImg_Url, setFormat, setSuggest_age];
+        // const setState = [setTitle, setDescription, setImg_Url, setFormat, setSuggest_age];
     
         // api
         let API_C_EMAIL = 'http://localhost:4000/user/uploadBook';

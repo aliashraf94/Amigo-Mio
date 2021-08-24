@@ -3,7 +3,6 @@ import React, {useState, useEffect} from 'react';
 import Categories from '../components/Categories';
 import Carousel from '../components/Carousel';
 import CarouselItemAdmin from '../components/CarouselItemAdmin';
-import CarouselItem from '../components/CarouselItem';
 
 const ApproveBooks = ()=> {
 

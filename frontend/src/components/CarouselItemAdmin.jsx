@@ -31,7 +31,7 @@ let CarouselItemAdmin = (props)=> {
 
     return (
         <div className="carousel-item">
-          <img className="carousel-item__img" src={book.image_url} alt="image"  />
+          <img className="carousel-item__img" src={book.image_url} alt="book"  />
           <div className="carousel-item__details">
               <div>
                   {
