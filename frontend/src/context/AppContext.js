@@ -4,8 +4,8 @@ export const AppContext = createContext();
 
 export const AppProvider = ({children})=> {
     const [currentUser, setCurrentUser] = useState(null);
-    const [isAdmin, setIsAdmin] = useState(null);
-    const [allBooks, setAllBooks] = useState(null);
+    const [buttonFavStatus, setSuttonFavStatus] = useState(null);
+    const [dataBooksFavorites, setDataBooksFavorites] = useState(null);
 
     useEffect(()=> {
         setCurrentUser(JSON.parse(localStorage.getItem('user')))
@@ -13,13 +13,13 @@ export const AppProvider = ({children})=> {
 
     return (
         <AppContext.Provider value={{
-            currentUser, 
-            isAdmin, 
-            allBooks,
-            setCurrentUser, 
-            setIsAdmin,
-            setAllBooks
-        }}>
+            buttonFavStatus,
+           currentUser,
+           dataBooksFavorites,
+          setCurrentUser,
+          setSuttonFavStatus,
+          setDataBooksFavorites
+         }}>
             {children}
         </AppContext.Provider>
     )

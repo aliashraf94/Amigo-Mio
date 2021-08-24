@@ -14,76 +14,61 @@ const ONEDAY = 86400;
 router.post("/sign-up", (req, res) => {
 
   const lowerCaseEmail = req.body.email.toLowerCase();
-  const newUser = {
-    name: req.body.name,
-    email: lowerCaseEmail,
-    password: bcrypt.hashSync(req.body.password, 8)
+  const findUser = {
+    email: lowerCaseEmail
   };
 
-  // const queryEmail = `select * from users where email=${newUser.email}`
-  // console.log(newUser.email);
-  // pool
-  // .query(`select * from users where email=${newUser.email}`)
-  // .then((result) => {
-  //   res.json(result.rows)
-  //   console.log(",,,,,,,,,,,sdjfkasjdhfgkajsbdjkahsgbjkhgasjh,,,,,,",result.rows.length);
-  // })
-  // .catch((e) => console.error(e));
-
-  // const query = `
-  // INSERT INTO users(name, email, password) 
-  // VALUES($1,$2,$3) RETURNING *`;
-  // const values = [newUser.name, newUser.email, newUser.password];
-
-  const queryEmail = "select * from users where email=$1"
-  const value = [newUser.email];
+  const valuesFind = [findUser.email]
+  const queryFind = `SELECT * FROM users WHERE email = $1`;
 
   pool.connect((error, client, release) => {
     if (error) {
       return console.error('Error acquiring client', error.stack)
     }
-    client.query(queryEmail, value, (err, result) => {
-
+    client.query(queryFind, valuesFind, (err, result) => {
       release();
       if (err) {
         console.log(err.message);
         return res.status(400).json({ err });
       }
+      const user = result.rows[0];
+      if (!user) {
 
-      if (result.rows.length > 0) {
-        return res.status(400).send({error:"A user with the same email already exists!"});
-      }
-    })
+        const newUser = {
+          name: req.body.name,
+          email: lowerCaseEmail,
+          password: bcrypt.hashSync(req.body.password, 8)
+        };
 
         const query = "INSERT INTO users(name, email, password) VALUES($1,$2,$3) RETURNING *";
         const values = [newUser.name, newUser.email, newUser.password];
 
-        pool.connect((error, client, release) => {
-          if (error) {
-            return console.error('Error acquiring client', error.stack)
+        client.query(query, values, (err, result) => {
+          // release();
+          if (err) {
+            console.log(err.message);
+            return res.status(400).json({ err });
           }
-          client.query(query, values, (err, result) => {
-            release();
-            if (err) {
-              console.log(err.message);
-              return res.status(400).json({ err });
-            }
-            // const user = result.rows[0];
-            // const token = jwt.sign(
-            //   { id: user.id }, 
-            //   process.env.jwtSecret, 
-            //   { expiresIn: ONEDAY }
-            // );
-            const jwtToken = generateJWT(newUser.id);
+          const user = result.rows[0];
+          const token = jwt.sign(
+            { id: user.id },
+            process.env.jwtSecret,
+            { expiresIn: ONEDAY }
+          );
+          const jwtToken = generateJWT(newUser.id);
 
-            return res.status(200).send({
-              isAuth: true,
-              accessToken: jwtToken
-            });
+          return res.status(200).send({
+            isAuth: true,
+            accessToken: jwtToken
           });
         });
-    });
+      } else if (user.email === findUser.email) {
+        res.status(400).send({ message: "Failed! Email is already in use!" });
+        return;
+      } 
+    })
   });
+});
 
 
 
@@ -182,19 +167,20 @@ router.get("/allbooks", async (req, res) => {
 
   pool
     .query(`SELECT * FROM books`)
-    .then((result) => res.json(result.rows))
+    .then((result) => res.json(result.rows)) 
     .catch((e) => console.error(e));
 
-})
+}) 
 
-// get favorite books
-router.get("/favorites", authenticate, async (req, res) => {
-
-  pool
-    .query(`SELECT * FROM favorites`)
+router.get("/favorites/:userId", async (req, res) => {
+  const userId =  parseInt(req.params.userId) ;
+  const queryFavorites = `SELECT  books.approved,  books.id, books.title, books.descriptoin, books.views, books.image_url, books.likes FROM books JOIN favorites ON favorites.book_id=books.id JOIN users ON users.id=favorites.user_id  WHERE  favorites.user_id = $1`
+  if(!isNaN(userId) && userId > 0 ){  
+    pool
+    .query(queryFavorites, [userId]) 
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
- 
+  }
 }) 
 
 router.post("/favoritesInsert", (req, res) => {
@@ -233,7 +219,7 @@ router.get("/comments", async (req, res) => {
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
 
-})
+}) 
 
 // delete the comments
 router.delete("/deleteComments/:id", authenticate, (req, res) => {
