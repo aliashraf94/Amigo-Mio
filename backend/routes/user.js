@@ -232,6 +232,46 @@ router.delete("/deleteComments/:id", authenticate, (req, res) => {
 })
 
 // changing email
+
+router.patch("/changeEmail", authenticate, (req, res) => {
+
+  const lowerCaseEmail = req.body.email.toLowerCase();
+  const findUser = {
+    email: lowerCaseEmail
+  };
+
+  const valuesFind = [findUser.email]
+  const queryFind = `SELECT * FROM users WHERE email = $1`;
+
+  pool.connect((error, client, release) => {
+    if (error) {
+      return console.error('Error acquiring client', error.stack)
+    }
+    client.query(queryFind, valuesFind, (err, result) => {
+      release();
+      if (err) {
+        console.log(err.message);
+        return res.status(400).json({ err });
+      }
+      const user = result.rows[0];
+      if (!user) {
+
+        const id = req.user.id
+        const email = req.body.email.toLowerCase();
+        const query = `UPDATE users set email=$1 where id=$2`
+        pool
+          .query(query, [email, id])
+          .then(() => res.status(200).send({userEmail:"Email is updated"}))
+          .catch((e) => console.error(e));
+
+      } else if (user.email === findUser.email) {
+        res.status(400).send({ message: "Failed! Email is already in use!" });
+        return;
+      } 
+    })
+  });
+});
+
 router.patch("/changeEmail", authenticate, (req, res) => { 
   const id = req.user.id
   const email = req.body.email.toLowerCase();
