@@ -165,7 +165,6 @@ router.get("/booksCommentsUser/:bookId", function(req, res) {
   }
 })
 
-// INSERT DATA IN order_items
 router.post("/commentInsert", (req, res) =>{
   //Desestructuración
   const {user_id, book_id, comment  } = req.body
@@ -192,8 +191,36 @@ router.get("/favorites", async (req, res) => {
     .query(`SELECT * FROM favorites`)
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
+ 
+}) 
 
-})
+router.post("/favoritesInsert", (req, res) => {
+  //Desestructuración
+  const {   user_id, book_id }  =   req.body  
+
+  if( !isNaN(user_id) && user_id >  0 && !isNaN(book_id) && book_id >  0){
+      const queryFind = `select count(*) as num FROM favorites WHERE user_id = $1  AND book_id  = $2`
+      pool 
+       .query(queryFind, [ parseInt(user_id),  parseInt(book_id)])
+       .then( result => { 
+          console.log(`Result.rows[0].num = ${result.rows[0].num}`)   
+           if(result.rows[0].num == 0 ){
+              const query = "INSERT INTO favorites (user_id, book_id) VALUES ($1, $2)";
+              pool
+              .query(query,[parseInt(user_id) , parseInt(book_id)])
+              .then(() => res.send({ message: "Book has been added to favorites"}))
+              .catch((e) => {console.error(e); res.send(e.detail) }); 
+           }else{ 
+               console.log({message: "The book already exists in the favorites"}) 
+               res.send({message: "The book already exists in the favorites"}) 
+           } 
+          }) 
+       .catch(e => res.send({message: "there was an error sending the parameters"}))   
+
+  }else{
+      res.send("invalid customer id")
+  }
+});
 
 router.get("/comments", async (req, res) => {
 
