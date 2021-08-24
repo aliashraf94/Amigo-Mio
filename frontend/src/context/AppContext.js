@@ -6,7 +6,7 @@ export const AppProvider = ({children})=> {
     const [currentUser, setCurrentUser] = useState(null);
     const [buttonFavStatus, setSuttonFavStatus] = useState(null);
     const [dataBooksFavorites, setDataBooksFavorites] = useState(null);
-
+    const [isAdmin, setIsAdmin] = useState(null);
     useEffect(()=> {
         setCurrentUser(JSON.parse(localStorage.getItem('user')))
     }, []);
@@ -16,7 +16,9 @@ export const AppProvider = ({children})=> {
             buttonFavStatus,
            currentUser,
            dataBooksFavorites,
-          setCurrentUser,
+           isAdmin,
+           setIsAdmin,
+           setCurrentUser,
           setSuttonFavStatus,
           setDataBooksFavorites
          }}>
