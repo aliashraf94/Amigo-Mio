@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { AppContext } from '../context/AppContext';
 import iconUser from '../assets/icons/icons-user.png';
+import iconApproval from '../assets/icons/icons-approval.png';
 import iconsChanges from '../assets/icons/icons-changes.png';
 import iconsBook from '../assets/icons/icons-book.png'
 import { Link } from 'react-router-dom';
@@ -8,14 +9,14 @@ import '../assets/styles/pages/userProfile.css'
 
 const UserProfile = ()=> {
     // context
-    let {currentUser} = useContext(AppContext);
+    let {currentUser, isAdmin, setIsAdmin} = useContext(AppContext);
 
     // state
     let [dataUser, setDataUser] = useState(null);
 
     // Api
     let API_USER = 'http://localhost:4000/user/userProfile';
-    let API_ALL_USERS = 'http://localhost:4000/user/allusers';
+    // let API_ALL_USERS = 'http://localhost:4000/user/allusers';
 
     useEffect(()=> {
         fetch(API_USER, {
@@ -25,10 +26,14 @@ const UserProfile = ()=> {
             }
         })
             .then(res => res.json())
-            .then(data => setDataUser(data[0]))
+            .then(data => {
+                setDataUser(data[0])
+                setIsAdmin(data[0].is_admin)
+
+            })
             .catch(err => console.error(err))
     }, [currentUser]); 
-    // console.log(JSON.parse(localStorage.getItem('jwt')))
+    console.log(isAdmin)
 
     return (
         <div className='profile-container'>
@@ -50,11 +55,19 @@ const UserProfile = ()=> {
                 <center>
                     <section className='main-cotainer_section'>
                         <h2>Register new book</h2>
-                        <Link className='main-cotainer_section_img' to='/registerBook'><img src={iconsBook} alt="icons-book" /></Link>
+                        <Link className='main-cotainer_section_img' to='/registerBook'><img src={iconsBook} alt="icons-book" width='150px' /></Link>
                     </section>
+                    {
+                        isAdmin ? (
+                            <section className='main-cotainer_section'>
+                                <h2>Approve books</h2>
+                                <Link className='main-cotainer_section_img' to='/approveBooks'><img src={iconApproval}      alt="icons-book" width='150px' /></Link>
+                             </section>
+                        ) : null
+                    }
                     <hr  width='600'/>
                     <section className='main-cotainer_section_change'>
-                        <h3>Chance in your profile <img src={iconsChanges} alt="icons-changes" /></h3>
+                        <h3>Chance in your profile <img src={iconsChanges} alt="icons-changes" width='70px' /></h3>
                         <ul>
                             <li><Link className='main-cotainer_section_change_link' to='/changeUserName'>changeName</Link></li>
                             <li><Link className='main-cotainer_section_change_link' to='/changeUserEmail'>changeEmail</Link></li>
