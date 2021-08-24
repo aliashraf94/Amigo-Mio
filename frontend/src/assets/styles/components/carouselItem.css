@@ -83,12 +83,11 @@
 }
 
 .img_containerFilter{
-  opacity: 9;
-  filter: invert(4444);
+  width: 25px;
+  filter: contrast(0.1);
 }
 
 
 .alert{
   font-size: 12px;
-
 }

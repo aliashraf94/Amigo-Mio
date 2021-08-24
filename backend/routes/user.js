@@ -167,19 +167,20 @@ router.get("/allbooks", async (req, res) => {
 
   pool
     .query(`SELECT * FROM books`)
-    .then((result) => res.json(result.rows))
+    .then((result) => res.json(result.rows)) 
     .catch((e) => console.error(e));
 
-})
+}) 
 
-// get favorite books
-router.get("/favorites", authenticate, async (req, res) => {
-
-  pool
-    .query(`SELECT * FROM favorites`)
+router.get("/favorites/:userId", async (req, res) => {
+  const userId =  parseInt(req.params.userId) ;
+  const queryFavorites = `SELECT  books.approved,  books.id, books.title, books.descriptoin, books.views, books.image_url, books.likes FROM books JOIN favorites ON favorites.book_id=books.id JOIN users ON users.id=favorites.user_id  WHERE  favorites.user_id = $1`
+  if(!isNaN(userId) && userId > 0 ){  
+    pool
+    .query(queryFavorites, [userId]) 
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
- 
+  }
 }) 
 
 router.post("/favoritesInsert", (req, res) => {
@@ -218,7 +219,7 @@ router.get("/comments", async (req, res) => {
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
 
-})
+}) 
 
 // delete the comments
 router.delete("/deleteComments/:id", authenticate, (req, res) => {
@@ -358,29 +359,16 @@ router.delete("/deleteBook", authenticate, (req, res)=>{
 
 })
 
-router.patch("/approvebook", authenticate, (req, res)=>{
-  const userId = req.user.id
+// this endpoint changes the approved status of a book
+router.patch("/changeApproval", authenticate, (req, res)=>{
   const book = {
     bookId: req.body.id,
-    approved: true
+    approved: req.body.approved
   }
   const query = `UPDATE books set approved=$2 where id=$1`
   pool
     .query(query, [book.bookId,book.approved])
-    .then(() => res.status(200).send({approved:"The book is approved"}))
-    .catch((e) => console.error(e));
-} )
-
-router.patch("/disapprovebook", authenticate, (req, res)=>{
-  const userId = req.user.id
-  const book = {
-    bookId: req.body.id,
-    approved: false
-  }
-  const query = `UPDATE books set approved=$2 where id=$1`
-  pool
-    .query(query, [book.bookId,book.approved])
-    .then(() => res.status(200).send({disapproved:"The book is disapproved"}))
+    .then(() => res.status(200).send({bookApproved: approved}))
     .catch((e) => console.error(e));
 } )
 

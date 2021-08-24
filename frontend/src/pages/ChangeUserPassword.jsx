@@ -48,7 +48,7 @@ const ChangeUserPassword = (props)=> {
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     if(data) {
                         swal('successfully')
                        props.history.push("/userProfile")  

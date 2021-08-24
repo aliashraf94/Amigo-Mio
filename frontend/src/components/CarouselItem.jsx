@@ -3,21 +3,18 @@ import '../assets/styles/components/carouselItem.css';
 import img from '../assets/images/save.png'
 import {Link} from 'react-router-dom';
 import getUserDetails from '../function/getUserDetails.js';
-
+import { AppContext } from '../context/AppContext';
 let CarouselItem = (props)=> { 
-
+  // context
+  let {setSuttonFavStatus, dataBooksFavorites} = useContext(AppContext);
   // state
   let [saveDataBookId, setSaveDataBookId] = useState([]);
   let [dataUser, setDataUser] = useState([]);
   let [pressButton, setPressButton] = useState(false);
   let [alertMessage, setAlertMessage] = useState(false);
-
-  
-
   // api fetch comments  
   let API_FAV_POST = `http://localhost:4000/user/favoritesInsert`;
   let API_FAV_GET = `http://localhost:4000/user/favorites`;
-
 
   useEffect(()=> {
     const validationUserInformation = async () =>{
@@ -29,24 +26,23 @@ let CarouselItem = (props)=> {
  
    }, []);
 
- 
     
    const getIdBook = (e) => {
     const value = e.currentTarget.getAttribute("data-value")
     setSaveDataBookId(value)
     setPressButton(value)
+    setSuttonFavStatus(value)
   }
   useEffect(()=> {
     (dataUser.length > 0  && pressButton)  && favPost()
     setTimeout(() => {
       setAlertMessage(false)
     }, 7000);
+   
   }, [pressButton]);
 
 
    const   favPost =  ()  => {
-     console.log(saveDataBookId)
-     console.log(dataUser)
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -57,7 +53,8 @@ let CarouselItem = (props)=> {
 
   fetch(API_FAV_POST, requestOptions)
       .then(response => response.json())
-      .then(data =>{  console.log(data); setPressButton(false)  ; setAlertMessage(data)})
+      .then(data =>{ setPressButton(false)  ; setAlertMessage(data) ;  setSuttonFavStatus(false) ; console.log(data)
+          })
       .catch((error) => {
         console.error(error);
       });
@@ -68,7 +65,6 @@ let CarouselItem = (props)=> {
     fetch(API_FAV_GET).then(function(response) {
       if(response.ok) {
         response.json().then(function(data) {
-          console.log(data)
         });
       } else {
         console.log('Respuesta de red OK pero respuesta HTTP no OK');
@@ -82,6 +78,7 @@ let CarouselItem = (props)=> {
 
     return (
         <> 
+       
         {alertMessage && alertMessage.message =="Book has been added to favorites" &&
          <div className="alert alert-success alert-dismissible fade show" role="alert">
          <strong>Holy success!</strong> {alertMessage.message}
@@ -93,7 +90,7 @@ let CarouselItem = (props)=> {
 
         {alertMessage && alertMessage.message =="The book already exists in the favorites" && 
          <div className="alert alert-warning alert-dismissible fade show" role="alert">
-         <strong>Holy guacamole!</strong> {alertMessage.message}
+         <strong>Holy guacamole with pina colada!</strong> {alertMessage.message}
          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
            <span aria-hidden="true">&times;</span>
          </button>
@@ -102,7 +99,7 @@ let CarouselItem = (props)=> {
 
         
      {props.results != undefined ?  
-     (   
+     (       
       props.results.map((result, index )=> { 
         if (result.approved === true ){
           return  <div key={index}  className="carousel-item">
@@ -110,13 +107,15 @@ let CarouselItem = (props)=> {
           <div className="carousel-item__details">
             <p className="carousel-item__details--title">{result.title}  </p>
             <p className="carousel-item__details--subtitle">Likes: {result.likes} </p>
-            {console.log(dataUser)}
             {dataUser.length && dataUser[0].is_admin &&
-            
             <div className="img_container"  onClick={getIdBook}  data-value={result.id } >
-                <img src={img} className="save_img"/> 
+               
+               {dataBooksFavorites  && (dataBooksFavorites.find(e => e.id == result.id)) ?
+                (<img src={img} className="img_containerFilter"/>) 
+              :
+              (<img src={img} className="save_img"/>)
+              }
             </div>}
-            
             <span className=""  ></span><Link to={{ pathname: '/PageBookDetails', state: { book: result} }}>See book details</Link>
           </div>
         </div>
@@ -125,9 +124,11 @@ let CarouselItem = (props)=> {
     ) 
 
      :
-    (console.log("loading")       )}
+    (<span>loading...</span>)}
         </>
     );
 };
+
+
 
 export default CarouselItem;
