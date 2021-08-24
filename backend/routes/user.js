@@ -14,76 +14,61 @@ const ONEDAY = 86400;
 router.post("/sign-up", (req, res) => {
 
   const lowerCaseEmail = req.body.email.toLowerCase();
-  const newUser = {
-    name: req.body.name,
-    email: lowerCaseEmail,
-    password: bcrypt.hashSync(req.body.password, 8)
+  const findUser = {
+    email: lowerCaseEmail
   };
 
-  // const queryEmail = `select * from users where email=${newUser.email}`
-  // console.log(newUser.email);
-  // pool
-  // .query(`select * from users where email=${newUser.email}`)
-  // .then((result) => {
-  //   res.json(result.rows)
-  //   console.log(",,,,,,,,,,,sdjfkasjdhfgkajsbdjkahsgbjkhgasjh,,,,,,",result.rows.length);
-  // })
-  // .catch((e) => console.error(e));
-
-  // const query = `
-  // INSERT INTO users(name, email, password) 
-  // VALUES($1,$2,$3) RETURNING *`;
-  // const values = [newUser.name, newUser.email, newUser.password];
-
-  const queryEmail = "select * from users where email=$1"
-  const value = [newUser.email];
+  const valuesFind = [findUser.email]
+  const queryFind = `SELECT * FROM users WHERE email = $1`;
 
   pool.connect((error, client, release) => {
     if (error) {
       return console.error('Error acquiring client', error.stack)
     }
-    client.query(queryEmail, value, (err, result) => {
-
+    client.query(queryFind, valuesFind, (err, result) => {
       release();
       if (err) {
         console.log(err.message);
         return res.status(400).json({ err });
       }
+      const user = result.rows[0];
+      if (!user) {
 
-      if (result.rows.length > 0) {
-        return res.status(400).send({error:"A user with the same email already exists!"});
-      }
-    })
+        const newUser = {
+          name: req.body.name,
+          email: lowerCaseEmail,
+          password: bcrypt.hashSync(req.body.password, 8)
+        };
 
         const query = "INSERT INTO users(name, email, password) VALUES($1,$2,$3) RETURNING *";
         const values = [newUser.name, newUser.email, newUser.password];
 
-        pool.connect((error, client, release) => {
-          if (error) {
-            return console.error('Error acquiring client', error.stack)
+        client.query(query, values, (err, result) => {
+          // release();
+          if (err) {
+            console.log(err.message);
+            return res.status(400).json({ err });
           }
-          client.query(query, values, (err, result) => {
-            release();
-            if (err) {
-              console.log(err.message);
-              return res.status(400).json({ err });
-            }
-            // const user = result.rows[0];
-            // const token = jwt.sign(
-            //   { id: user.id }, 
-            //   process.env.jwtSecret, 
-            //   { expiresIn: ONEDAY }
-            // );
-            const jwtToken = generateJWT(newUser.id);
+          const user = result.rows[0];
+          const token = jwt.sign(
+            { id: user.id },
+            process.env.jwtSecret,
+            { expiresIn: ONEDAY }
+          );
+          const jwtToken = generateJWT(newUser.id);
 
-            return res.status(200).send({
-              isAuth: true,
-              accessToken: jwtToken
-            });
+          return res.status(200).send({
+            isAuth: true,
+            accessToken: jwtToken
           });
         });
-    });
+      } else if (user.email === findUser.email) {
+        res.status(400).send({ message: "Failed! Email is already in use!" });
+        return;
+      } 
+    })
   });
+});
 
 
 
@@ -132,6 +117,8 @@ router.post("/sign-in", async (req, res) => {
   });
 });
 
+
+// get all users
 router.get("/allusers", authenticate, async (req, res) => {
   console.log(req);
   pool
@@ -140,7 +127,7 @@ router.get("/allusers", authenticate, async (req, res) => {
     .catch((e) => console.error(e));
 })
 
-
+// get user profile
 router.get("/userProfile", authenticate, async (req, res) => {
   const id = req.user.id
   // console.log(id);
@@ -175,7 +162,7 @@ router.post("/commentInsert", (req, res) =>{
 })  
  
 
-
+// get all the books
 router.get("/allbooks", async (req, res) => {
 
   pool
@@ -185,12 +172,20 @@ router.get("/allbooks", async (req, res) => {
 
 })
 
+<<<<<<< HEAD
 router.get("/favorites/:userId", async (req, res) => {
   const userId =  parseInt(req.params.userId) ;
   const queryFavorites = `SELECT  books.approved,  books.id, books.title, books.descriptoin, books.views, books.image_url, books.likes FROM books JOIN favorites ON favorites.book_id=books.id JOIN users ON users.id=favorites.user_id  WHERE  favorites.user_id = $1`
   if(!isNaN(userId) && userId > 0 ){  
     pool
     .query(queryFavorites, [userId]) 
+=======
+// get favorite books
+router.get("/favorites", authenticate, async (req, res) => {
+
+  pool
+    .query(`SELECT * FROM favorites`)
+>>>>>>> a1971c1c32929a0a24001714b0fcbea57511ad2b
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
   }
@@ -224,6 +219,7 @@ router.post("/favoritesInsert", (req, res) => {
   }
 });
 
+// get all comments
 router.get("/comments", async (req, res) => {
 
   pool
@@ -233,7 +229,7 @@ router.get("/comments", async (req, res) => {
 
 })
 
-
+// delete the comments
 router.delete("/deleteComments/:id", authenticate, (req, res) => {
   const id =   parseInt(req.params.id)  
   // const id = 15 
@@ -244,6 +240,7 @@ router.delete("/deleteComments/:id", authenticate, (req, res) => {
     .catch((e) => res.status(400).send({ message: e }) )
 })
 
+// changing email
 router.patch("/changeEmail", authenticate, (req, res) => { 
   const id = req.user.id
   const email = req.body.email.toLowerCase();
@@ -255,6 +252,7 @@ router.patch("/changeEmail", authenticate, (req, res) => {
 
 })
 
+// changing username
 router.patch("/changeUsername", authenticate, (req, res) => {
   const id = req.user.id
   const name = req.body.name;
@@ -266,6 +264,8 @@ router.patch("/changeUsername", authenticate, (req, res) => {
 
 })
 
+
+// change password
 router.patch("/changePassword", authenticate, (req, res) => {
   const id = req.user.id
   const password = bcrypt.hashSync(req.body.password, 8)
@@ -290,21 +290,22 @@ router.delete("/deleteAccount", authenticate, (req, res) => {
 
 })
 
-
+// Creating an endpoint where user can upload a book
 router.post("/uploadBook" , authenticate, (req, res) => {
   
   const newBook = {
     title: req.body.title,
     description: req.body.description,
     img_url: req.body.img_url,
-    format: req.body.format,
+    store_url: req.body.store_url,
+    store_url_dig: req.body.store_url_dig,
     user_id: req.user.id,
     suggest_age: req.body.suggest_age
   };
   console.log(newBook)
 
-  const query = "INSERT INTO books (title, descriptoin,image_url, format, user_id, suggest_age)  VALUES($1,$2,$3,$4,$5,$6) RETURNING *"
-  const values = [newBook.title, newBook.description, newBook.img_url, newBook.format, newBook.user_id, newBook.suggest_age]
+  const query = "INSERT INTO books (title, descriptoin,image_url, store_url, store_url_dig, user_id, suggest_age)  VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *"
+  const values = [newBook.title, newBook.description, newBook.img_url, newBook.store_url,  newBook.store_url_dig, newBook.user_id, newBook.suggest_age]
   pool
   .query(query, values)
   .then(() => res.status(200).send({res:"Book is uploaded"}))
@@ -313,7 +314,44 @@ router.post("/uploadBook" , authenticate, (req, res) => {
 
 })
 
+// Creating a endpoint where user can delete the book
+router.delete("/deleteBook", authenticate, (req, res)=>{
+  const id = req.user.id
+  const bookId = req.body.bookId
 
+  const query = `DELETE FROM books WHERE id=$1`
+  pool
+    .query(query, [bookId])
+    .then(() => res.status(200).send("The book is deleted"))
+    .catch((e) => console.error(e));
+
+})
+
+router.patch("/approvebook", authenticate, (req, res)=>{
+  const userId = req.user.id
+  const book = {
+    bookId: req.body.id,
+    approved: true
+  }
+  const query = `UPDATE books set approved=$2 where id=$1`
+  pool
+    .query(query, [book.bookId,book.approved])
+    .then(() => res.status(200).send({approved:"The book is approved"}))
+    .catch((e) => console.error(e));
+} )
+
+router.patch("/disapprovebook", authenticate, (req, res)=>{
+  const userId = req.user.id
+  const book = {
+    bookId: req.body.id,
+    approved: false
+  }
+  const query = `UPDATE books set approved=$2 where id=$1`
+  pool
+    .query(query, [book.bookId,book.approved])
+    .then(() => res.status(200).send({disapproved:"The book is disapproved"}))
+    .catch((e) => console.error(e));
+} )
 
 
 

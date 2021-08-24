@@ -14,11 +14,12 @@ import ChangeUserName from "../pages/ChangeUserName";
 import ChangeUserEmail from "../pages/ChangeUserEmail";
 import ChangeUserPassword from "../pages/ChangeUserPassword";
 import RegisterBook from "../pages/RegisterBook";
+import ApproveBooks from "../pages/ApproveBooks";
 // import '../App.css';
 
 function App() {
   // context
-  let { currentUser } = useContext(AppContext)
+  let { currentUser, isAdmin } = useContext(AppContext)
 
   return (
       <BrowserRouter>
@@ -34,6 +35,7 @@ function App() {
               <Route exact path='/changeUserEmail' component={currentUser ? ChangeUserEmail : NotFound}/>
               <Route exact path='/changeUserPassword' component={currentUser ? ChangeUserPassword : NotFound}/>
               <Route exact path='/registerBook' component={ currentUser ? RegisterBook : NotFound}/>
+              <Route exact path='/approvebooks' component={isAdmin ? ApproveBooks : NotFound}/>
               <Route component={NotFound}/>
           </Switch>
           <Footer /> 
