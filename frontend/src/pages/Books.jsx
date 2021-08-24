@@ -4,6 +4,7 @@ import Categories from '../components/Categories';
 import Carousel from '../components/Carousel';
 import CarouselItem from '../components/CarouselItem';
 import "../assets/styles/pages/books.css" 
+import getUserDetails from '../function/getUserDetails.js';
 
 
 let Books = ()=> {
@@ -13,23 +14,55 @@ let Books = ()=> {
     let [books, setBooks] = useState([]);
     let [booksFavorites, setBooksFavorites] = useState([]);
     let [pressButton, setPressButton] = useState(false);
+    let [dataUser, setDataUser] = useState([]);
+
+    useEffect(()=> {
+      
+       }, [buttonFavStatus]);
+
     // api 
     let API = "http://localhost:4000/user/allbooks";
-    let API_FAVORITES = "http://localhost:4000/user/favorites/64";
+    let API_FAVORITES = `http://localhost:4000/user/favorites/${ dataUser.length && dataUser[0].id}`;
+   
+   // fetch
+   let apiBooksFavs = () => {
+    fetch(API_FAVORITES)
+        .then(res => res.json())
+        .then(data =>{ setBooksFavorites(data) ; setDataBooksFavorites(data)})
+        .catch(err => console.error(err.message))
+    }
+    let apiBooks = () => {
+    fetch(API)
+    .then(res => res.json())
+    .then(data =>{ setBooks(data)})
+    .catch(err => console.error(err.message))
+    }
+      
 
+    //we bring user data
     useEffect(()=> {
-        fetch(API)
-            .then(res => res.json())
-            .then(data =>{ setBooks(data)})
-            .catch(err => console.error(err.message))
+    const validationUserInformation = async () =>{
+        const requestAut = await  getUserDetails() 
+        await  setDataUser(requestAut)
+        console.log(dataUser)
+    }
+    validationUserInformation()
+}, []);
+    
+    useEffect(()=> {
+        apiBooksFavs() 
+        apiBooks()
     }, []);
 
+    // Cuando se presiones el boton de fav se llamara a la funcion apiBooksFavs()
     useEffect(()=> {
-        fetch(API_FAVORITES)
-            .then(res => res.json())
-            .then(data =>{ setBooksFavorites(data) ; setDataBooksFavorites(data)})
-            .catch(err => console.error(err.message))
+        dataUser.length > 0 &&  apiBooksFavs()
     }, [buttonFavStatus]);
+    
+    // Solo cuando dataUser obtenga toda la info del usuario se llamara a la funcion apiBooksFavs
+    useEffect(()=> {
+        dataUser.length > 0 && apiBooksFavs()
+     }, [dataUser]);
 
     return (
         <>              
