@@ -180,18 +180,20 @@ router.get("/allbooks", async (req, res) => {
 
   pool
     .query(`SELECT * FROM books`)
-    .then((result) => res.json(result.rows))
+    .then((result) => res.json(result.rows)) 
     .catch((e) => console.error(e));
 
 })
 
-router.get("/favorites", async (req, res) => {
-
-  pool
-    .query(`SELECT * FROM favorites`)
+router.get("/favorites/:userId", async (req, res) => {
+  const userId =  parseInt(req.params.userId) ;
+  const queryFavorites = `SELECT  books.approved,  books.id, books.title, books.descriptoin, books.views, books.image_url, books.likes FROM books JOIN favorites ON favorites.book_id=books.id JOIN users ON users.id=favorites.user_id  WHERE  favorites.user_id = $1`
+  if(!isNaN(userId) && userId > 0 ){  
+    pool
+    .query(queryFavorites, [userId]) 
     .then((result) => res.json(result.rows))
     .catch((e) => console.error(e));
- 
+  }
 }) 
 
 router.post("/favoritesInsert", (req, res) => {
