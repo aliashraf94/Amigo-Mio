@@ -13,16 +13,13 @@ const ONEDAY = 86400;
 // create a new user with the give email, name, and hashed password
 router.post("/sign-up", (req, res) => {
 
-  const lowerCaseName = req.body.name.toLowerCase();
   const lowerCaseEmail = req.body.email.toLowerCase();
   const findUser = {
-    name: lowerCaseName,
     email: lowerCaseEmail
   };
 
-  const valuesFind = [findUser.name, findUser.email]
-  const queryFind = `
-  SELECT * FROM users WHERE name = $1 OR email = $2`;
+  const valuesFind = [findUser.email]
+  const queryFind = `SELECT * FROM users WHERE email = $1`;
 
   pool.connect((error, client, release) => {
     if (error) {
@@ -65,12 +62,6 @@ router.post("/sign-up", (req, res) => {
             accessToken: jwtToken
           });
         });
-      } else if (user.name.toLowerCase() === findUser.name && user.email === findUser.email) {
-        res.status(400).send({ message: "Failed! Name and Email are already in use!" });
-        return;
-      } else if (user.name.toLowerCase() === findUser.name) {
-        res.status(400).send({ message: "Failed! Name is already in use!" });
-        return;
       } else if (user.email === findUser.email) {
         res.status(400).send({ message: "Failed! Email is already in use!" });
         return;
