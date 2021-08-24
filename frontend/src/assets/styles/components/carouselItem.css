@@ -71,3 +71,24 @@
  }
 
 
+ .save_img {
+  width: 25px;
+  filter: invert(1);
+}
+
+
+.img_container:hover{
+  opacity: 9;
+  filter: invert(4444);
+}
+
+.img_containerFilter{
+  opacity: 9;
+  filter: invert(4444);
+}
+
+
+.alert{
+  font-size: 12px;
+
+}
