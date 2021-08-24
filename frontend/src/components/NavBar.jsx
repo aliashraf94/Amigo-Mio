@@ -6,7 +6,7 @@ import iconsExit from '../assets/icons/icons-exit.png';
 
 
 const NavBar = () => {
-  let {currentUser, setCurrentUser} = useContext(AppContext);
+  let {currentUser, setCurrentUser, setIsAdmin} = useContext(AppContext);
   
     return (
 
@@ -37,6 +37,7 @@ const NavBar = () => {
                         localStorage.removeItem('user')
                         localStorage.removeItem('jwt')
                         setCurrentUser(JSON.parse(localStorage.getItem('user')))
+                        setIsAdmin(false)
                         }}
                        >Sign off <img src={iconsExit} alt="exit" width='20px' />
                       </Link>
