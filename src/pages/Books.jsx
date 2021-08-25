@@ -21,8 +21,8 @@ let Books = ()=> {
        }, [buttonFavStatus]);
 
     // api 
-    let API = "http://localhost:4000/user/allbooks";
-    let API_FAVORITES = `http://localhost:4000/user/favorites/${ dataUser.length && dataUser[0].id}`;
+    let API = "https://amigo-mio.herokuapp.com/user/allbooks";
+    let API_FAVORITES = `https://amigo-mio.herokuapp.com/favorites/${ dataUser.length && dataUser[0].id}`;
    
    // fetch
    let apiBooksFavs = () => {
