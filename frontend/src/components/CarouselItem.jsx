@@ -107,16 +107,15 @@ let CarouselItem = (props)=> {
           <div className="carousel-item__details">
             <p className="carousel-item__details--title">{result.title}  </p>
             <p className="carousel-item__details--subtitle">Likes: {result.likes} </p>
-            {dataUser.length && dataUser[0].is_admin &&
+            {dataUser.length && dataUser[0] &&
             <div className="img_container"  onClick={getIdBook}  data-value={result.id } >
                
-              
-            </div>}
-            {dataBooksFavorites  && (dataBooksFavorites.find(e => e.id == result.id)) ?
+               {dataBooksFavorites  && (dataBooksFavorites.find(e => e.id == result.id)) ?
                 (<img src={img} className="img_containerFilter"/>) 
               :
-              (<img src={img} className="save_img"/>) 
+              (<img src={img} className="save_img"/>)
               }
+            </div>}
             <span className=""  ></span><Link to={{ pathname: '/PageBookDetails', state: { book: result} }}>See book details</Link>
           </div>
         </div>
